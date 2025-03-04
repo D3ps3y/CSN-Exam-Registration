@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import pymysql
+
+# Makes PyMySQL work as a drop-in replacement for mysqlclient
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +31,11 @@ SECRET_KEY = 'django-insecure-1^7*+cjg)ip7__5xth)*o^w3q%189dco$rs1&isk3h^x*uhti&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+
+    os.getenv("RAILWAY_URL", "")
+
+]
 
 
 # Application definition
