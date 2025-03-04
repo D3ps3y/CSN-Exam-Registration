@@ -33,7 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
 
-    os.getenv("RAILWAY_URL", "")
+    os.getenv("RAILWAY_URL", "csn-exam-registration-production.up.railway.app"), "localhost",
 
 ]
 
