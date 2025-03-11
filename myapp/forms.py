@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-# to see repository on jira
+# to see this repository on jira
 
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget = forms.PasswordInput(attrs={'placeholder': 'Password'}))
