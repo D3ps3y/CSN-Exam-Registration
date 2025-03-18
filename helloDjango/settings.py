@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
 
-    "https://csn-exam-registration-production.up.railway.app"
+    "https://csnexamregistration.up.railway.app"
 
 ]
 
