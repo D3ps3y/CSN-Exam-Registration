@@ -37,9 +37,9 @@ class CustomRegisterForm(UserCreationForm):
 
 class LoginForm(forms.Form):
 
-    username = forms.CharField(
-        widget = forms.TextInput(attrs={'placeholder': 'CSN Email'}),
-        label="Email"
+    email = forms.EmailField(
+        widget = forms.EmailInput(attrs={'placeholder': 'CSN Email'}),
+        label="Email Address"
     )
     password = forms.CharField(
         widget = forms.PasswordInput(attrs={'placeholder': 'NSHE ID'}),
