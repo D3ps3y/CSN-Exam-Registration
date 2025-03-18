@@ -57,7 +57,7 @@ def custom_login(request):
 
         if form.is_valid(): # If the form data is valid
 
-            email = form.cleaned_data["email"] # Gets the cleaned username from the form
+            email = form.cleaned_data["email"] # Gets the cleaned email from the form
 
             password = form.cleaned_data["password"] # Gets the cleaned password from the form
 

@@ -6,6 +6,18 @@ User = get_user_model()
 
 class CustomRegisterForm(UserCreationForm):
 
+    firstname = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'John'}),
+        label="First Name"
+    )
+
+    lastname = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Smith'}),
+        label="Last Name"
+    )
+
     email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'CSN Email'}),
@@ -16,6 +28,7 @@ class CustomRegisterForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={'placeholder': 'NSHE ID'}),
         label="Password"
     )
+
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'NSHE ID'}),
         label="Confirm Password"
@@ -23,7 +36,7 @@ class CustomRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ["email", "password1", "password2"]
+        fields = ["firstname", "lastname", "email", "password1", "password2"]
 
     def save(self, commit=True):
         user = super().save(commit=False)

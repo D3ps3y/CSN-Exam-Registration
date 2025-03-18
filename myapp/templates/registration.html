@@ -34,6 +34,16 @@
         {% csrf_token %}
 
         <div>
+            {{ form.firstname.label_tag }}
+            {{ form.firstname }}
+        </div>
+
+        <div>
+            {{ form.lastname.label_tag }}
+            {{ form.lastname }}
+        </div>
+
+        <div>
             {{ form.email.label_tag }}
             {{ form.email }}
         </div>
