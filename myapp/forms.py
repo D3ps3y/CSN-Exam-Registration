@@ -8,16 +8,16 @@ class CustomRegisterForm(UserCreationForm):
 
     email = forms.EmailField(
         required=True,
-        widget=forms.EmailInput(attrs={'placeholder': ''}),
+        widget=forms.EmailInput(attrs={'placeholder': 'CSN Email'}),
         label="Email Address"
     )
 
     password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': ''}),
+        widget=forms.PasswordInput(attrs={'placeholder': 'NSHE ID'}),
         label="Password"
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': ''}),
+        widget=forms.PasswordInput(attrs={'placeholder': 'NSHE ID'}),
         label="Confirm Password"
     )
 
@@ -37,8 +37,14 @@ class CustomRegisterForm(UserCreationForm):
 
 class LoginForm(forms.Form):
 
-    username = forms.CharField(widget = forms.TextInput(attrs={'placeholder': 'Email'}))
-    password = forms.CharField(widget = forms.PasswordInput(attrs={'placeholder': 'Password'}))
+    username = forms.CharField(
+        widget = forms.TextInput(attrs={'placeholder': 'CSN Email'}),
+        label="Email"
+    )
+    password = forms.CharField(
+        widget = forms.PasswordInput(attrs={'placeholder': 'NSHE ID'}),
+        label="Password"
+    )
 
 
 
