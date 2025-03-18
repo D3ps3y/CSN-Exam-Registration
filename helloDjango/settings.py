@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-import os
 from pathlib import Path
 import pymysql
 
@@ -32,7 +31,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
 
-    os.getenv("RAILWAY_URL", "csn-exam-registration-production.up.railway.app"), "localhost",
+    "csn-exam-registration-production.up.railway.app", "localhost"
+
+]
+
+CSRF_TRUSTED_ORIGINS = [
+
+    "https://csn-exam-registration-production.up.railway.app"
 
 ]
 
