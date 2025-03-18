@@ -14,17 +14,17 @@ def faculty_dashboard(request):
     return render(request, 'faculty_home.html')
 
 # Home Page View
-@login_required
 def home(request):
 
-    user_email = request.user.email
+    if request.user.is_authenticated:
+        user_email = request.user.email
 
-    if user_email.endswith('@student.csn.edu'):
-        return redirect('student_dashboard')
-    elif user_email.endswith('@csn.edu'):
-        return redirect('faculty_dashboard')
-    else:
-        return render(request, 'home.html')
+        if user_email.endswith('@student.csn.edu'):
+            return redirect('student_dashboard')
+        elif user_email.endswith('@csn.edu'):
+            return redirect('faculty_dashboard')
+
+    return render(request, 'home.html')
 
 # User Registration View
 def register(request):
