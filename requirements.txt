@@ -5,4 +5,4 @@ psutil
 python-dotenv
 requests
 tzdata
-
+cryptography
