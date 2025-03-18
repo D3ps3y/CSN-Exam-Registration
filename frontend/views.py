@@ -1,16 +1,28 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.decorators import login_required
 from frontend.forms import CustomRegisterForm, LoginForm
 
 User = get_user_model()
 
+@login_required
+def student_dashboard(request):
+    return render(request, 'student_home.html')
+
+@login_required
+def faculty_dashboard(request):
+    return render(request, 'faculty_home.html')
+
 # Home Page View
+@login_required
 def home(request):
 
-    #Renders the homepage template when the user visits the home URL
-    return render(request, 'home.html')
+    user_email = request.user.email
+
+    if user_email.endswith('@csn.student.edu'):
+        return redirect(request, 'student_dashboard')
+    if user_email.endswith('@csn.edu'):
+        return redirect(request, 'faculty_dashboard')
 
 # User Registration View
 def register(request):

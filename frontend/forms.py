@@ -48,6 +48,15 @@ class CustomRegisterForm(UserCreationForm):
 
         return user
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        allowed_domains = ["student.csn.edu", "csn.edu"]
+
+        if not any(email.endswith(f"@{domain}") for domain in allowed_domains):
+            raise forms.ValidationError("Only @student.csn.edu and @csn.edu emails are allowed to register")
+
+        return email
+
 class LoginForm(forms.Form):
 
     email = forms.EmailField(
