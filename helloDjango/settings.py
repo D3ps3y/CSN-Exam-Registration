@@ -89,8 +89,8 @@ DATABASES = {
         'NAME': 'railway',  # Replace with your database name
         'USER': 'root',    # Your MySQL username
         'PASSWORD': 'DaLQLrkExCEkFLnyQsnAnTqhbQPSAkoA',  # Your MySQL password
-        'HOST': 'mysql.railway.internal',
-        'PORT': '3306',
+        'HOST': 'mainline.proxy.rlwy.net',
+        'PORT': '41372',
     }
 }
 
