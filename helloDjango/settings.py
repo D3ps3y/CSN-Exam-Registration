@@ -31,13 +31,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
 
-    "csn-exam-registration-production.up.railway.app", "localhost"
+    "csnexamregistration.up.railway.app", "localhost"
 
 ]
 
 CSRF_TRUSTED_ORIGINS = [
 
-    "https://csnexamregistration.up.railway.app"
+    "https://csnexamregistration.up.railway.app",
+    "https://csnexamregistration.com"
 
 ]
 
