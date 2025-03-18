@@ -6,13 +6,13 @@ User = get_user_model()
 
 class CustomRegisterForm(UserCreationForm):
 
-    firstname = forms.CharField(
+    first_name = forms.CharField(
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'John'}),
         label="First Name"
     )
 
-    lastname = forms.CharField(
+    last_name = forms.CharField(
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'Smith'}),
         label="Last Name"
