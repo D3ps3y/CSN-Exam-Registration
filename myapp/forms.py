@@ -1,18 +1,31 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 
-# to see thiss repository on jira pretty please
+User = get_user_model()
 
-class RegisterForm(forms.ModelForm):
-    password = forms.CharField(widget = forms.PasswordInput(attrs={'placeholder': 'Password'}))
+class CustomRegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ["email", "password1", "password2"]
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.username = self.cleaned_data["email"]
+        user.email = self.cleaned_data["email"]
+
+        if commit:
+            user.save()
+
+        return user
 
 class LoginForm(forms.Form):
 
-    username = forms.CharField(widget = forms.TextInput(attrs={'placeholder': 'Username'}))
+    username = forms.CharField(widget = forms.TextInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(widget = forms.PasswordInput(attrs={'placeholder': 'Password'}))
 
 
