@@ -25,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'GUxFwMmSg7jc7qFiuQchsnLMkVHoLKwkpBznShseTpylK0W-Mz3lRHiTAS7__81G7IE'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = [
 
@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'helloDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_DATABASE'),  # Replace with your database name
-        'USER': os.getenv('MYSQLUSER'),    # Your MySQL username
-        'PASSWORD': os.getenv('MYSQLPASSWORD'),  # Your MySQL password
-        'HOST': os.getenv('MYSQLHOST'),
-        'PORT': os.getenv('MYSQLPORT', '3306'),
+        'NAME': 'railway',  # Replace with your database name
+        'USER': 'root',    # Your MySQL username
+        'PASSWORD': 'DaLQLrkExCEkFLnyQsnAnTqhbQPSAkoA',  # Your MySQL password
+        'HOST': 'mysql.railway.internal',
+        'PORT': '3306',
     }
 }
 
