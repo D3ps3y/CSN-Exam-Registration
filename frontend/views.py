@@ -20,9 +20,9 @@ def home(request):
     user_email = request.user.email
 
     if user_email.endswith('@student.csn.edu'):
-        return redirect(request, 'student_dashboard')
+        return redirect('student_dashboard')
     elif user_email.endswith('@csn.edu'):
-        return redirect(request, 'faculty_dashboard')
+        return redirect('faculty_dashboard')
     else:
         return render(request, 'home.html')
 
