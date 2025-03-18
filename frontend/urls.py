@@ -1,16 +1,15 @@
 from django.urls import path
-from . import views
-from .views import student_dashboard, faculty_dashboard
+from .views import home, student_dashboard, faculty_dashboard, custom_login, custom_logout, register
 
 urlpatterns = [
 
-    path('', views.home, name='home'),
+    path('', home, name='home'),
     
-    path('login/', views.custom_login, name = 'login'),
+    path('login/', custom_login, name = 'login'),
 
-    path('logout/', views.custom_logout, name = 'logout'),
+    path('logout/', custom_logout, name = 'logout'),
 
-    path('register/', views.register, name='register'),
+    path('register/', register, name='register'),
 
     path('student/', student_dashboard, name='student_dashboard'),
 
