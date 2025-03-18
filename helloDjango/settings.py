@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
 
-    "csnexamregistration.up.railway.app", "localhost"
+    "csnexamregistration.up.railway.app", "csnexamregistration.com", "localhost"
 
 ]
 
