@@ -21,8 +21,10 @@ def home(request):
 
     if user_email.endswith('@csn.student.edu'):
         return redirect(request, 'student_dashboard')
-    if user_email.endswith('@csn.edu'):
+    elif user_email.endswith('@csn.edu'):
         return redirect(request, 'faculty_dashboard')
+    else:
+        return redirect(request, 'home.html')
 
 # User Registration View
 def register(request):
