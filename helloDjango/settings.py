@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 import pymysql
 
 # Makes PyMySQL work as a drop-in replacement for mysqlclient
@@ -26,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1^7*+cjg)ip7__5xth)*o^w3q%189dco$rs1&isk3h^x*uhti&'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = [
 
@@ -83,9 +82,6 @@ WSGI_APPLICATION = 'helloDjango.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# Load environment variables from Railway
-load_dotenv()
 
 DATABASES = {
     'default': {
