@@ -165,6 +165,7 @@ body:active .floating-shape::after {
     min-height: 250px;
     padding: 30px;
     background: white;
+    opacity: 0.95;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -221,7 +222,7 @@ button {
     max-width: 350px;
     padding: 12px;
     margin-top: 10px;
-    background: #007BFF;
+    background: #005ecb;
     color: white;
     border: none;
     border-radius: 5px;
@@ -231,14 +232,14 @@ button {
 }
 
 button:hover {
-    background: #005ecb;
+    background: #003f9f;
 }
 
 a {
     display: block;
     margin-top: 10px;
     text-decoration: none;
-    color: #007BFF;
+    color: #005ecb;
     font-size: 14px;
 }
 
