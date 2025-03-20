@@ -164,7 +164,7 @@ body:active .floating-shape::after {
     width: 450px;
     min-height: 250px;
     padding: 30px;
-    background: #f5f5f5;
+    background: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -198,10 +198,10 @@ form {
 
 input {
     width: 100%;
-    max-width: 350px;
+    max-width: 450px;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
