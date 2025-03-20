@@ -48,8 +48,8 @@
             {% endif %}
             <form method="post">
                 {% csrf_token %}
-                <div>{{ login_form.email.label_tag }} {{ form.email }}</div>
-                <div>{{ login_form.password.label_tag }} {{ form.password }}</div>
+                <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>
+                <div>{{ login_form.password.label_tag }} {{ login_form.password }}</div>
                 <button type="submit" name="login">Login</button>
             </form>
             <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>
@@ -69,11 +69,11 @@
             {% endif %}
             <form method="post">
                 {% csrf_token %}
-                <div>{{ register_form.first_name.label_tag }} {{ form.first_name }}</div>
-                <div>{{ register_form.last_name.label_tag }} {{ form.last_name }}</div>
-                <div>{{ register_form.email.label_tag }} {{ form.email }}</div>
-                <div>{{ register_form.password1.label_tag }} {{ form.password1 }}</div>
-                <div>{{ register_form.password2.label_tag }} {{ form.password2 }}</div>
+                <div>{{ register_form.first_name.label_tag }} {{ register_form.first_name }}</div>
+                <div>{{ register_form.last_name.label_tag }} {{ register_form.last_name }}</div>
+                <div>{{ register_form.email.label_tag }} {{ register_form.email }}</div>
+                <div>{{ register_form.password1.label_tag }} {{ register_form.password1 }}</div>
+                <div>{{ register_form.password2.label_tag }} {{ register_form.password2 }}</div>
                 <button type="submit" name="register">Register</button>
             </form>
             <a href="#" onclick="showLogin()">Already have an account? Login here.</a>
