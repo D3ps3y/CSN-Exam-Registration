@@ -25,9 +25,9 @@ body {
     height: 100vh;
 }
 
-body:active .floating-shape,
-body:active .floating-shape::before,
-body:active .floating-shape::after {
+.floating-shape,
+.floating-shape::before,
+.floating-shape::after {
     content: "";
     position: fixed;
     top: 0;
@@ -36,7 +36,12 @@ body:active .floating-shape::after {
     transform-origin: top;
     transition: all 5s linear 0s;
     mix-blend-mode: color-dodge;
-    padding: 40px; /* Enlarges only the background shapes */
+}
+
+body:active .floating-shape,
+body:active .floating-shape::before,
+body:active .floating-shape::after {
+    padding: 60px;
 }
 
 .floating-shape {
