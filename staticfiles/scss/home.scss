@@ -23,28 +23,32 @@ body {
     position: relative;
     width: 100vw;
     height: 100vh;
-
-    &:active {
-        div,
-        div::before,
-        div::after {
-            // Commented out for performance
-            //mix-blend-mode: color-dodge;
-            padding: 40px;
-        }
-    }
 }
 
-div,
-div::before,
-div::after {
-    content: '';
+.floating-shape,
+.floating-shape::before,
+.floating-shape::after {
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
     opacity: 0.9;
     transform-origin: top;
     transition: all 5s linear 0s;
+    mix-blend-mode: color-dodge;
+}
+
+body:active .floating-shape,
+body:active .floating-shape::before,
+body:active .floating-shape::after {
+    padding: 60px;
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    transition: all 5s linear 0s;
+    opacity: 0.9;
 }
 
 @function random-num($min, $max) {
@@ -82,6 +86,9 @@ div::after {
                         $random2 + vh,
                         0);
         z-index: random(12);
+
+        // Adds floating-shape class
+        @extend .floating-shape;
     }
 
     .#{$color-name}::before {
@@ -144,4 +151,40 @@ div::after {
                     rotate((random(360)) + deg);
         }
     }
+}
+
+// From here on out I wrote the file. What's above (background) is much too advanced for me,
+// it is copied from the author who made it.
+
+.main-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 100;
+}
+
+.hidden {
+    display: none;
+}
+
+.my-button {
+    display: inline-block;
+    background: blue;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.my-button:hover {
+    background: darkblue;
 }
