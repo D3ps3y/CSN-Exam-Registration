@@ -23,28 +23,19 @@ body {
     position: relative;
     width: 100vw;
     height: 100vh;
-
-    &:active {
-        div,
-        div::before,
-        div::after {
-            // Commented out for performance
-            //mix-blend-mode: color-dodge;
-            padding: 40px;
-        }
-    }
 }
 
-div,
-div::before,
-div::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    opacity: 0.9;
-    transform-origin: top;
+body:active .floating-shape,
+body:active .floating-shape::before,
+body:active .floating-shape::after {
+    padding: 40px; /* Enlarges only the background shapes */
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
     transition: all 5s linear 0s;
+    opacity: 0.9;
 }
 
 @function random-num($min, $max) {
@@ -82,6 +73,9 @@ div::after {
                         $random2 + vh,
                         0);
         z-index: random(12);
+
+        // Adds floating-shape class
+        @extend .floating-shape;
     }
 
     .#{$color-name}::before {
@@ -160,6 +154,7 @@ div::after {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
+    z-index: 100;
 }
 
 .my-button {
