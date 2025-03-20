@@ -7,3 +7,5 @@ requests
 tzdata
 cryptography
 whitenoise
+django-sass-processor
+libsass
