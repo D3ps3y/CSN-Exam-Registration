@@ -37,21 +37,9 @@
         <!-- Login Form (Initially Hidden) -->
         <div id="login-panel" class="hidden">
             <h2>Login</h2>
-            <form method="post">
-                {% csrf_token %}
-                <div>{{ form.email.label_tag }} {{ form.email }}</div>
-                <div>{{ form.password.label_tag }} {{ form.password }}</div>
-                <button type="submit">Login</button>
-            </form>
-            <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>
-        </div>
-
-        <!-- Register Form (Initially Hidden) -->
-        <div id="register-panel" class="hidden">
-            <h2>Register</h2>
-            {% if form.errors %}
+            {% if login_form.errors %}
                 <ul>
-                    {% for field, errors in form.errors.items %}
+                    {% for field, errors in login_form.errors.items %}
                         {% for error in errors %}
                             <li style="color: red;">{{ error }}</li>
                         {% endfor %}
@@ -60,12 +48,33 @@
             {% endif %}
             <form method="post">
                 {% csrf_token %}
-                <div>{{ form.first_name.label_tag }} {{ form.first_name }}</div>
-                <div>{{ form.last_name.label_tag }} {{ form.last_name }}</div>
-                <div>{{ form.email.label_tag }} {{ form.email }}</div>
-                <div>{{ form.password1.label_tag }} {{ form.password1 }}</div>
-                <div>{{ form.password2.label_tag }} {{ form.password2 }}</div>
-                <button type="submit">Register</button>
+                <div>{{ login_form.email.label_tag }} {{ form.email }}</div>
+                <div>{{ login_form.password.label_tag }} {{ form.password }}</div>
+                <button type="submit" name="login">Login</button>
+            </form>
+            <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>
+        </div>
+
+        <!-- Register Form (Initially Hidden) -->
+        <div id="register-panel" class="hidden">
+            <h2>Register</h2>
+            {% if register_form.errors %}
+                <ul>
+                    {% for field, errors in register_form.errors.items %}
+                        {% for error in errors %}
+                            <li style="color: red;">{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div>{{ register_form.first_name.label_tag }} {{ form.first_name }}</div>
+                <div>{{ register_form.last_name.label_tag }} {{ form.last_name }}</div>
+                <div>{{ register_form.email.label_tag }} {{ form.email }}</div>
+                <div>{{ register_form.password1.label_tag }} {{ form.password1 }}</div>
+                <div>{{ register_form.password2.label_tag }} {{ form.password2 }}</div>
+                <button type="submit" name="register">Register</button>
             </form>
             <a href="#" onclick="showLogin()">Already have an account? Login here.</a>
         </div>
