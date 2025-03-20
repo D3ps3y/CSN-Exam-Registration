@@ -6,12 +6,6 @@ body {
     height: 100vh;
 }
 
-body:active div,
-body:active div::before,
-body:active div::after {
-    padding: 40px;
-}
-
 div,
 div::before,
 div::after {
@@ -20,49 +14,25 @@ div::after {
     top: 0;
     left: 0;
     opacity: 0.9;
-    transform-origin: top;
+    border-radius: 50%;
     transition: all 5s linear 0s;
 }
 
-.purple { animation: purple linear 30s alternate infinite; }
-.medium-blue { animation: mediumBlue linear 30s alternate infinite; }
-.light-blue { animation: lightBlue linear 30s alternate infinite; }
-.red { animation: red linear 30s alternate infinite; }
-.orange { animation: orange linear 30s alternate infinite; }
-.yellow { animation: yellow linear 30s alternate infinite; }
-.cyan { animation: cyan linear 30s alternate infinite; }
-.light-green { animation: lightGreen linear 30s alternate infinite; }
+@keyframes move {
+    0% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(50vw, 50vh, 0); }
+    100% { transform: translate3d(-50vw, -50vh, 0); }
+}
 
-/* Add Keyframes Animations */
-@keyframes purple {
-    0% { transform: translateY(0) translateX(0); background: #7b1fa2; }
-    100% { transform: translateY(100vh) translateX(50vw); background: #311b92; }
-}
-@keyframes mediumBlue {
-    0% { transform: translateY(0) translateX(0); background: #1976d2; }
-    100% { transform: translateY(100vh) translateX(-50vw); background: #0d47a1; }
-}
-@keyframes lightBlue {
-    0% { transform: translateY(0) translateX(0); background: #03a9f4; }
-    100% { transform: translateY(100vh) translateX(30vw); background: #0288d1; }
-}
-@keyframes red {
-    0% { transform: translateY(0) translateX(0); background: #d32f2f; }
-    100% { transform: translateY(100vh) translateX(-30vw); background: #b71c1c; }
-}
-@keyframes orange {
-    0% { transform: translateY(0) translateX(0); background: #f57c00; }
-    100% { transform: translateY(100vh) translateX(40vw); background: #e65100; }
-}
-@keyframes yellow {
-    0% { transform: translateY(0) translateX(0); background: #fbc02d; }
-    100% { transform: translateY(100vh) translateX(-40vw); background: #f57f17; }
-}
-@keyframes cyan {
-    0% { transform: translateY(0) translateX(0); background: #0097a7; }
-    100% { transform: translateY(100vh) translateX(20vw); background: #006064; }
-}
-@keyframes lightGreen {
-    0% { transform: translateY(0) translateX(0); background: #388e3c; }
-    100% { transform: translateY(100vh) translateX(-20vw); background: #1b5e20; }
-}
+.purple { background: #241379; width: 30px; height: 30px; animation: move 30s linear infinite; }
+.medium-blue { background: #2185bf; width: 35px; height: 35px; animation: move 25s linear infinite; }
+.light-blue { background: #1fbce1; width: 40px; height: 40px; animation: move 20s linear infinite; }
+.red { background: #b62f56; width: 45px; height: 45px; animation: move 35s linear infinite; }
+.orange { background: #d5764c; width: 50px; height: 50px; animation: move 28s linear infinite; }
+.yellow { background: #ffd53e; width: 55px; height: 55px; animation: move 22s linear infinite; }
+.cyan { background: #78ffba; width: 60px; height: 60px; animation: move 27s linear infinite; }
+.light-green { background: #98fd85; width: 65px; height: 65px; animation: move 32s linear infinite; }
+.lime { background: #befb46; width: 70px; height: 70px; animation: move 24s linear infinite; }
+.magenta { background: #6c046c; width: 75px; height: 75px; animation: move 26s linear infinite; }
+.lightish-red { background: #f04c81; width: 80px; height: 80px; animation: move 30s linear infinite; }
+.pink { background: #ff4293; width: 85px; height: 85px; animation: move 33s linear infinite; }
