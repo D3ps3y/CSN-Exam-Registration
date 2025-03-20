@@ -1,31 +1,3 @@
-.main-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    padding: 30px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-.my-button {
-    display: inline-block;
-    background: blue;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.my-button:hover {
-    background: darkblue;
-}
-
 body {
     background: radial-gradient(circle, #24246e, #06051f);
     overflow: hidden;
