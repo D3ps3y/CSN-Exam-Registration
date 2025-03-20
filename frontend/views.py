@@ -13,9 +13,8 @@ def student_dashboard(request):
 def faculty_dashboard(request):
     return render(request, 'faculty_home.html')
 
-# Home Page View
+# Home Page View (Now Includes Login and Register Forms)
 def home(request):
-
     if request.user.is_authenticated:
         user_email = request.user.email
 
@@ -24,76 +23,54 @@ def home(request):
         elif user_email.endswith('@csn.edu'):
             return redirect('faculty_dashboard')
 
-    return render(request, 'home.html')
+    # Create empty forms to be used inside home.html
+    register_form = CustomRegisterForm()
+    login_form = LoginForm()
 
-# User Registration View
-def register(request):
-    
-    if request.method == 'POST': # If the user submits the form
+    # Handle form submission
+    if request.method == "POST":
 
-        # Create the form with submitted data
-        form = CustomRegisterForm(request.POST)
+        if "register" in request.POST:  # If Register form was submitted
 
-        # Check if the form data is valid
-        if form.is_valid():
+            register_form = CustomRegisterForm(request.POST)
 
-            user = form.save()  # Saves the user to the database
-            login(request, user) # Logs the user in after registration
-            return redirect('home') # Redirects the user to the home page
+            if register_form.is_valid():
 
-        else:
+                user = register_form.save()
+                login(request, user)  # Auto-login after registration
+                return redirect('home')  # Redirect to home after successful registration
 
-            print(form.errors) # If form validation fails, print errors (Good for debugging)
+        elif "login" in request.POST:  # If Login form was submitted
 
-    else:
+            login_form = LoginForm(request.POST)
 
-        # If it's a GET request, display a blank registration form
-        form = CustomRegisterForm()
+            if login_form.is_valid():
 
-    # Render the registration template
-    return render(request, 'registration.html', {'form': form})
+                email = login_form.cleaned_data["email"]
+                password = login_form.cleaned_data["password"]
+
+                try:
+
+                    user_obj = User.objects.get(email=email)
+                    username = user_obj.username  # Get username from email
+
+                except User.DoesNotExist:
+
+                    username = None
+
+                user = authenticate(request, username=username, password=password)
+
+                if user is not None:
+
+                    login(request, user)
+                    return redirect('home')  # Redirect to home after login
+
+    return render(request, 'home.html', {
+        'register_form': register_form,
+        'login_form': login_form,
+    })
 
 # User Logout View
 def custom_logout(request):
-
-    logout(request) # Logs the user out by clearing session data
-
-    return redirect('home') # Redirects back to the home page
-
-# User Login View
-def custom_login(request):
-
-    form = LoginForm() # Creates a blank login form
-
-    if request.method == 'POST': # If the user submits the login form
-
-        form = LoginForm(request.POST) # Populate the form with user input
-
-        if form.is_valid(): # If the form data is valid
-
-            email = form.cleaned_data["email"] # Gets the cleaned email from the form
-
-            password = form.cleaned_data["password"] # Gets the cleaned password from the form
-
-            try:
-                user_obj = User.objects.get(email=email)
-                username = user_obj.username
-            except User.DoesNotExist:
-                username = None
-
-            user = authenticate(request, username=username, password=password) # Verifies credentials
-
-            # If authentication is successful
-            if user is not None:
-
-                login(request, user) # Logs the user in
-
-                return redirect('home') # Redirects to the home page
-
-        # If authentication fails, re-render the login page with an error message
-        return render(request, 'login.html', {'form': form, 'error': 'Invalid username or password'})
-
-    # Render the login template if it's a GET request
-    return render(request, 'login.html', {'form': form})
-
-# Create your views here.
+    logout(request)  # Logs the user out
+    return redirect('home')  # Redirects back to home
