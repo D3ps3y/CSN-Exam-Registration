@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'frontend',
+    'sass_processor', # Enables SCSS processing in Django
 ]
 
 MIDDLEWARE = [
@@ -126,8 +127,16 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+SASS_PROCESSOR_ROOT = BASE_DIR / "frontend/static"
+
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/static'
+]
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "sass_processor.finders.CssFinder", # Required for SCSS support
 ]
 
 # Default primary key field type
