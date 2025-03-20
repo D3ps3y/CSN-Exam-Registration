@@ -28,6 +28,14 @@ body {
 body:active .floating-shape,
 body:active .floating-shape::before,
 body:active .floating-shape::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.9;
+    transform-origin: top;
+    transition: all 5s linear 0s;
+    mix-blend-mode: color-dodge;
     padding: 40px; /* Enlarges only the background shapes */
 }
 
