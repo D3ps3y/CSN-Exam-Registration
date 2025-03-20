@@ -28,8 +28,13 @@
     <div class="main-container">
         <!-- Default Welcome Panel -->
         <div id="welcome-panel">
-            <h1>Welcome to CSN Exam Registration!</h1>
-            <p>Login or register to get started</p>
+
+            <div class="logo-container">
+                <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo">
+            </div>
+
+            <h1>Welcome to CSN Exam Registration</h1>
+            <p>Login or register to get started!</p>
             <button onclick="showLogin()">Login</button>
             <button onclick="showRegister()">Sign Up</button>
         </div>

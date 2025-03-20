@@ -175,6 +175,15 @@ body:active .floating-shape::after {
     z-index: 100;
 }
 
+.logo-container {
+    margin-bottom: 15px;
+}
+
+.logo-container img {
+    width: 150px;
+    height: auto;
+}
+
 .hidden {
     display: none;
 }
