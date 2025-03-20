@@ -1,20 +1,28 @@
+{% load static %}
+{% load sass_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-    <title>Student</title>
-
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{% sass_src 'scss/student_dashboard.scss' %}">
 </head>
 
 <body>
 
-    <h1>Student Dashboard</h1>
+    <!-- Main Panel -->
+    <div class="main-container">
 
-    <p>Welcome, {{ user.first_name }} {{ user.last_name }}!</p>
+        <!-- Student Home Panel -->
+        <div id="student_home">
 
-    <a href="{% url 'logout' %}">Logout</a>
+            <h1>Welcome, {{ user.first_name }} {{ user.last_name }}!</h1>
+            <button onclick="{% url 'logout' %}">Logout</button>
+        </div>
+    </div>
 
 </body>
 
