@@ -1,0 +1,68 @@
+body {
+    background: radial-gradient(circle, #24246e, #06051f);
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+body:active div,
+body:active div::before,
+body:active div::after {
+    padding: 40px;
+}
+
+div,
+div::before,
+div::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.9;
+    transform-origin: top;
+    transition: all 5s linear 0s;
+}
+
+.purple { animation: purple linear 30s alternate infinite; }
+.medium-blue { animation: mediumBlue linear 30s alternate infinite; }
+.light-blue { animation: lightBlue linear 30s alternate infinite; }
+.red { animation: red linear 30s alternate infinite; }
+.orange { animation: orange linear 30s alternate infinite; }
+.yellow { animation: yellow linear 30s alternate infinite; }
+.cyan { animation: cyan linear 30s alternate infinite; }
+.light-green { animation: lightGreen linear 30s alternate infinite; }
+
+/* Add Keyframes Animations */
+@keyframes purple {
+    0% { transform: translateY(0) translateX(0); background: #7b1fa2; }
+    100% { transform: translateY(100vh) translateX(50vw); background: #311b92; }
+}
+@keyframes mediumBlue {
+    0% { transform: translateY(0) translateX(0); background: #1976d2; }
+    100% { transform: translateY(100vh) translateX(-50vw); background: #0d47a1; }
+}
+@keyframes lightBlue {
+    0% { transform: translateY(0) translateX(0); background: #03a9f4; }
+    100% { transform: translateY(100vh) translateX(30vw); background: #0288d1; }
+}
+@keyframes red {
+    0% { transform: translateY(0) translateX(0); background: #d32f2f; }
+    100% { transform: translateY(100vh) translateX(-30vw); background: #b71c1c; }
+}
+@keyframes orange {
+    0% { transform: translateY(0) translateX(0); background: #f57c00; }
+    100% { transform: translateY(100vh) translateX(40vw); background: #e65100; }
+}
+@keyframes yellow {
+    0% { transform: translateY(0) translateX(0); background: #fbc02d; }
+    100% { transform: translateY(100vh) translateX(-40vw); background: #f57f17; }
+}
+@keyframes cyan {
+    0% { transform: translateY(0) translateX(0); background: #0097a7; }
+    100% { transform: translateY(100vh) translateX(20vw); background: #006064; }
+}
+@keyframes lightGreen {
+    0% { transform: translateY(0) translateX(0); background: #388e3c; }
+    100% { transform: translateY(100vh) translateX(-20vw); background: #1b5e20; }
+}
