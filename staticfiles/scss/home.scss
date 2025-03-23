@@ -81,10 +81,7 @@ body:active .floating-shape::after {
         border-radius: 100%;
         width: $size;
         height: $size;
-        transform: translate3d(
-                        $random1 + vw,
-                        $random2 + vh,
-                        0);
+        transform: translate3d($random1 + vw, $random2 + vh, 0);
         z-index: random(12);
 
         // Adds floating-shape class
@@ -97,12 +94,7 @@ body:active .floating-shape::after {
         border: 2px solid #{$color-hex};
         width: random-num(5,50) + px;
         height: random-num(5,50) + px;
-        transform:
-                translate3d(
-                                random-calc($random1) + vw,
-                                random-calc($random2) + vh,
-                                0)
-                rotate((random(360)) + deg);
+        transform: translate3d(random-calc($random1) + vw, random-calc($random2) + vh, 0) rotate((random(360)) + deg);
     }
 
     .#{$color-name}::after{
@@ -110,51 +102,26 @@ body:active .floating-shape::after {
         border: 2px solid #{$color-hex};
         width: random-num(5,50) + px;
         height: random-num(5,50) + px;
-        transform:
-                translate3d(
-                                random-calc($random1) + vw,
-                                random-calc($random2) + vh,
-                                0)
-                rotate((random(360)) + deg);
+        transform: translate3d(random-calc($random1) + vw, random-calc($random2) + vh, 0) rotate((random(360)) + deg);
     }
 
     @keyframes #{$color-name} {
-        50% {
-            transform: translate3d(
-                            $random3 + vw,
-                            $random4 + vh,
-                            0);
-        }
-        100% {
-            transform: translate3d(
-                            $random5 + vw,
-                            $random6 + vh,
-                            0);
-        }
+        50% {transform: translate3d($random3 + vw, $random4 + vh, 0);}
+        100% {transform: translate3d($random5 + vw, $random6 + vh, 0);}
     }
 
     @keyframes #{$color-name}-pseudo {
-        33% {
-            transform:
-                    translate3d(
-                                    random-calc($random3) + vw,
-                                    random-calc($random4) + vh,
-                                    0)
-                    rotate((random(360)) + deg);
+        33% {transform: translate3d(random-calc($random3) + vw, random-calc($random4) + vh, 0)
+                        rotate((random(360)) + deg);
         }
-        100% {
-            transform:
-                    translate3d(
-                                    random-calc($random5) + vw,
-                                    random-calc($random6) + vh,
-                                    0)
-                    rotate((random(360)) + deg);
+        100% {transform: translate3d(random-calc($random5) + vw, random-calc($random6) + vh, 0)
+                        rotate((random(360)) + deg);
         }
     }
 }
 
 // From here on out I wrote the file. What's above (background) is much too advanced for me,
-// it is copied from the author who made it.
+// it is 90% copied from the author who made it.
 
 .main-container {
     position: absolute;
@@ -255,7 +222,6 @@ body {
 }
 
 h1, h2 {
-    scale: 1.15;
     font-weight: 700;
 }
 
