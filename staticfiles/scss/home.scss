@@ -232,7 +232,6 @@ p, label, a {
 // Errors
 
 #register-snackbar, #login-snackbar {
-    backdrop-filter: none !important;
     visibility: visible;
     min-width: 250px;
     background-color: #ff4d4d;
@@ -248,6 +247,9 @@ p, label, a {
     font-size: 17px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     animation: fadeOut 3s ease forwards;
+    backdrop-filter: none !important;
+    filter: none !important;
+    opacity: 1 !important;
 }
 
 @keyframes fadeOut {
