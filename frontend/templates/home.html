@@ -45,13 +45,13 @@
         <div id="login-panel" class="hidden">
             <h2>Login</h2>
             {% if login_form.errors %}
-                <ul>
+                <div class="snackbar">
                     {% for field, errors in login_form.errors.items %}
                         {% for error in errors %}
-                            <li style="color: red;">{{ error }}</li>
+                            {{ error }}<br>
                         {% endfor %}
                     {% endfor %}
-                </ul>
+                </div>
             {% endif %}
             <form method="post">
                 {% csrf_token %}
@@ -66,13 +66,13 @@
         <div id="register-panel" class="hidden">
             <h2>Register</h2>
             {% if register_form.errors %}
-                <ul>
+                <div class="snackbar">
                     {% for field, errors in register_form.errors.items %}
                         {% for error in errors %}
-                            <li style="color: red;">{{ error }}</li>
+                            {{ error }}<br>
                         {% endfor %}
                     {% endfor %}
-                </ul>
+                </div>
             {% endif %}
             <form method="post">
                 {% csrf_token %}
@@ -104,6 +104,18 @@
     <script>
 
         window.onload = function () {
+
+            const snackbar = document.getElementById("snackbar");
+
+            if (snackbar) {
+
+                setTimeout(() => {
+
+                    snackbar.style.display = "none";
+
+                }, 5000);
+
+            }
 
             {% if register_form.errors %}
                 showRegister();
