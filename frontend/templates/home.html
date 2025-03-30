@@ -90,55 +90,54 @@
     </script>
 
     <script>
-
         document.querySelectorAll("form").forEach(form => {
-        form.addEventListener("submit", async function(e) {
-        e.preventDefault();
+            form.addEventListener("submit", async function(e) {
+                e.preventDefault();
 
-        const formId = form.id;
-        const formData = new FormData(form);
-        let url = "";
-        let snackbarId = "";
+                const formId = form.id;
+                const formData = new FormData(form);
+                let url = "";
+                let snackbarId = "";
 
-        if (formId === "register-form") {
-            url = "/ajax/register/";
-            snackbarId = "register-snackbar";
-        } else if (formId === "login-form") {
-            url = "/ajax/login/";
-            snackbarId = "login-snackbar";
-        } else {
-            return; // Unknown form, do nothing
-        }
+                if (formId === "register-form") {
+                    url = "/ajax/register/";
+                    snackbarId = "register-snackbar";
+                } else if (formId === "login-form") {
+                    url = "/ajax/login/";
+                    snackbarId = "login-snackbar";
+                } else {
+                    return; // Unknown form
+                }
 
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
-            },
-            body: formData
-        });
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: formData
+                });
 
-        const result = await response.json();
+                const result = await response.json();
 
-        const snackbar = document.getElementById(snackbarId);
-        snackbar.innerHTML = "";
-        snackbar.style.display = "block";
+                const snackbar = document.getElementById(snackbarId);
+                snackbar.innerHTML = "";
+                snackbar.style.display = "block";
 
-        if (result.success) {
-            window.location.href = result.redirect_url;
-        } else {
-            result.errors.forEach(msg => {
-                const line = document.createElement("div");
-                line.textContent = msg;
-                snackbar.appendChild(line);
+                if (result.success) {
+                    window.location.href = result.redirect_url;
+                } else {
+                    result.errors.forEach(msg => {
+                        const line = document.createElement("div");
+                        line.textContent = msg;
+                        snackbar.appendChild(line);
+                    });
+
+                    setTimeout(() => {
+                        snackbar.style.display = "none";
+                    }, 5000);
+                }
             });
-
-            setTimeout(() => {
-                snackbar.style.display = "none";
-            }, 5000);
-        }
-    });
-
+        });
     </script>
 
 </body>
