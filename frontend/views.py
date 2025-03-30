@@ -36,9 +36,18 @@ def home(request):
 
             if register_form.is_valid():
 
+                print("FORM IS VALID (unexpected)")
+                print(register_form.cleaned_data)
+
                 user = register_form.save()
                 login(request, user)  # Auto-login after registration
                 return redirect('home')  # Redirect to home after successful registration
+
+            else:
+
+                print("FORM IS INVALID (expected)")
+                print(register_form.errors)
+
 
         elif "login" in request.POST:  # If Login form was submitted
 
