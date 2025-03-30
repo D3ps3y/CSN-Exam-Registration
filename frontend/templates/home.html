@@ -45,8 +45,6 @@
         <div id="login-panel" class="hidden">
             <h2>Login</h2>
 
-            <div id="login-snackbar" style="display: none;"></div>
-
             <form id="login-form">
                 {% csrf_token %}
                 <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>
@@ -60,8 +58,6 @@
         <div id="register-panel" class="hidden">
             <h2>Register</h2>
 
-            <div id="register-snackbar" style="display: none;"></div>
-
             <form id="register-form">
                 {% csrf_token %}
                 <div>{{ register_form.first_name.label_tag }} {{ register_form.first_name }}</div>
@@ -74,6 +70,10 @@
             <a href="#" onclick="showLogin()">Already have an account? Login here.</a>
         </div>
     </div>
+
+    <div id="login-snackbar" class="snackbar"></div>
+    <div id="register-snackbar" class="snackbar"></div>
+
 
     <script>
         function showLogin() {
