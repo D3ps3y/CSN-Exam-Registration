@@ -82,10 +82,10 @@ class CustomRegisterForm(UserCreationForm):
         # List of allowed email domains
 
         if email and User.objects.filter(username=email).exists():
-            raise forms.ValidationError("Account already exists.")
+            raise self.add_error("Email","Account already exists.")
 
         if not any(email.endswith(f"@{domain}") for domain in allowed_domains):
-            raise forms.ValidationError("Only @student.csn.edu and @csn.edu emails are allowed to register")
+            raise self.add_error("Email","Only @student.csn.edu and @csn.edu emails are allowed to register")
         # Raises a validation error if the email is not from an allowed domain
 
         return email
