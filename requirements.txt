@@ -9,3 +9,4 @@ cryptography
 whitenoise
 django-sass-processor
 libsass
+username
