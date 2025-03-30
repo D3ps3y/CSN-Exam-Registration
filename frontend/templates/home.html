@@ -44,20 +44,14 @@
         <!-- Login Form (Initially Hidden) -->
         <div id="login-panel" class="hidden">
             <h2>Login</h2>
-            {% if login_form.errors %}
-                <div class="snackbar">
-                    {% for field, errors in login_form.errors.items %}
-                        {% for error in errors %}
-                            {{ error }}<br>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <form method="post">
+
+            <div id = "login-snackbar" style="display: none;"></div>
+
+            <form id="login-form">
                 {% csrf_token %}
                 <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>
                 <div>{{ login_form.password.label_tag }} {{ login_form.password }}</div>
-                <button type="submit" name="login">Login</button>
+                <button type="submit">Login</button>
             </form>
             <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>
         </div>
@@ -65,23 +59,17 @@
         <!-- Register Form (Initially Hidden) -->
         <div id="register-panel" class="hidden">
             <h2>Register</h2>
-            {% if register_form.errors %}
-                <div class="snackbar">
-                    {% for field, errors in register_form.errors.items %}
-                        {% for error in errors %}
-                            {{ error }}<br>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <form method="post">
+
+            <div id = "register-snackbar" style="display: none;"></div>
+
+            <form id="register-form">
                 {% csrf_token %}
                 <div>{{ register_form.first_name.label_tag }} {{ register_form.first_name }}</div>
                 <div>{{ register_form.last_name.label_tag }} {{ register_form.last_name }}</div>
                 <div>{{ register_form.email.label_tag }} {{ register_form.email }}</div>
                 <div>{{ register_form.password1.label_tag }} {{ register_form.password1 }}</div>
                 <div>{{ register_form.password2.label_tag }} {{ register_form.password2 }}</div>
-                <button type="submit" name="register">Register</button>
+                <button type="submit">Register</button>
             </form>
             <a href="#" onclick="showLogin()">Already have an account? Login here.</a>
         </div>
@@ -103,28 +91,53 @@
 
     <script>
 
-        window.onload = function () {
+        document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", async function(e) {
+        e.preventDefault();
 
-            const snackbar = document.getElementById("snackbar");
+        const formId = form.id;
+        const formData = new FormData(form);
+        let url = "";
+        let snackbarId = "";
 
-            if (snackbar) {
+        if (formId === "register-form") {
+            url = "/ajax/register/";
+            snackbarId = "register-snackbar";
+        } else if (formId === "login-form") {
+            url = "/ajax/login/";
+            snackbarId = "login-snackbar";
+        } else {
+            return; // Unknown form, do nothing
+        }
 
-                setTimeout(() => {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: formData
+        });
 
-                    snackbar.style.display = "none";
+        const result = await response.json();
 
-                }, 5000);
+        const snackbar = document.getElementById(snackbarId);
+        snackbar.innerHTML = "";
+        snackbar.style.display = "block";
 
-            }
+        if (result.success) {
+            window.location.href = result.redirect_url;
+        } else {
+            result.errors.forEach(msg => {
+                const line = document.createElement("div");
+                line.textContent = msg;
+                snackbar.appendChild(line);
+            });
 
-            {% if register_form.errors %}
-                showRegister();
-
-            {% elif login_form.errors %}
-                showLogin();
-
-            {% endif %}
-        };
+            setTimeout(() => {
+                snackbar.style.display = "none";
+            }, 5000);
+        }
+    });
 
     </script>
 

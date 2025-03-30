@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from frontend.forms import CustomRegisterForm, LoginForm
+from django.http import JsonResponse
 
 User = get_user_model()
 
@@ -83,3 +84,57 @@ def home(request):
 def custom_logout(request):
     logout(request)  # Logs the user out
     return redirect('home')  # Redirects back to home
+
+def ajax_register(request):
+
+    if request.method == "POST":
+        form = CustomRegisterForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return JsonResponse({"success": True, "redirect_url": "/"})
+
+        else:
+            errors = []
+            for field_errors in form.errors.values():
+                errors.extend(field_errors)
+            return JsonResponse({"success": False, "errors": errors})
+
+    return JsonResponse({"success": False, "errors": ["Invalid request method."]})
+
+def ajax_login(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+
+            try:
+                user_obj = User.objects.get(email=email)
+                username = user_obj.username
+
+            except User.DoesNotExist:
+                username = None
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return JsonResponse({"success": True, "redirect_url": "/"})
+
+            else:
+                return JsonResponse({"success": False, "errors": ["Invalid email or password."]})
+
+        else:
+            errors = []
+
+            for field_errors in form.errors.values():
+                errors.extend(field_errors)
+
+            return JsonResponse({"success": False, "errors": errors})
+
+    return JsonResponse({"success": False, "errors": ["Invalid request method."]})
+
+
