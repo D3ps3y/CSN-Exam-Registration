@@ -36,7 +36,7 @@ def home(request):
 
             if register_form.is_valid():
 
-                print("FORM IS VALID (unexpected)")
+                print("Registration Is Valid")
                 print(register_form.cleaned_data)
 
                 user = register_form.save()
@@ -45,7 +45,7 @@ def home(request):
 
             else:
 
-                print("FORM IS INVALID (expected)")
+                print("Registration Is Invalid")
                 print(register_form.errors)
 
 

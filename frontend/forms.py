@@ -106,6 +106,14 @@ class LoginForm(forms.Form):
     )
     # Password input field with a placeholder 'NSHE ID'
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        if email and not User.objects.filter(username=email).exists():
+            self.add_error("email", "Account does not exist.")
+
+        return email
+
 
 
 
