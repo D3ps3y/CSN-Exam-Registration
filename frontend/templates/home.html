@@ -101,6 +101,21 @@
         }
     </script>
 
+    <script>
+
+        window.onload = function () {
+
+            {% if register_form.errors %}
+                showRegister();
+
+            {% if login_form.errors %}
+                showLogin();
+
+            {% endif %}
+        };
+
+    </script>
+
 </body>
 </html>
 
