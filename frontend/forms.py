@@ -47,9 +47,6 @@ class CustomRegisterForm(UserCreationForm):
     )
     # Confirmation password field, with a placeholder 'NSHE ID'
 
-    if User.objects.filter(email=email).exists():
-        raise forms.ValidationError("Account already exists.")
-
     class Meta:
         model = User
         # Specifies the form is based on the active User model
@@ -78,6 +75,9 @@ class CustomRegisterForm(UserCreationForm):
         email = self.cleaned_data.get('email')
         allowed_domains = ["student.csn.edu", "csn.edu"]
         # List of allowed email domains
+
+        if User.objects.filter(username=email).exists():
+            raise forms.ValidationError("Account already exists.")
 
         if not any(email.endswith(f"@{domain}") for domain in allowed_domains):
             raise forms.ValidationError("Only @student.csn.edu and @csn.edu emails are allowed to register")
