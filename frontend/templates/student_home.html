@@ -19,6 +19,8 @@
         <!-- Student Home Panel -->
         <div id="student_home">
 
+            <h1>Student Dashboard</h1>
+
             <p>Welcome, {{ user.first_name }} {{ user.last_name }}!</p>
             <button onclick="RegisterForExam()">Register for an Exam</button>
             <a href="{% url 'logout' %}">Logout</a>
