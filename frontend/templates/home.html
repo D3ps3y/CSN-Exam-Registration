@@ -119,14 +119,13 @@
 
                 const result = await response.json();
 
-                const snackbar = document.getElementById(snackbarId);
-                snackbar.innerHTML = "";
-                snackbar.style.display = "block";
-
                 if (result.success) {
                     window.location.href = result.redirect_url;
                 } else {
                     result.errors.forEach(msg => {
+                        const snackbar = document.getElementById(snackbarId);
+                        snackbar.innerHTML = "";
+                        snackbar.style.display = "block";
                         const line = document.createElement("div");
                         line.textContent = msg;
                         snackbar.appendChild(line);
