@@ -1,3 +1,4 @@
+import username
 from django import forms
 # Importing Django's forms module to create form classes
 
@@ -45,6 +46,9 @@ class CustomRegisterForm(UserCreationForm):
         label = "Confirm Password"
     )
     # Confirmation password field, with a placeholder 'NSHE ID'
+
+    if User.objects.filter(email=email).exists():
+        raise forms.ValidationError("Account already exists.")
 
     class Meta:
         model = User
