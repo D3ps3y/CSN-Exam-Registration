@@ -58,6 +58,11 @@ class CustomRegisterForm(UserCreationForm):
         user = super().save(commit = False)
         # Calls the parent class save method but doesn't save to the database yet
 
+        email = self.cleaned_data.get('email')
+
+        if User.objects.filter(username=email).exists():
+            raise ValueError("Attempted to save a user with duplicate username/email.")
+
         user.username = self.cleaned_data["email"]
         # Sets the user's username to their email
 
@@ -76,8 +81,8 @@ class CustomRegisterForm(UserCreationForm):
         allowed_domains = ["student.csn.edu", "csn.edu"]
         # List of allowed email domains
 
-        if User.objects.filter(username=email).exists():
-            raise forms.ValidationError("Account already exists.")
+        if email and User.objects.filter(username=email).exists():
+            raise forms.ValidationError("Email", "Account already exists.")
 
         if not any(email.endswith(f"@{domain}") for domain in allowed_domains):
             raise forms.ValidationError("Only @student.csn.edu and @csn.edu emails are allowed to register")
