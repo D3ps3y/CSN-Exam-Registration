@@ -1,204 +1,206 @@
-/*global gettext, interpolate, ngettext, Actions*/
-'use strict';
-{
-    function show(selector) {
-        document.querySelectorAll(selector).forEach(function(el) {
-            el.classList.remove('hidden');
-        });
-    }
+/*global gettext, interpolate, ngettext, Actions*/  
+'use strict';  
+{  
+    // Function to show elements matching the selector  
+    function show(selector) {  
+        document.querySelectorAll(selector).forEach(function(el) {  
+            el.classList.remove('hidden');  
+        });  
+    }  
 
-    function hide(selector) {
-        document.querySelectorAll(selector).forEach(function(el) {
-            el.classList.add('hidden');
-        });
-    }
+    // Function to hide elements matching the selector  
+    function hide(selector) {  
+        document.querySelectorAll(selector).forEach(function(el) {  
+            el.classList.add('hidden');  
+        });  
+    }  
 
-    function showQuestion(options) {
-        hide(options.acrossClears);
-        show(options.acrossQuestions);
-        hide(options.allContainer);
-    }
+    // Function to show the "Are you sure?" question when selecting across multiple items  
+    function showQuestion(options) {  
+        hide(options.acrossClears); // Hide the clear button  
+        show(options.acrossQuestions); // Show the question prompt  
+        hide(options.allContainer); // Hide the "all selected" container  
+    }  
 
-    function showClear(options) {
-        show(options.acrossClears);
-        hide(options.acrossQuestions);
-        document.querySelector(options.actionContainer).classList.remove(options.selectedClass);
-        show(options.allContainer);
-        hide(options.counterContainer);
-    }
+    // Function to show the clear selection option  
+    function showClear(options) {  
+        show(options.acrossClears); // Show the clear button  
+        hide(options.acrossQuestions); // Hide the question prompt  
+        document.querySelector(options.actionContainer).classList.remove(options.selectedClass); // Remove selection highlight  
+        show(options.allContainer); // Show the "all selected" container  
+        hide(options.counterContainer); // Hide the counter display  
+    }  
 
-    function reset(options) {
-        hide(options.acrossClears);
-        hide(options.acrossQuestions);
-        hide(options.allContainer);
-        show(options.counterContainer);
-    }
+    // Function to reset selection UI to its initial state  
+    function reset(options) {  
+        hide(options.acrossClears);  
+        hide(options.acrossQuestions);  
+        hide(options.allContainer);  
+        show(options.counterContainer); // Show the counter again  
+    }  
 
-    function clearAcross(options) {
-        reset(options);
-        const acrossInputs = document.querySelectorAll(options.acrossInput);
-        acrossInputs.forEach(function(acrossInput) {
-            acrossInput.value = 0;
-        });
-        document.querySelector(options.actionContainer).classList.remove(options.selectedClass);
-    }
+    // Function to clear across selection  
+    function clearAcross(options) {  
+        reset(options); // Reset the UI  
+        const acrossInputs = document.querySelectorAll(options.acrossInput);  
+        acrossInputs.forEach(function(acrossInput) {  
+            acrossInput.value = 0; // Reset selection input  
+        });  
+        document.querySelector(options.actionContainer).classList.remove(options.selectedClass); // Remove selected highlight  
+    }  
 
-    function checker(actionCheckboxes, options, checked) {
-        if (checked) {
-            showQuestion(options);
-        } else {
-            reset(options);
-        }
-        actionCheckboxes.forEach(function(el) {
-            el.checked = checked;
-            el.closest('tr').classList.toggle(options.selectedClass, checked);
-        });
-    }
+    // Function to check/uncheck checkboxes and update UI  
+    function checker(actionCheckboxes, options, checked) {  
+        if (checked) {  
+            showQuestion(options); // Show the confirmation question  
+        } else {  
+            reset(options); // Reset UI if unchecked  
+        }  
+        actionCheckboxes.forEach(function(el) {  
+            el.checked = checked; // Set checkbox state  
+            el.closest('tr').classList.toggle(options.selectedClass, checked); // Highlight row if checked  
+        });  
+    }  
 
-    function updateCounter(actionCheckboxes, options) {
-        const sel = Array.from(actionCheckboxes).filter(function(el) {
-            return el.checked;
-        }).length;
-        const counter = document.querySelector(options.counterContainer);
-        // data-actions-icnt is defined in the generated HTML
-        // and contains the total amount of objects in the queryset
-        const actions_icnt = Number(counter.dataset.actionsIcnt);
-        counter.textContent = interpolate(
-            ngettext('%(sel)s of %(cnt)s selected', '%(sel)s of %(cnt)s selected', sel), {
-                sel: sel,
-                cnt: actions_icnt
-            }, true);
-        const allToggle = document.getElementById(options.allToggleId);
-        allToggle.checked = sel === actionCheckboxes.length;
-        if (allToggle.checked) {
-            showQuestion(options);
-        } else {
-            clearAcross(options);
-        }
-    }
+    // Function to update the counter for selected items  
+    function updateCounter(actionCheckboxes, options) {  
+        const sel = Array.from(actionCheckboxes).filter(function(el) {  
+            return el.checked;  
+        }).length; // Count checked boxes  
 
-    const defaults = {
-        actionContainer: "div.actions",
-        counterContainer: "span.action-counter",
-        allContainer: "div.actions span.all",
-        acrossInput: "div.actions input.select-across",
-        acrossQuestions: "div.actions span.question",
-        acrossClears: "div.actions span.clear",
-        allToggleId: "action-toggle",
-        selectedClass: "selected"
-    };
+        const counter = document.querySelector(options.counterContainer);  
+        const actions_icnt = Number(counter.dataset.actionsIcnt); // Get total count from HTML dataset  
 
-    window.Actions = function(actionCheckboxes, options) {
-        options = Object.assign({}, defaults, options);
-        let list_editable_changed = false;
-        let lastChecked = null;
-        let shiftPressed = false;
+        // Update counter text with the selected count  
+        counter.textContent = interpolate(  
+            ngettext('%(sel)s of %(cnt)s selected', '%(sel)s of %(cnt)s selected', sel), {  
+                sel: sel,  
+                cnt: actions_icnt  
+            }, true  
+        );  
 
-        document.addEventListener('keydown', (event) => {
-            shiftPressed = event.shiftKey;
-        });
+        const allToggle = document.getElementById(options.allToggleId);  
+        allToggle.checked = sel === actionCheckboxes.length; // Check "select all" if everything is selected  
 
-        document.addEventListener('keyup', (event) => {
-            shiftPressed = event.shiftKey;
-        });
+        if (allToggle.checked) {  
+            showQuestion(options); // Show confirmation if everything is selected  
+        } else {  
+            clearAcross(options); // Otherwise, clear across selection  
+        }  
+    }  
 
-        document.getElementById(options.allToggleId).addEventListener('click', function(event) {
-            checker(actionCheckboxes, options, this.checked);
-            updateCounter(actionCheckboxes, options);
-        });
+    // Default configuration options  
+    const defaults = {  
+        actionContainer: "div.actions",  
+        counterContainer: "span.action-counter",  
+        allContainer: "div.actions span.all",  
+        acrossInput: "div.actions input.select-across",  
+        acrossQuestions: "div.actions span.question",  
+        acrossClears: "div.actions span.clear",  
+        allToggleId: "action-toggle",  
+        selectedClass: "selected"  
+    };  
 
-        document.querySelectorAll(options.acrossQuestions + " a").forEach(function(el) {
-            el.addEventListener('click', function(event) {
-                event.preventDefault();
-                const acrossInputs = document.querySelectorAll(options.acrossInput);
-                acrossInputs.forEach(function(acrossInput) {
-                    acrossInput.value = 1;
-                });
-                showClear(options);
-            });
-        });
+    // Main Actions function  
+    window.Actions = function(actionCheckboxes, options) {  
+        options = Object.assign({}, defaults, options); // Merge options with defaults  
+        let list_editable_changed = false; // Track if list was edited  
+        let lastChecked = null; // Track the last checked checkbox  
+        let shiftPressed = false; // Track if Shift key is pressed  
 
-        document.querySelectorAll(options.acrossClears + " a").forEach(function(el) {
-            el.addEventListener('click', function(event) {
-                event.preventDefault();
-                document.getElementById(options.allToggleId).checked = false;
-                clearAcross(options);
-                checker(actionCheckboxes, options, false);
-                updateCounter(actionCheckboxes, options);
-            });
-        });
+        // Listen for key events to track Shift key status  
+        document.addEventListener('keydown', (event) => {  
+            shiftPressed = event.shiftKey;  
+        });  
 
-        function affectedCheckboxes(target, withModifier) {
-            const multiSelect = (lastChecked && withModifier && lastChecked !== target);
-            if (!multiSelect) {
-                return [target];
-            }
-            const checkboxes = Array.from(actionCheckboxes);
-            const targetIndex = checkboxes.findIndex(el => el === target);
-            const lastCheckedIndex = checkboxes.findIndex(el => el === lastChecked);
-            const startIndex = Math.min(targetIndex, lastCheckedIndex);
-            const endIndex = Math.max(targetIndex, lastCheckedIndex);
-            const filtered = checkboxes.filter((el, index) => (startIndex <= index) && (index <= endIndex));
-            return filtered;
-        };
+        document.addEventListener('keyup', (event) => {  
+            shiftPressed = event.shiftKey;  
+        });  
 
-        Array.from(document.getElementById('result_list').tBodies).forEach(function(el) {
-            el.addEventListener('change', function(event) {
-                const target = event.target;
-                if (target.classList.contains('action-select')) {
-                    const checkboxes = affectedCheckboxes(target, shiftPressed);
-                    checker(checkboxes, options, target.checked);
-                    updateCounter(actionCheckboxes, options);
-                    lastChecked = target;
-                } else {
-                    list_editable_changed = true;
-                }
-            });
-        });
+        // Event listener for "Select All" checkbox  
+        document.getElementById(options.allToggleId).addEventListener('click', function(event) {  
+            checker(actionCheckboxes, options, this.checked);  
+            updateCounter(actionCheckboxes, options);  
+        });  
 
-        document.querySelector('#changelist-form button[name=index]').addEventListener('click', function(event) {
-            if (list_editable_changed) {
-                const confirmed = confirm(gettext("You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost."));
-                if (!confirmed) {
-                    event.preventDefault();
-                }
-            }
-        });
+        // Event listener for "Select Across" confirmation link  
+        document.querySelectorAll(options.acrossQuestions + " a").forEach(function(el) {  
+            el.addEventListener('click', function(event) {  
+                event.preventDefault();  
+                const acrossInputs = document.querySelectorAll(options.acrossInput);  
+                acrossInputs.forEach(function(acrossInput) {  
+                    acrossInput.value = 1;  
+                });  
+                showClear(options); // Show the clear option  
+            });  
+        });  
 
-        const el = document.querySelector('#changelist-form input[name=_save]');
-        // The button does not exist if no fields are editable.
-        if (el) {
-            el.addEventListener('click', function(event) {
-                if (document.querySelector('[name=action]').value) {
-                    const text = list_editable_changed
-                        ? gettext("You have selected an action, but you haven’t saved your changes to individual fields yet. Please click OK to save. You’ll need to re-run the action.")
-                        : gettext("You have selected an action, and you haven’t made any changes on individual fields. You’re probably looking for the Go button rather than the Save button.");
-                    if (!confirm(text)) {
-                        event.preventDefault();
-                    }
-                }
-            });
-        }
-        // Sync counter when navigating to the page, such as through the back
-        // button.
-        window.addEventListener('pageshow', (event) => updateCounter(actionCheckboxes, options));
-    };
+        // Event listener for "Clear Selection" link  
+        document.querySelectorAll(options.acrossClears + " a").forEach(function(el) {  
+            el.addEventListener('click', function(event) {  
+                event.preventDefault();  
+                document.getElementById(options.allToggleId).checked = false; // Uncheck select all  
+                clearAcross(options);  
+                checker(actionCheckboxes, options, false);  
+                updateCounter(actionCheckboxes, options);  
+            });  
+        });  
 
-    // Call function fn when the DOM is loaded and ready. If it is already
-    // loaded, call the function now.
-    // http://youmightnotneedjquery.com/#ready
-    function ready(fn) {
-        if (document.readyState !== 'loading') {
-            fn();
-        } else {
-            document.addEventListener('DOMContentLoaded', fn);
-        }
-    }
+        // Function to determine affected checkboxes for shift-selecting  
+        function affectedCheckboxes(target, withModifier) {  
+            const multiSelect = (lastChecked && withModifier && lastChecked !== target);  
+            if (!multiSelect) {  
+                return [target]; // If no multi-select, return just the target checkbox  
+            }  
+            const checkboxes = Array.from(actionCheckboxes);  
+            const targetIndex = checkboxes.findIndex(el => el === target);  
+            const lastCheckedIndex = checkboxes.findIndex(el => el === lastChecked);  
+            const startIndex = Math.min(targetIndex, lastCheckedIndex);  
+            const endIndex = Math.max(targetIndex, lastCheckedIndex);  
+            return checkboxes.filter((el, index) => (startIndex <= index) && (index <= endIndex));  
+        };  
 
-    ready(function() {
-        const actionsEls = document.querySelectorAll('tr input.action-select');
-        if (actionsEls.length > 0) {
-            Actions(actionsEls);
-        }
-    });
+        // Event listener for changes in checkboxes  
+        Array.from(document.getElementById('result_list').tBodies).forEach(function(el) {  
+            el.addEventListener('change', function(event) {  
+                const target = event.target;  
+                if (target.classList.contains('action-select')) {  
+                    const checkboxes = affectedCheckboxes(target, shiftPressed);  
+                    checker(checkboxes, options, target.checked);  
+                    updateCounter(actionCheckboxes, options);  
+                    lastChecked = target;  
+                } else {  
+                    list_editable_changed = true; // Mark as edited  
+                }  
+            });  
+        });  
+
+        // Event listener for the "Run action" button  
+        document.querySelector('#changelist-form button[name=index]').addEventListener('click', function(event) {  
+            if (list_editable_changed) {  
+                const confirmed = confirm(gettext("You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost."));  
+                if (!confirmed) {  
+                    event.preventDefault();  
+                }  
+            }  
+        });  
+
+        // Event listener for the "Save" button  
+        const el = document.querySelector('#changelist-form input[name=_save]');  
+        if (el) {  
+            el.addEventListener('click', function(event) {  
+                if (document.querySelector('[name=action]').value) {  
+                    const text = list_editable_changed  
+                        ? gettext("You have selected an action, but you haven’t saved your changes to individual fields yet. Please click OK to save. You’ll need to re-run the action.")  
+                        : gettext("You have selected an action, and you haven’t made any changes on individual fields. You’re probably looking for the Go button rather than the Save button.");  
+                    if (!confirm(text)) {  
+                        event.preventDefault();  
+                    }  
+                }  
+            });  
+        }  
+
+        // Update counter when navigating back to the page  
+        window.addEventListener('pageshow', (event) => updateCounter(actionCheckboxes, options));  
+    };  
 }
