@@ -230,11 +230,13 @@ p, label, a {
 }
 
 .image-link {
+    display: inline-block;
+}
+
+.image-link img {
     width: 150px;
     height: auto;
-    display: inline-block;
-    //margin-bottom: 15px;
-    text-align: center;
+    display: block;
 }
 
 // Errors
