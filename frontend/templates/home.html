@@ -43,10 +43,10 @@
 
         <!-- Login Form (Initially Hidden) -->
         <div id="login-panel" class="hidden">
+            <button onclick="showHome()">Home</button>
             <h2>Login</h2>
 
             <form id="login-form">
-                <button onclick="showHome()">Home</button>
                 {% csrf_token %}
                 <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>
                 <div>{{ login_form.password.label_tag }} {{ login_form.password }}</div>
@@ -58,10 +58,10 @@
 
         <!-- Register Form (Initially Hidden) -->
         <div id="register-panel" class="hidden">
+            <button onclick="showHome()">Home</button>
             <h2>Register</h2>
 
             <form id="register-form">
-                <button onclick="showHome()">Home</button>
                 {% csrf_token %}
                 <div>{{ register_form.first_name.label_tag }} {{ register_form.first_name }}</div>
                 <div>{{ register_form.last_name.label_tag }} {{ register_form.last_name }}</div>
