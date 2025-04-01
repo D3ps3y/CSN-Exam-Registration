@@ -50,6 +50,7 @@
                 <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>
                 <div>{{ login_form.password.label_tag }} {{ login_form.password }}</div>
                 <button type="submit">Login</button>
+                <button onclick="showHome()">Home</button>
             </form>
             <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>
         </div>
@@ -66,6 +67,7 @@
                 <div>{{ register_form.password1.label_tag }} {{ register_form.password1 }}</div>
                 <div>{{ register_form.password2.label_tag }} {{ register_form.password2 }}</div>
                 <button type="submit">Register</button>
+                <button onclick="showHome()">Home</button>
             </form>
             <a href="#" onclick="showLogin()">Already have an account? Login here.</a>
         </div>
@@ -86,6 +88,12 @@
             document.getElementById("welcome-panel").classList.add("hidden");
             document.getElementById("login-panel").classList.add("hidden");
             document.getElementById("register-panel").classList.remove("hidden");
+        }
+
+        function showHome() {
+            document.getElementById("welcome-panel").classList.remove("hidden");
+            document.getElementById("login-panel").classList.add("hidden");
+            document.getElementById("register-panel").classList.add("hidden");
         }
     </script>
 
