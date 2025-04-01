@@ -1,18 +1,19 @@
-{% load static %}
-{% load sass_tags %}
+{% load static %}  {# Load the static template tag to use static files like images and CSS #}
+{% load sass_tags %}  {# Load the SASS tags for compiling SCSS files #}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSN Exam Registration</title>
-    <link rel="stylesheet" href="{% sass_src 'scss/home.scss' %}">
+    <meta charset="UTF-8">  {# Define character encoding for the document #}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">  {# Load Google Fonts #}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  {# Ensure proper responsive behavior on different devices #}
+    <title>CSN Exam Registration</title>  {# Set the page title #}
+    <link rel="stylesheet" href="{% sass_src 'scss/home.scss' %}">  {# Link the compiled SASS file as CSS #}
 </head>
 
 <body>
     <!-- Animated Background -->
+    {# These divs are used for floating animated shapes in the background #}
     <div class="purple"></div>
     <div class="medium-blue"></div>
     <div class="light-blue"></div>
@@ -30,69 +31,67 @@
     <div class="main-container">
         <!-- Default Welcome Panel -->
         <div id="welcome-panel">
-
             <div class="logo-container">
+                {# Display the website logo using a static file #}
                 <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo">
             </div>
 
             <h1>Welcome to CSN Exam Registration</h1>
             <p>Login or Sign Up to get started!</p>
-            <button onclick="showLogin()">Login</button>
-            <button onclick="showRegister()">Sign Up</button>
+            <button onclick="showLogin()">Login</button>  {# Button to display the login form #}
+            <button onclick="showRegister()">Sign Up</button>  {# Button to display the registration form #}
         </div>
 
         <!-- Login Form (Initially Hidden) -->
         <div id="login-panel" class="hidden">
-            
             <div style="text-align: center;">
+                {# Clicking the logo returns the user to the welcome panel #}
                 <a href="#" onclick="showHome()" class="image-link">
-                    <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo" >
+                    <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo">
                 </a>
             </div>
                             
             <h2>Login</h2>
 
             <form id="login-form">
-                {% csrf_token %}
-                <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>
-                <div>{{ login_form.password.label_tag }} {{ login_form.password }}</div>
-                <button type="submit">Login</button>
-                
+                {% csrf_token %}  {# CSRF protection token for form submission #}
+                <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>  {# Display email input field #}
+                <div>{{ login_form.password.label_tag }} {{ login_form.password }}</div>  {# Display password input field #}
+                <button type="submit">Login</button>  {# Submit button for login form #}
             </form>
-            <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>
+            <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>  {# Link to switch to the registration form #}
         </div>
 
         <!-- Register Form (Initially Hidden) -->
         <div id="register-panel" class="hidden">
-
             <div style="text-align: center;">
+                {# Clicking the logo returns the user to the welcome panel #}
                 <a href="#" onclick="showHome()" class="image-link">
-                    <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo" >
+                    <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo">
                 </a>
             </div>
            
-            
             <h2>Register</h2>
 
             <form id="register-form">
-                {% csrf_token %}
-                <div>{{ register_form.first_name.label_tag }} {{ register_form.first_name }}</div>
-                <div>{{ register_form.last_name.label_tag }} {{ register_form.last_name }}</div>
-                <div>{{ register_form.email.label_tag }} {{ register_form.email }}</div>
-                <div>{{ register_form.password1.label_tag }} {{ register_form.password1 }}</div>
-                <div>{{ register_form.password2.label_tag }} {{ register_form.password2 }}</div>
-                <button type="submit">Register</button>
-                
+                {% csrf_token %}  {# CSRF protection token for form submission #}
+                <div>{{ register_form.first_name.label_tag }} {{ register_form.first_name }}</div>  {# First name input field #}
+                <div>{{ register_form.last_name.label_tag }} {{ register_form.last_name }}</div>  {# Last name input field #}
+                <div>{{ register_form.email.label_tag }} {{ register_form.email }}</div>  {# Email input field #}
+                <div>{{ register_form.password1.label_tag }} {{ register_form.password1 }}</div>  {# First password input field #}
+                <div>{{ register_form.password2.label_tag }} {{ register_form.password2 }}</div>  {# Confirm password input field #}
+                <button type="submit">Register</button>  {# Submit button for registration form #}
             </form>
-            <a href="#" onclick="showLogin()">Already have an account? Login here.</a>
+            <a href="#" onclick="showLogin()">Already have an account? Login here.</a>  {# Link to switch to the login form #}
         </div>
     </div>
 
+    {# Snackbars for displaying messages #}
     <div id="login-snackbar" class="snackbar" style="display: none;"></div>
     <div id="register-snackbar" class="snackbar" style="display: none;"></div>
 
-
     <script>
+        {# Functions to toggle visibility of different panels #}
         function showLogin() {
             document.getElementById("welcome-panel").classList.add("hidden");
             document.getElementById("register-panel").classList.add("hidden");
@@ -113,15 +112,17 @@
     </script>
 
     <script>
+        {# Handle form submissions using AJAX #}
         document.querySelectorAll("form").forEach(form => {
             form.addEventListener("submit", async function(e) {
-                e.preventDefault();
+                e.preventDefault();  {# Prevent the default form submission behavior #}
 
                 const formId = form.id;
                 const formData = new FormData(form);
                 let url = "";
                 let snackbarId = "";
 
+                {# Determine which form was submitted and set the corresponding AJAX URL and snackbar ID #}
                 if (formId === "register-form") {
                     url = "/ajax/register/";
                     snackbarId = "register-snackbar";
@@ -132,19 +133,21 @@
                     return; // Unknown form
                 }
 
+                {# Send the form data to the server using a POST request #}
                 const response = await fetch(url, {
                     method: "POST",
                     headers: {
-                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value  {# Include CSRF token for security #}
                     },
                     body: formData
                 });
 
-                const result = await response.json();
+                const result = await response.json();  {# Parse the server response as JSON #}
 
                 if (result.success) {
-                    window.location.href = result.redirect_url;
+                    window.location.href = result.redirect_url;  {# Redirect to the specified URL if login/register is successful #}
                 } else {
+                    {# Display error messages in the snackbar #}
                     const snackbar = document.getElementById(snackbarId);
                     snackbar.innerHTML = "";
                     snackbar.style.display = "block";
@@ -155,6 +158,7 @@
                         snackbar.appendChild(line);
                     });
 
+                    {# Hide the snackbar after 3 seconds #}
                     setTimeout(() => {
                         snackbar.style.display = "none";
                     }, 3000);
@@ -165,4 +169,3 @@
 
 </body>
 </html>
-
