@@ -1,29 +1,33 @@
+/* Styling the body with a dark radial gradient background */
 body {
     background: radial-gradient(circle, #24246e, #06051f);
-    overflow: hidden;
+    overflow: hidden; /* Prevents scrolling */
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
 }
 
+/* Styling the floating circles and their pseudo-elements */
 div,
 div::before,
 div::after {
-    content: '';
-    position: fixed;
+    content: ''; /* Required for pseudo-elements */
+    position: fixed; /* Fixes the circles in the viewport */
     top: 0;
     left: 0;
-    opacity: 0.9;
-    border-radius: 50%;
-    transition: all 5s linear 0s;
+    opacity: 0.9; /* Slight transparency for glowing effect */
+    border-radius: 50%; /* Makes elements circular */
+    transition: all 5s linear 0s; /* Smooth transitions */
 }
 
+/* Animation to move circles in random directions */
 @keyframes move {
-    0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(50vw, 50vh, 0); }
-    100% { transform: translate3d(-50vw, -50vh, 0); }
+    0% { transform: translate3d(0, 0, 0); } /* Start position */
+    50% { transform: translate3d(50vw, 50vh, 0); } /* Midway movement */
+    100% { transform: translate3d(-50vw, -50vh, 0); } /* Final movement */
 }
 
+/* Defining different colored circles with various sizes and speeds */
 .purple { background: #241379; width: 30px; height: 30px; animation: move 30s linear infinite; }
 .medium-blue { background: #2185bf; width: 35px; height: 35px; animation: move 25s linear infinite; }
 .light-blue { background: #1fbce1; width: 40px; height: 40px; animation: move 20s linear infinite; }
