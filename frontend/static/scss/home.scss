@@ -229,6 +229,12 @@ p, label, a {
     font-weight: 400;
 }
 
+.image-link {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 // Errors
 
 .snackbar {
