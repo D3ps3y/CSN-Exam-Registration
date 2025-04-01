@@ -46,11 +46,12 @@
             <h2>Login</h2>
 
             <form id="login-form">
+                <button onclick="showHome()">Home</button>
                 {% csrf_token %}
                 <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>
                 <div>{{ login_form.password.label_tag }} {{ login_form.password }}</div>
                 <button type="submit">Login</button>
-                <button onclick="showHome()">Home</button>
+                
             </form>
             <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>
         </div>
@@ -60,6 +61,7 @@
             <h2>Register</h2>
 
             <form id="register-form">
+                <button onclick="showHome()">Home</button>
                 {% csrf_token %}
                 <div>{{ register_form.first_name.label_tag }} {{ register_form.first_name }}</div>
                 <div>{{ register_form.last_name.label_tag }} {{ register_form.last_name }}</div>
@@ -67,7 +69,7 @@
                 <div>{{ register_form.password1.label_tag }} {{ register_form.password1 }}</div>
                 <div>{{ register_form.password2.label_tag }} {{ register_form.password2 }}</div>
                 <button type="submit">Register</button>
-                <button onclick="showHome()">Home</button>
+                
             </form>
             <a href="#" onclick="showLogin()">Already have an account? Login here.</a>
         </div>
