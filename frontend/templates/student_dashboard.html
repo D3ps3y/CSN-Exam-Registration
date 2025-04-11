@@ -129,12 +129,12 @@
     
     <!-- Filters and toggle view -->
     <div class="filters">
-      <select name="date-filter">
+      <select id="dateFilter" name="date-filter" onchange="filterExams()">
         <option value="all">All Dates</option>
         <option value="this-week">This Week</option>
         <option value="next-week">Next Week</option>
       </select>
-      <select name="campus-filter">
+      <select id="campusFilter" name="campus-filter" onchange="filterExams()">
         <option value="all">All Campuses</option>
         <option value="henderson">Henderson</option>
         <option value="north-las-vegas">North Las Vegas</option>
@@ -148,7 +148,9 @@
     <!-- Dynamic Exam List -->
     <div class="exam-list">
       {% for exam in exams %}
-    <div class="exam-card">
+    <div class="exam-card"
+         data-campus="{{ exam.location|lower|cut:' ' }}"
+         data-date="{{ exam.exam_date }}">
       <div class="exam-header">
         <span class="exam-title">{{ exam.exam_name }}</span>
         <span class="capacity">
@@ -179,6 +181,46 @@
     </div>
   </div>
   <script>
+
+    function filterExams() {
+      const selectedCampus = document.getElementById('campusFilter').value;
+      const selectedDate = document.getElementById('dateFilter').value;
+      const today = new Date();
+      const examCards = document.querySelectorAll('.exam-card');
+
+    examCards.forEach(card => {
+      const cardCampus = card.getAttribute('data-campus');
+      const cardDateStr = card.getAttribute('data-date');
+      const cardDate = new Date(cardDateStr);
+
+      // Campus Match
+      const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
+
+      // Date Match
+      let dateMatches = true;
+
+      if (selectedDate === "this-week") {
+        const endOfWeek = new Date();
+        endOfWeek.setDate(today.getDate() + (7 - today.getDay()));
+        endOfWeek.setHours(23, 59, 59, 999);
+        dateMatches = cardDate >= today && cardDate <= endOfWeek;
+      } else if (selectedDate === "next-week") {
+        const startOfNextWeek = new Date();
+        startOfNextWeek.setDate(today.getDate() + (7 - today.getDay()) + 1);
+        const endOfNextWeek = new Date();
+        endOfNextWeek.setDate(today.getDate() + (14 - today.getDay()));
+        endOfNextWeek.setHours(23, 59, 59, 999);
+        dateMatches = cardDate >= startOfNextWeek && cardDate <= endOfNextWeek;
+      }
+
+      // Show or Hide the card
+      if (campusMatches && dateMatches) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
     function toggleView() {
       const cardView = document.querySelector('.exam-list');
       if (cardView.style.display === 'none') {

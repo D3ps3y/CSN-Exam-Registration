@@ -99,8 +99,6 @@ class UnifiedRegisterForm(UserCreationForm):
             user.save()
         return user
 
-
-
 #########################################################################
 # Login Form
 #########################################################################
@@ -119,7 +117,7 @@ class LoginForm(forms.Form):
 #########################################################################
 class ExamForm(forms.ModelForm):
     class Meta:
-        from .models import Exam  # Ensure the Exam model is used.
+
         model = Exam
         fields = ['exam_name', 'exam_date', 'exam_time', 'location', 'building', 'room_number', 'max_seats', 'status']
         widgets = {
