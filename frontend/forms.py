@@ -1,64 +1,72 @@
-import username
 from django import forms
-# Importing Django's forms module to create form classes
-
-from django.contrib.auth import get_user_model
-# Getting the active user model (default or custom)
-
 from django.contrib.auth.forms import UserCreationForm
-# Importing the built-in user creation form for user registration
+from django.contrib.auth import get_user_model
+from .models import Exam
 
 User = get_user_model()
-# Assigning the active user model to the variable 'User'
 
-class CustomRegisterForm(UserCreationForm):
-    # This form handles user registration with custom fields for first name, last name, and email
-
+#########################################################################
+# Unified Registration Form
+#########################################################################
+class UnifiedRegisterForm(UserCreationForm):
     first_name = forms.CharField(
-        required = True,
-        widget = forms.TextInput(attrs = {'placeholder': 'John'}),
-        label = "First Name"
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'First Name'}),
+        label="First Name"
     )
-    # Required field for the user's first name, with a placeholder 'John'
-
     last_name = forms.CharField(
-        required = True,
-        widget = forms.TextInput(attrs = {'placeholder': 'Smith'}),
-        label = "Last Name"
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Last Name'}),
+        label="Last Name"
     )
-    # Required field for the user's last name, with a placeholder 'Smith'
-
     email = forms.EmailField(
-        required = True,
-        widget = forms.EmailInput(attrs = {'placeholder': 'CSN Email'}),
-        label = "Email Address"
+        required=True,
+        widget=forms.EmailInput(attrs={'placeholder': 'Email Address'}),
+        label="Email Address"
     )
-    # Required field for the user's email, with a placeholder 'CSN Email'
 
     password1 = forms.CharField(
-        widget = forms.PasswordInput(attrs = {'placeholder': 'NSHE ID'}),
-        label = "Password"
+        widget=forms.PasswordInput(attrs={'placeholder': 'NSHE ID'}),
+        label="Password"
     )
     # Password field for the user's password, with a placeholder 'NSHE ID'
 
     password2 = forms.CharField(
-        widget = forms.PasswordInput(attrs = {'placeholder': 'NSHE ID'}),
-        label = "Confirm Password"
+        widget=forms.PasswordInput(attrs={'placeholder': 'NSHE ID'}),
+        label="Confirm Password"
     )
     # Confirmation password field, with a placeholder 'NSHE ID'
 
+    university_id = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'placeholder': 'University ID (if applicable)'}),
+        label="University ID"
+    )
+    
     class Meta:
         model = User
-        # Specifies the form is based on the active User model
+        # Update the fields list to include university_id instead of student_id.
+        fields = ["first_name", "last_name", "email", "university_id", "password1", "password2"]
 
-        fields = ["first_name", "last_name", "email", "password1", "password2"]
-        # Specifies the fields to be included in the form
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if email:
+            # Accept only emails ending with @student.csn.edu or @csn.edu.
+            if not (email.endswith("@student.csn.edu") or email.endswith("@csn.edu")):
+                raise forms.ValidationError(
+                    "Email must end with @student.csn.edu (for students) or @csn.edu (for faculty)."
+                )
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError("A user with this email already exists.")
+        return email
 
-    def save(self, commit = True):
-        user = super().save(commit = False)
-        # Calls the parent class save method but doesn't save to the database yet
+    def clean_university_id(self):
+        # Return the university_id value (empty values are allowed)
+        return self.cleaned_data.get("university_id", "").strip()
 
-        email = self.cleaned_data.get('email')
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        email = self.cleaned_data.get("email")
 
         if User.objects.filter(username=email).exists():
             raise ValueError("Attempted to save a user with duplicate username/email.")
@@ -69,51 +77,53 @@ class CustomRegisterForm(UserCreationForm):
         user.email = self.cleaned_data["email"]
         # Ensures the email is stored in the email field
 
+        # Automatically set the university_id based on the part before the '@'
+        university_id = self.cleaned_data.get("university_id")
+        if not university_id:
+            user.university_id = email.split('@')[0]
+        else:
+            user.university_id = university_id
+        
+        # Determine role based on email domain.
+        if email.endswith("@csn.edu"):
+            user.is_faculty = True
+            user.university_id = None  # Faculty may not require an ID.
+        else:
+            user.is_faculty = False
+
+        # Set the username as the email if not provided.
+        if not user.username:
+            user.username = email
+
         if commit:
             user.save()
-        # Saves the user if commit is True
-
         return user
-        # Returns the user object
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        allowed_domains = ["student.csn.edu", "csn.edu"]
-        # List of allowed email domains
 
-        if email and User.objects.filter(username=email).exists():
-            self.add_error("email","Account already exists.")
 
-        if not any(email.endswith(f"@{domain}") for domain in allowed_domains):
-            self.add_error("email","Only @student.csn.edu and @csn.edu emails are allowed to register")
-        # Raises a validation error if the email is not from an allowed domain
-
-        return email
-        # Returns the cleaned email if valid
-
+#########################################################################
+# Login Form
+#########################################################################
 class LoginForm(forms.Form):
-    # A form for user login with email and password fields
-
     email = forms.EmailField(
-        widget = forms.EmailInput(attrs = {'placeholder': 'CSN Email'}),
-        label = " Email Address"
+        widget=forms.EmailInput(attrs={'placeholder': 'Email Address'}),
+        label="Email"
     )
-    # Email input field with a placeholder 'CSN Email'
-
     password = forms.CharField(
-        widget = forms.PasswordInput(attrs = {'placeholder': 'NSHE ID'}),
-        label = "Password"
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password'}),
+        label="Password"
     )
-    # Password input field with a placeholder 'NSHE ID'
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-
-        if email and not User.objects.filter(username=email).exists():
-            self.add_error("email", "Account does not exist.")
-
-        return email
-
-
-
-
+#########################################################################
+# Exam Form (for Faculty)
+#########################################################################
+class ExamForm(forms.ModelForm):
+    class Meta:
+        from .models import Exam  # Ensure the Exam model is used.
+        model = Exam
+        fields = ['exam_name', 'exam_date', 'exam_time', 'location', 'building', 'room_number', 'max_seats', 'status']
+        widgets = {
+            'exam_date': forms.DateInput(attrs={'type': 'date'}),
+            # Include 'step': '1' so the input accepts time values in one-second increments.
+            'exam_time': forms.TimeInput(attrs={'type': 'time', 'step': '1'}),
+        }

@@ -1,6 +1,5 @@
 {% load static %}
 {% load sass_tags %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,11 +37,20 @@
             <h1>Welcome to CSN Exam Registration</h1>
             <p>Login or Sign Up to get started!</p>
             <button onclick="showLogin()">Login</button>
-            <button onclick="showRegister()">Sign Up</button>
+            <a href="{% url 'register' %}">
+                <button>Sign Up</button>
+            </a>
         </div>
 
         <!-- Login Form (Initially Hidden) -->
         <div id="login-panel" class="hidden">
+            
+            <div style="text-align: center;">
+                <a href="#" onclick="showHome()" class="image-link">
+                    <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo" >
+                </a>
+            </div>
+                            
             <h2>Login</h2>
 
             <form id="login-form">
@@ -50,12 +58,21 @@
                 <div>{{ login_form.email.label_tag }} {{ login_form.email }}</div>
                 <div>{{ login_form.password.label_tag }} {{ login_form.password }}</div>
                 <button type="submit">Login</button>
+                
             </form>
-            <a href="#" onclick="showRegister()">Don't have an account? Register here.</a>
+            <a href="{% url 'register' %}">Don't have an account? Register here.</a>
         </div>
 
         <!-- Register Form (Initially Hidden) -->
         <div id="register-panel" class="hidden">
+
+            <div style="text-align: center;">
+                <a href="#" onclick="showHome()" class="image-link">
+                    <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo" >
+                </a>
+            </div>
+           
+            
             <h2>Register</h2>
 
             <form id="register-form">
@@ -66,6 +83,7 @@
                 <div>{{ register_form.password1.label_tag }} {{ register_form.password1 }}</div>
                 <div>{{ register_form.password2.label_tag }} {{ register_form.password2 }}</div>
                 <button type="submit">Register</button>
+                
             </form>
             <a href="#" onclick="showLogin()">Already have an account? Login here.</a>
         </div>
@@ -86,6 +104,12 @@
             document.getElementById("welcome-panel").classList.add("hidden");
             document.getElementById("login-panel").classList.add("hidden");
             document.getElementById("register-panel").classList.remove("hidden");
+        }
+
+        function showHome() {
+            document.getElementById("welcome-panel").classList.remove("hidden");
+            document.getElementById("login-panel").classList.add("hidden");
+            document.getElementById("register-panel").classList.add("hidden");
         }
     </script>
 

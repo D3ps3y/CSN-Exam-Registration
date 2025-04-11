@@ -1,70 +1,50 @@
-﻿<!DOCTYPE html>
+﻿<!-- Registration Page - Version 2: Edited on [date/time] -->
+DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <title>Register</title>
-
+    <!-- Include additional CSS if needed -->
 </head>
-
 <body>
-
     <h2>Register</h2>
 
     {% if form.errors %}
-
-        <ul>
-
-            {% for field, errors in form.errors.items %}
-
-                {% for error in errors %}
-    
-                    <li style="color: red;">{{ error }}</li>
-
-                {% endfor %}
-
+    <ul>
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li style="color: red;">{{ error }}</li>
             {% endfor %}
-
-        </ul>
-
+        {% endfor %}
+    </ul>
     {% endif %}
 
     <form method="post">
-
         {% csrf_token %}
-
         <div>
             {{ form.first_name.label_tag }}
             {{ form.first_name }}
         </div>
-
         <div>
             {{ form.last_name.label_tag }}
             {{ form.last_name }}
         </div>
-
         <div>
             {{ form.email.label_tag }}
             {{ form.email }}
         </div>
-
         <div>
             {{ form.password1.label_tag }}
             {{ form.password1 }}
         </div>
-
         <div>
             {{ form.password2.label_tag }}
             {{ form.password2 }}
         </div>
-
+        
         <button type="submit">Register</button>
-
     </form>
 
     <a href="{% url 'login' %}">Already have an account? Login here.</a>
-
 </body>
-
 </html>

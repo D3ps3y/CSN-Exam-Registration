@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Exam Dashboard</title>
+  <link rel="stylesheet" href="{% static 'scss/student_dashboard.scss' %}">
+  <style>
+    /* Retaining existing inline styling */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .dashboard {
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .filters {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    select {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    .toggle-view {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .toggle-btn {
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .toggle-btn:hover {
+      background-color: #0056b3;
+    }
+    .exam-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .exam-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .exam-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .exam-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #222;
+    }
+    .capacity {
+      font-weight: bold;
+      color: #000;
+    }
+    .select-btn {
+      margin-top: auto;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.4rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .select-btn:hover {
+      background-color: #218838;
+    }
+    .enrolled-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .enrolled-btn:hover {
+      background-color: #0056b3;
+    }
+    /* Logout button styling */
+    .logout {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+    .logout a {
+      text-decoration: none;
+      color: #007bff;
+      font-size: 0.9rem;
+    }
+    .logout a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Logout link placed at the top right -->
+    <div class="logout">
+      <a href="{% url 'logout' %}">Log Out</a>
+    </div>
+    
+    <h1>Exam Registration Dashboard</h1>
+    
+    <!-- Filters and toggle view -->
+    <div class="filters">
+      <select name="date-filter">
+        <option value="all">All Dates</option>
+        <option value="this-week">This Week</option>
+        <option value="next-week">Next Week</option>
+      </select>
+      <select name="campus-filter">
+        <option value="all">All Campuses</option>
+        <option value="henderson">Henderson</option>
+        <option value="north-las-vegas">North Las Vegas</option>
+        <option value="west-charleston">West Charleston</option>
+      </select>
+    </div>
+    <div class="toggle-view">
+      <button class="toggle-btn" onclick="toggleView()">Toggle Calendar View</button>
+    </div>
+    
+    <!-- Dynamic Exam List -->
+    <div class="exam-list">
+      {% for exam in exams %}
+    <div class="exam-card">
+      <div class="exam-header">
+        <span class="exam-title">{{ exam.exam_name }}</span>
+        <span class="capacity">
+          {% if exam.max_seats %}
+            {{ exam.enrollments.count }} / {{ exam.max_seats }}
+          {% else %}
+            {{ exam.enrollments.count }} enrolled
+          {% endif %}
+        </span>
+      </div>
+      <div class="exam-meta">
+        <div>Date: {{ exam.exam_date }}</div>
+        <div>Time: {{ exam.exam_time }}</div>
+        <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+      </div>
+      {% if exam.id in enrolled_exam_ids %}
+        <button class="enrolled-btn">Enrolled</button>
+      {% else %}
+        <form action="{% url 'enroll_exam' exam.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="select-btn">Select</button>
+        </form>
+      {% endif %}
+    </div>
+{% empty %}
+    <p>No exams available at this time.</p>
+{% endfor %}
+    </div>
+  </div>
+  <script>
+    function toggleView() {
+      const cardView = document.querySelector('.exam-list');
+      if (cardView.style.display === 'none') {
+        cardView.style.display = 'grid';
+      } else {
+        cardView.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

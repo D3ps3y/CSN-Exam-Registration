@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Faculty Dashboard</title>
+</head>
+<body>
+    <h1>Faculty Dashboard</h1>
+    <p>Welcome, {{ request.user.first_name }}!</p>
+
+    <h2>Your Exams</h2>
+    {% if exams %}
+        <ul>
+            {% for exam in exams %}
+                <li>
+                    <strong>{{ exam.exam_name }}</strong>
+                    <br>
+                    Date: {{ exam.exam_date }} <br>
+                    Time: {{ exam.exam_time }} <br>
+                    Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }}) <br>
+                    Status: {{ exam.status }} <br>
+                    <a href="{% url 'edit_exam' exam.id %}">Edit</a> |
+                    <a href="{% url 'delete_exam' exam.id %}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't created any exams yet.</p>
+    {% endif %}
+
+    <p><a href="{% url 'add_exam' %}">Add a New Exam</a></p>
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+</body>
+</html>

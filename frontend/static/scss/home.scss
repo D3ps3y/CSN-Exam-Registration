@@ -229,6 +229,16 @@ p, label, a {
     font-weight: 400;
 }
 
+.image-link {
+    display: inline-block;
+}
+
+.image-link img {
+    width: 150px;
+    height: auto;
+    display: block;
+}
+
 // Errors
 
 .snackbar {

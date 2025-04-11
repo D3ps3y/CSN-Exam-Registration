@@ -29,10 +29,12 @@ SECRET_KEY = 'GUxFwMmSg7jc7qFiuQchsnLMkVHoLKwkpBznShseTpylK0W-Mz3lRHiTAS7__81G7I
 DEBUG = True
 
 ALLOWED_HOSTS = [
-
-    "csnexamregistration.up.railway.app", "csnexamregistration.com", "localhost"
-
+    "csnexamregistration.up.railway.app",
+    "csnexamregistration.com",
+    "localhost",
+    "127.0.0.1",
 ]
+
 
 CSRF_TRUSTED_ORIGINS = [
 
@@ -106,6 +108,8 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = []
+
+AUTH_USER_MODEL = 'frontend.User'
 
 
 # Internationalization

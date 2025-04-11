@@ -1,140 +1,179 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from frontend.forms import CustomRegisterForm, LoginForm
 from django.http import JsonResponse
+from django.contrib.auth.hashers import check_password, make_password
+from frontend.forms import UnifiedRegisterForm, LoginForm, ExamForm
+from .models import Exam, ExamRegistration
 
 User = get_user_model()
 
-@login_required
-def student_dashboard(request):
-    return render(request, 'student_home.html')
-
-@login_required
-def faculty_dashboard(request):
-    return render(request, 'faculty_home.html')
-
-# Home Page View (Now Includes Login and Register Forms)
+#########################################################################
+# Unified Home View (for Login and Redirection)
+#########################################################################
 def home(request):
     if request.user.is_authenticated:
-        user_email = request.user.email
-
-        if user_email.endswith('@student.csn.edu'):
-            return redirect('student_dashboard')
-        elif user_email.endswith('@csn.edu'):
+        # Redirect based on user role: faculty go to faculty_dashboard, students to student_dashboard.
+        if request.user.is_faculty:
             return redirect('faculty_dashboard')
-
-    # Create empty forms to be used inside home.html
-    register_form = CustomRegisterForm()
+        else:
+            return redirect('student_dashboard')
     login_form = LoginForm()
-
-    # Handle form submission
-    if request.method == "POST":
-
-        if "register" in request.POST:  # If Register form was submitted
-
-            register_form = CustomRegisterForm(request.POST)
-
-            if register_form.is_valid():
-
-                print("Registration Is Valid")
-                print(register_form.cleaned_data)
-
-                user = register_form.save()
-                login(request, user)  # Auto-login after registration
-                return redirect('home')  # Redirect to home after successful registration
-
-            else:
-
-                print("Registration Is Invalid")
-                print(register_form.errors)
-
-
-        elif "login" in request.POST:  # If Login form was submitted
-
-            login_form = LoginForm(request.POST)
-
-            if login_form.is_valid():
-
-                email = login_form.cleaned_data["email"]
-                password = login_form.cleaned_data["password"]
-
-                try:
-
-                    user_obj = User.objects.get(email=email)
-                    username = user_obj.username  # Get username from email
-
-                except User.DoesNotExist:
-
-                    username = None
-
-                user = authenticate(request, username=username, password=password)
-
-                if user is not None:
-
-                    login(request, user)
-                    return redirect('home')  # Redirect to home after login
-
     return render(request, 'home.html', {
-        'register_form': register_form,
         'login_form': login_form,
     })
 
-# User Logout View
-def custom_logout(request):
-    logout(request)  # Logs the user out
-    return redirect('home')  # Redirects back to home
-
-def ajax_register(request):
-
+#########################################################################
+# Unified Registration View
+#########################################################################
+def register(request):
     if request.method == "POST":
-        form = CustomRegisterForm(request.POST)
-
+        form = UnifiedRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            email = form.cleaned_data["email"]
+            user = form.save(commit=False)
+            # Set the is_faculty flag based on the email domain.
+            if email.endswith("@csn.edu"):
+                user.is_faculty = True
+                user.student_id = None  # Faculty do not have a student ID.
+            else:
+                user.is_faculty = False
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            print("Registration errors:", form.errors)
+    else:
+        form = UnifiedRegisterForm()
+    return render(request, 'registration.html', {'form': form})
+
+#########################################################################
+# Student Dashboard
+#########################################################################
+@login_required
+def student_dashboard(request):
+    # This returns all exam records.
+    exams = Exam.objects.all()
+    
+    # You might list the IDs of exams that the student is already enrolled in
+    enrolled_exam_ids = request.user.enrollments.values_list("exam_id", flat=True)
+    
+    context = {
+        "exams": exams,
+        "enrolled_exam_ids": enrolled_exam_ids,
+    }
+    return render(request, 'student_dashboard.html', context)
+#########################################################################
+# Faculty Dashboard
+#########################################################################
+@login_required
+def faculty_dashboard(request):
+    # Display only the exams created by this faculty user.
+    exams = Exam.objects.filter(created_by=request.user)
+    return render(request, 'faculty_dashboard.html', {'exams': exams})
+
+#########################################################################
+# Faculty Exam Management
+#########################################################################
+@login_required
+def add_exam(request):
+    if request.method == "POST":
+        form = ExamForm(request.POST)
+        if form.is_valid():
+            exam = form.save(commit=False)
+            exam.created_by = request.user
+            exam.save()
+            return redirect('faculty_dashboard')
+    else:
+        form = ExamForm()
+    return render(request, 'add_exam.html', {'form': form})
+
+@login_required
+def edit_exam(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
+    if request.method == "POST":
+        form = ExamForm(request.POST, instance=exam)
+        if form.is_valid():
+            form.save()
+            return redirect('faculty_dashboard')
+    else:
+        form = ExamForm(instance=exam)
+    return render(request, 'edit_exam.html', {'form': form, 'exam': exam})
+
+@login_required
+def delete_exam(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
+    if request.method == "POST":
+        exam.delete()
+        return redirect('faculty_dashboard')
+    return render(request, 'delete_exam.html', {'exam': exam})
+
+#########################################################################
+# Enrollment (Student Enrolls in Exam)
+#########################################################################
+@login_required
+def enroll_exam(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    ExamRegistration.objects.get_or_create(exam=exam, student=request.user)
+    return redirect('student_dashboard')
+
+#########################################################################
+# Logout View
+#########################################################################
+def custom_logout(request):
+    logout(request)
+    return redirect('home')
+
+#########################################################################
+# AJAX Registration View (Optional)
+#########################################################################
+def ajax_register(request):
+    if request.method == "POST":
+        form = UnifiedRegisterForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            user = form.save(commit=False)
+            if email.endswith("@csn.edu"):
+                user.is_faculty = True
+                user.student_id = None
+            else:
+                user.is_faculty = False
+            user.save()
             login(request, user)
             return JsonResponse({"success": True, "redirect_url": "/"})
-
         else:
             errors = []
-            for field_errors in form.errors.values():
-                errors.extend(field_errors)
+            for error_list in form.errors.values():
+                errors.extend(error_list)
             return JsonResponse({"success": False, "errors": errors})
-
     return JsonResponse({"success": False, "errors": ["Invalid request method."]})
 
+#########################################################################
+# AJAX Login View
+#########################################################################
 def ajax_login(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
-
         if form.is_valid():
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
-
             try:
                 user_obj = User.objects.get(email=email)
                 username = user_obj.username
-
+                user = authenticate(request, username=username, password=password)
             except User.DoesNotExist:
-                username = None
-
-            user = authenticate(request, username=username, password=password)
-
+                user = None
             if user is not None:
                 login(request, user)
-                return JsonResponse({"success": True, "redirect_url": "/"})
-
+                if user.is_faculty:
+                    return JsonResponse({"success": True, "redirect_url": "/faculty/"})
+                else:
+                    return JsonResponse({"success": True, "redirect_url": "/student/"})
             else:
                 return JsonResponse({"success": False, "errors": ["Invalid email or password."]})
-
         else:
             errors = []
-
-            for field_errors in form.errors.values():
-                errors.extend(field_errors)
-
+            for error_list in form.errors.values():
+                errors.extend(error_list)
             return JsonResponse({"success": False, "errors": errors})
-
     return JsonResponse({"success": False, "errors": ["Invalid request method."]})
-
-
