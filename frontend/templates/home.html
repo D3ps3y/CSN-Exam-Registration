@@ -77,11 +77,11 @@
 
             <form id="register-form">
                 {% csrf_token %}
-                <div>{{ UnifiedRegisterForm.first_name.label_tag }} {{ UnifiedRegisterForm.first_name }}</div>
-                <div>{{ UnifiedRegisterForm.last_name.label_tag }} {{ UnifiedRegisterForm.last_name }}</div>
-                <div>{{ UnifiedRegisterForm.email.label_tag }} {{ UnifiedRegisterForm.email }}</div>
-                <div>{{ UnifiedRegisterForm.password1.label_tag }} {{ UnifiedRegisterForm.password1 }}</div>
-                <div>{{ UnifiedRegisterForm.password2.label_tag }} {{ UnifiedRegisterForm.password2 }}</div>
+                <div>{{ register_form.first_name.label_tag }} {{ register_form.first_name }}</div>
+                <div>{{ register_form.last_name.label_tag }} {{ register_form.last_name }}</div>
+                <div>{{ register_form.email.label_tag }} {{ register_form.email }}</div>
+                <div>{{ register_form.password1.label_tag }} {{ register_form.password1 }}</div>
+                <div>{{ register_form.password2.label_tag }} {{ register_form.password2 }}</div>
                 <button type="submit">Register</button>
                 
             </form>

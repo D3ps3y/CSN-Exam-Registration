@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.contrib.auth.hashers import check_password, make_password
 from frontend.forms import UnifiedRegisterForm, LoginForm, ExamForm
 from .models import Exam, ExamRegistration
 
@@ -19,8 +18,9 @@ def home(request):
         else:
             return redirect('student_dashboard')
     login_form = LoginForm()
+    register_form = UnifiedRegisterForm()
     return render(request, 'home.html', {
-        'login_form': login_form,
+        'login_form': login_form, 'register_form': register_form,
     })
 
 #########################################################################
