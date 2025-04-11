@@ -180,25 +180,22 @@
 {% endfor %}
     </div>
   </div>
-  <script>
+ <script>
 
-    function filterExams() {
-      const selectedCampus = document.getElementById('campusFilter').value;
-      const selectedDate = document.getElementById('dateFilter').value;
-      const today = new Date();
-      const examCards = document.querySelectorAll('.exam-card');
+  function filterExams() {
+    const selectedCampus = document.getElementById('campusFilter').value;
+    const selectedDate = document.getElementById('dateFilter').value;
+    const today = new Date();
+    const examCards = document.querySelectorAll('.exam-card');
 
     examCards.forEach(card => {
       const cardCampus = card.getAttribute('data-campus');
       const cardDateStr = card.getAttribute('data-date');
       const cardDate = new Date(cardDateStr);
 
-      // Campus Match
       const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
 
-      // Date Match
       let dateMatches = true;
-
       if (selectedDate === "this-week") {
         const endOfWeek = new Date();
         endOfWeek.setDate(today.getDate() + (7 - today.getDay()));
@@ -213,22 +210,23 @@
         dateMatches = cardDate >= startOfNextWeek && cardDate <= endOfNextWeek;
       }
 
-      // Show or Hide the card
       if (campusMatches && dateMatches) {
         card.style.display = 'block';
       } else {
         card.style.display = 'none';
       }
     });
+  }
 
-    function toggleView() {
-      const cardView = document.querySelector('.exam-list');
-      if (cardView.style.display === 'none') {
-        cardView.style.display = 'grid';
-      } else {
-        cardView.style.display = 'none';
-      }
+  function toggleView() {
+    const cardView = document.querySelector('.exam-list');
+    if (cardView.style.display === 'none') {
+      cardView.style.display = 'grid';
+    } else {
+      cardView.style.display = 'none';
     }
-  </script>
+  }
+
+</script>
 </body>
 </html>
