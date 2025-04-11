@@ -1,5 +1,4 @@
 {% load static %}
-{% load slugify %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -151,9 +150,9 @@
       </select>
       <select id="campusFilter" name="campus-filter" onchange="filterExams()">
         <option value="all">All Campuses</option>
-        <option value="henderson">Henderson</option>
-        <option value="north-las-vegas">North Las Vegas</option>
-        <option value="west-charleston">West Charleston</option>
+        <option value="Henderson">Henderson</option>
+        <option value="North Las Vegas">North Las Vegas</option>
+        <option value="West Charleston">West Charleston</option>
       </select>
     </div>
     <div class="toggle-view">
@@ -164,7 +163,7 @@
     <div class="exam-list grid-view">
       {% for exam in exams %}
     <div class="exam-card"
-         data-campus="{{ exam.location|slugify }}"
+         data-campus="{{ exam.location }}"
          data-date="{{ exam.exam_date }}">
       <div class="exam-header">
         <span class="exam-title">{{ exam.exam_name }}</span>
