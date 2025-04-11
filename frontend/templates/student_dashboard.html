@@ -210,19 +210,26 @@
       const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
 
       let dateMatches = true;
-      if (selectedDate === "this-week") {
-        const endOfWeek = new Date();
-        endOfWeek.setDate(today.getDate() + (7 - today.getDay()));
-        endOfWeek.setHours(23, 59, 59, 999);
-        dateMatches = cardDate >= today && cardDate <= endOfWeek;
-      } else if (selectedDate === "next-week") {
-        const startOfNextWeek = new Date();
-        startOfNextWeek.setDate(today.getDate() + (7 - today.getDay()) + 1);
-        const endOfNextWeek = new Date();
-        endOfNextWeek.setDate(today.getDate() + (14 - today.getDay()));
+
+      if (selectedDate === "next-week") {
+
+        // Clone today's date without affecting it
+        const current = new Date(today);
+
+        // Calculate next Monday
+        const daysUntilNextMonday = (8 - current.getDay()) % 7 || 7;
+        const startOfNextWeek = new Date(current);
+        startOfNextWeek.setDate(current.getDate() + daysUntilNextMonday);
+        startOfNextWeek.setHours(0, 0, 0, 0);
+
+        // Calculate next Sunday (6 days after Monday)
+        const endOfNextWeek = new Date(startOfNextWeek);
+        endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
         endOfNextWeek.setHours(23, 59, 59, 999);
+
         dateMatches = cardDate >= startOfNextWeek && cardDate <= endOfNextWeek;
       }
+
 
       if (campusMatches && dateMatches) {
         card.style.removeProperty('display');
