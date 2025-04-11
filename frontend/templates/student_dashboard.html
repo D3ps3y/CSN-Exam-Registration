@@ -54,6 +54,19 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1rem;
     }
+
+    .exam-list.grid-view {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .exam-list.list-view {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
     .exam-card {
       background-color: white;
       border-radius: 10px;
@@ -146,7 +159,7 @@
     </div>
     
     <!-- Dynamic Exam List -->
-    <div class="exam-list">
+    <div class="exam-list grid-view">
       {% for exam in exams %}
     <div class="exam-card"
          data-campus="{{ exam.location|lower|cut:' ' }}"
@@ -211,7 +224,7 @@
       }
 
       if (campusMatches && dateMatches) {
-        card.style.display = 'block';
+        card.style.removeProperty('display');
       } else {
         card.style.display = 'none';
       }
@@ -220,10 +233,17 @@
 
   function toggleView() {
     const cardView = document.querySelector('.exam-list');
-    if (cardView.style.display === 'none') {
-      cardView.style.display = 'grid';
+
+    if (cardView.classList.contains('grid-view')) {
+
+      cardView.classList.remove('grid-view');
+      cardView.classList.add('list-view');
+
     } else {
-      cardView.style.display = 'none';
+
+      cardView.classList.remove('list-view');
+      cardView.classList.add('grid-view');
+
     }
   }
 
