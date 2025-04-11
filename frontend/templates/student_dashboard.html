@@ -1,4 +1,6 @@
 {% load static %}
+{% load slugify %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -162,7 +164,7 @@
     <div class="exam-list grid-view">
       {% for exam in exams %}
     <div class="exam-card"
-         data-campus="{{ exam.location|lower|cut:' ' }}"
+         data-campus="{{ exam.location|slugify }}"
          data-date="{{ exam.exam_date }}">
       <div class="exam-header">
         <span class="exam-title">{{ exam.exam_name }}</span>
