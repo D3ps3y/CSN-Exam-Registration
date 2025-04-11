@@ -211,6 +211,22 @@
 
       let dateMatches = true;
 
+      if (selectedDate === "this-week") {
+        const dayOfWeek = today.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+
+        // Start of today (to exclude past days if needed)
+        const startOfToday = new Date(today);
+        startOfToday.setHours(0, 0, 0, 0);
+
+        // End of this week (Sunday night)
+        const endOfWeek = new Date(today);
+        endOfWeek.setDate(today.getDate() + (7 - dayOfWeek));
+        endOfWeek.setHours(23, 59, 59, 999);
+
+        dateMatches = cardDate >= startOfToday && cardDate <= endOfWeek;
+      }
+
+
       if (selectedDate === "next-week") {
 
         // Clone today's date without affecting it
