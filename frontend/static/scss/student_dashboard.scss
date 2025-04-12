@@ -1,21 +1,16 @@
 body {
-  font-family: 'Roboto', sans-serif;
-  background: radial-gradient(circle, #24246e, #06051f);
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
-  color: #f0f0f0;
 }
-
 .dashboard {
   padding: 2rem;
 }
-
 h1 {
   text-align: center;
-  color: #ffffff;
-  font-weight: 700;
+  color: #333;
 }
-
 .filters {
   display: flex;
   gap: 1rem;
@@ -23,35 +18,27 @@ h1 {
   margin-bottom: 2rem;
   flex-wrap: wrap;
 }
-
 select {
   padding: 0.5rem;
   border-radius: 5px;
-  border: 1px solid #333;
+  border: 1px solid #ccc;
   font-size: 1rem;
-  background-color: #1e1e3f;
-  color: white;
 }
-
 .toggle-view {
   text-align: center;
   margin-bottom: 2rem;
 }
-
 .toggle-btn {
   padding: 0.5rem 1rem;
-  background-color: #005ecb;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
 }
-
 .toggle-btn:hover {
-  background-color: #003f9f;
+  background-color: #0056b3;
 }
-
 .exam-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -71,34 +58,29 @@ select {
 }
 
 .exam-card {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: white;
   border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   font-size: 0.9rem;
-  color: #000;
 }
-
 .exam-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .exam-title {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #24246e;
+  color: #222;
 }
-
 .capacity {
   font-weight: bold;
   color: #000;
 }
-
 .select-btn {
   margin-top: auto;
   background-color: #28a745;
@@ -108,39 +90,32 @@ select {
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background 0.3s ease-in-out;
 }
-
 .select-btn:hover {
   background-color: #218838;
 }
-
 .enrolled-btn {
-  background-color: #005ecb;
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 0.5rem;
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background 0.3s ease-in-out;
 }
-
 .enrolled-btn:hover {
-  background-color: #003f9f;
+  background-color: #0056b3;
 }
-
+/* Logout button styling */
 .logout {
   text-align: right;
   margin-bottom: 1rem;
 }
-
 .logout a {
   text-decoration: none;
-  color: #68a2ff;
+  color: #007bff;
   font-size: 0.9rem;
 }
-
 .logout a:hover {
   text-decoration: underline;
 }
