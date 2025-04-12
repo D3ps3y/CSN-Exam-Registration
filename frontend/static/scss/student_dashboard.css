@@ -17,8 +17,11 @@ body {
   padding: 1rem 2rem; }
 
 .logo {
-  font-weight: bold;
-  font-size: 1.2rem; }
+  margin-bottom: 15px; }
+
+.logo img {
+  width: 150px;
+  height: auto; }
 
 .top-center {
   font-size: 1.1rem; }
