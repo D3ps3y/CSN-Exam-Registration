@@ -61,6 +61,8 @@ def student_dashboard(request):
     context = {
         "exams": exams,
         "enrolled_exam_ids": enrolled_exam_ids,
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
     }
     return render(request, 'student_dashboard.html', context)
 #########################################################################

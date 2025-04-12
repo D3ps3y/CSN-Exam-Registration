@@ -15,10 +15,12 @@
 
         <!-- Top Navigation Bar -->
         <header class="top-bar">
-        <div class="logo">CSN Logo</div>
-        <div class="top-center">Dashboard</div> <!-- Or Campus Name, Date, etc. -->
+        <div class="logo">
+            <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo">
+        </div>
+        <div class="top-center">Student Dashboard</div> <!-- Or Campus Name, Date, etc. -->
         <div class="account-area">
-            John Doe <br>
+            {{ first_name }} {{ last_name }} <br>
             <a href="/logout">Log Out</a>
         </div>
         </header>
