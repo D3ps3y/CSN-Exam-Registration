@@ -11,144 +11,34 @@
 
 </head>
 <body>
-  <div class="dashboard">
-    <!-- Logout link placed at the top right -->
-    <div class="logout">
-      <a href="{% url 'logout' %}">Log Out</a>
+    <div class="dashboard-container">
+
+        <!-- Top Navigation Bar -->
+        <header class="top-bar">
+        <div class="logo">CSN Logo</div>
+        <div class="top-center">Dashboard</div> <!-- Or Campus Name, Date, etc. -->
+        <div class="account-area">
+            John Doe <br>
+            <a href="/logout">Log Out</a>
+        </div>
+        </header>
+
+        <!-- Sidebar + Main Content Area -->
+        <div class="main-layout">
+        <nav class="sidebar">
+            <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">My Bookings</a></li>
+            <li><a href="#">Calendar View</a></li>
+            <!-- Add more links as needed -->
+            </ul>
+        </nav>
+
+        <main class="main-window">
+            <!-- Dynamic exam cards or booking UI goes here -->
+            <h1>Welcome to your dashboard</h1>
+        </main>
+        </div>
     </div>
-    
-    <h1>Exam Registration Dashboard</h1>
-    
-    <!-- Filters and toggle view -->
-    <div class="filters">
-      <select id="dateFilter" name="date-filter" onchange="filterExams()">
-        <option value="all">All Dates</option>
-        <option value="this-week">This Week</option>
-        <option value="next-week">Next Week</option>
-      </select>
-      <select id="campusFilter" name="campus-filter" onchange="filterExams()">
-        <option value="all">All Campuses</option>
-        <option value="Henderson">Henderson</option>
-        <option value="North Las Vegas">North Las Vegas</option>
-        <option value="West Charleston">West Charleston</option>
-      </select>
-    </div>
-    <div class="toggle-view">
-      <button class="toggle-btn" onclick="toggleView()">Toggle Calendar View</button>
-    </div>
-    
-    <!-- Dynamic Exam List -->
-    <div class="exam-list grid-view">
-      {% for exam in exams %}
-    <div class="exam-card"
-         data-campus="{{ exam.location }}"
-         data-date="{{ exam.exam_date }}">
-      <div class="exam-header">
-        <span class="exam-title">{{ exam.exam_name }}</span>
-        <span class="capacity">
-          {% if exam.max_seats %}
-            {{ exam.enrollments.count }} / {{ exam.max_seats }}
-          {% else %}
-            {{ exam.enrollments.count }} enrolled
-          {% endif %}
-        </span>
-      </div>
-      <div class="exam-meta">
-        <div>Date: {{ exam.exam_date }}</div>
-        <div>Time: {{ exam.exam_time }}</div>
-        <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
-      </div>
-      {% if exam.id in enrolled_exam_ids %}
-        <button class="enrolled-btn">Enrolled</button>
-      {% else %}
-        <form action="{% url 'enroll_exam' exam.id %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="select-btn">Select</button>
-        </form>
-      {% endif %}
-    </div>
-{% empty %}
-    <p>No exams available at this time.</p>
-{% endfor %}
-    </div>
-  </div>
- <script>
-
-  function filterExams() {
-    const selectedCampus = document.getElementById('campusFilter').value;
-    const selectedDate = document.getElementById('dateFilter').value;
-    const today = new Date();
-    const examCards = document.querySelectorAll('.exam-card');
-
-    examCards.forEach(card => {
-      const cardCampus = card.getAttribute('data-campus');
-      const cardDateStr = card.getAttribute('data-date');
-      const cardDate = new Date(cardDateStr);
-
-      const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
-
-      let dateMatches = true;
-
-      if (selectedDate === "this-week") {
-        const dayOfWeek = today.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
-
-        // Start of today (to exclude past days if needed)
-        const startOfToday = new Date(today);
-        startOfToday.setHours(0, 0, 0, 0);
-
-        // End of this week (Sunday night)
-        const endOfWeek = new Date(today);
-        endOfWeek.setDate(today.getDate() + (7 - dayOfWeek));
-        endOfWeek.setHours(23, 59, 59, 999);
-
-        dateMatches = cardDate >= startOfToday && cardDate <= endOfWeek;
-      }
-
-
-      if (selectedDate === "next-week") {
-
-        // Clone today's date without affecting it
-        const current = new Date(today);
-
-        // Calculate next Monday
-        const daysUntilNextMonday = (8 - current.getDay()) % 7 || 7;
-        const startOfNextWeek = new Date(current);
-        startOfNextWeek.setDate(current.getDate() + daysUntilNextMonday);
-        startOfNextWeek.setHours(0, 0, 0, 0);
-
-        // Calculate next Sunday (6 days after Monday)
-        const endOfNextWeek = new Date(startOfNextWeek);
-        endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
-        endOfNextWeek.setHours(23, 59, 59, 999);
-
-        dateMatches = cardDate >= startOfNextWeek && cardDate <= endOfNextWeek;
-      }
-
-
-      if (campusMatches && dateMatches) {
-        card.style.removeProperty('display');
-      } else {
-        card.style.display = 'none';
-      }
-    });
-  }
-
-  function toggleView() {
-    const cardView = document.querySelector('.exam-list');
-
-    if (cardView.classList.contains('grid-view')) {
-
-      cardView.classList.remove('grid-view');
-      cardView.classList.add('list-view');
-
-    } else {
-
-      cardView.classList.remove('list-view');
-      cardView.classList.add('grid-view');
-
-    }
-  }
-
-</script>
 </body>
 </html>
