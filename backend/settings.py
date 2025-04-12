@@ -134,7 +134,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 SASS_PROCESSOR_ROOT = BASE_DIR / "frontend/static"
 
-SASS_PROCESSOR_AUTO_RELOAD = True
+SASS_PROCESSOR_AUTO_RELOAD = False
 
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/static'
