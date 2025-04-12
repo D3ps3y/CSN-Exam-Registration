@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'frontend',
     'sass_processor', # Enables SCSS processing in Django
+    'compressor', # A dependency used by sass_processor for SCSS compilation and caching
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 SASS_PROCESSOR_ROOT = BASE_DIR / "frontend/static"
+
+SASS_PROCESSOR_AUTO_RELOAD = True
 
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/static'

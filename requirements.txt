@@ -10,3 +10,4 @@ whitenoise
 django-sass-processor
 libsass
 username
+django-compressor
