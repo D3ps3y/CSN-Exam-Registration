@@ -16,6 +16,12 @@ body {
   align-items: center;
   padding: 1rem 2rem; }
 
+.logo {
+  background-color: white;
+  padding: 8px;
+  border-radius: 8px;
+  display: inline-block; }
+
 .logo img {
   width: 150px;
   height: auto; }
