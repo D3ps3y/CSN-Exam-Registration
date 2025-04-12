@@ -18,7 +18,8 @@ body {
 
 .logo {
   background-color: white;
-  border-radius: 8px;
+  padding: 3px;
+  border-radius: 12px;
   display: inline-block; }
 
 .logo img {
