@@ -21,7 +21,6 @@
         </div>
         <div class="top-center">Student Dashboard</div> <!-- Or Campus Name, Date, etc. -->
         <div class="account-area">
-            {{ first_name }} {{ last_name }} <br>
             <a href="/logout">Log Out</a>
         </div>
         </header>
@@ -39,7 +38,7 @@
 
         <main class="main-window">
             <!-- Dynamic exam cards or booking UI goes here -->
-            <h1>Welcome to your dashboard</h1>
+            <h1>Welcome, {{ first_name }} {{ last_name }}</h1>
         </main>
         </div>
     </div>
