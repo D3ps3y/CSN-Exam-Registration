@@ -30,22 +30,19 @@ body {
   font-size: 2rem; }
 
 .account-area {
-  background-color: white;
-  padding: 3px;
-  border-radius: 12px;
-  display: inline-block;
   text-align: right; }
 
 .account-area a {
   background-color: white;
   color: #002b5c;
   /* CSN blue */
-  padding: 8px 16px;
+  padding: 6px 12px;
   border: none;
   border-radius: 8px;
   font-weight: 500;
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease; }
 
 .account-area a:hover {
