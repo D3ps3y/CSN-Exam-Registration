@@ -1,0 +1,32 @@
+<div class="exam-list grid-view">
+    {% for exam in exams %}
+        <div class="exam-card"
+             data-campus="{{ exam.location }}"
+             data-date="{{ exam.exam_date }}">
+
+            <div class="exam-header">
+                <span class="exam-title">{{ exam.exam_name }}</span>
+                <span class="capacity">
+                    {% if exam.max_seats %}
+                        {{ exam.enrollments.count }} / {{ exam.max_seats }}
+                    {% else %}
+                        {{ exam.enrollments.count }} enrolled
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="exam-meta">
+                <div>Date: {{ exam.exam_date }}</div>
+                <div>Time: {{ exam.exam_time }}</div>
+                <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+            </div>
+
+            <div class="booking-actions">
+                <span class="confirmed-text">✔ Confirmed</span>
+                <button type="button" class="cancel-btn" data-exam-id="{{ exam.id }}" onclick="cancelExam(this)">Cancel</button>
+            </div>
+        </div>
+    {% empty %}
+        <p>No exams available.</p>
+    {% endfor %}
+</div>

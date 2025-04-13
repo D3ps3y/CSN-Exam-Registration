@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from frontend.forms import UnifiedRegisterForm, LoginForm, ExamForm
 from .models import Exam, ExamRegistration
+from django.template.loader import render_to_string
 
 User = get_user_model()
 
@@ -200,3 +201,21 @@ def enroll_exam(request, exam_id):
         return redirect("student_dashboard")
 
     return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
+
+#########################################################################
+# AJAX Booking Fetcher
+#########################################################################
+@login_required
+def fetch_bookings_html(request):
+    enrolled_exam_ids = ExamRegistration.objects.filter(
+        student=request.user
+    ).values_list("exam_id", flat=True)
+
+    exams = Exam.objects.filter(id__in=enrolled_exam_ids)
+
+    html = render_to_string("partials/bookings_list.html", {
+        "exams": exams,
+        "enrolled_exam_ids": enrolled_exam_ids,
+    })
+
+    return JsonResponse({"html": html})
