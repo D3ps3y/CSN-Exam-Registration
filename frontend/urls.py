@@ -21,11 +21,11 @@ urlpatterns = [
     path("ajax/login/", ajax_login, name="ajax_login"),
     path('logout/', custom_logout, name='logout'),
     path('student/', student_dashboard, name='student_dashboard'),
-    path('student/enroll/<int:exam_id>/', enroll_exam, name='enroll_exam'),
+    path('enroll_exam/<int:exam_id>/', enroll_exam, name='enroll_exam'),
+    path("cancel_exam/<int:exam_id>/", cancel_exam, name="cancel_exam"),
     path('faculty/', faculty_dashboard, name='faculty_dashboard'),
     path('faculty/exam/add/', add_exam, name='add_exam'),
     path('faculty/exam/edit/<int:exam_id>/', edit_exam, name='edit_exam'),
     path('faculty/exam/delete/<int:exam_id>/', delete_exam, name='delete_exam'),
-    path("cancel_exam/<int:exam_id>/", cancel_exam, name="cancel_exam"),
-    
+
 ]
