@@ -62,12 +62,12 @@
 
                         <!-- Filters and toggle view -->
                         <div class="filters">
-                            <select id="dateFilter" name="date-filter" onchange="filterExams()">
+                            <select id="dateFilter-registration" name="date-filter" onchange="filterExams('registration')">
                                 <option value="all">All Dates</option>
                                 <option value="this-week">This Week</option>
                                 <option value="next-week">Next Week</option>
                             </select>
-                            <select id="campusFilter" name="campus-filter" onchange="filterExams()">
+                            <select id="campusFilter-registration" name="campus-filter" onchange="filterExams('registration')">
                                 <option value="all">All Campuses</option>
                                 <option value="Henderson">Henderson</option>
                                 <option value="North Las Vegas">North Las Vegas</option>
@@ -119,11 +119,63 @@
                     </div>
 
                     <div id="bookings-card" class="hidden">
+                        <h1>Reservations</h1>
 
+                        <!-- Filters and toggle view -->
+                        <div class="filters">
+                            <select id="dateFilter-bookings" name="date-filter" onchange="filterExams('bookings')">
+                                <option value="all">All Dates</option>
+                                <option value="this-week">This Week</option>
+                                <option value="next-week">Next Week</option>
+                            </select>
+                            <select id="campusFilter-bookings" name="campus-filter" onchange="filterExams('bookings')">
+                                <option value="all">All Campuses</option>
+                                <option value="Henderson">Henderson</option>
+                                <option value="North Las Vegas">North Las Vegas</option>
+                                <option value="West Charleston">West Charleston</option>
+                            </select>
+                        </div>
+
+                        <div class="toggle-view">
+                            <button class="toggle-btn" onclick="toggleView()">Toggle Grid/List View</button>
+                        </div>
+
+                        <!-- Dynamic Exam List -->
+                        <div class="exam-list grid-view">
+                            {% for exam in exams %}
+                                {% if exam.id in enrolled_exam_ids %}
+                                    <div class="exam-card"
+                                        data-campus="{{ exam.location }}"
+                                        data-date="{{ exam.exam_date }}">
+
+                                        <div class="exam-header">
+                                        <span class="exam-title">{{ exam.exam_name }}</span>
+                                            <span class="capacity">
+                                                {% if exam.max_seats %}
+                                                    {{ exam.enrollments.count }} / {{ exam.max_seats }}
+                                                {% else %}
+                                                    {{ exam.enrollments.count }} enrolled
+                                                {% endif %}
+                                            </span>
+                                        </div>
+
+                                        <div class="exam-meta">
+                                            <div>Date: {{ exam.exam_date }}</div>
+                                            <div>Time: {{ exam.exam_time }}</div>
+                                            <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+                                        </div>
+
+                                        <div class="enrolled">Enrolled</div>
+                                        {% else %}
+                                    {% endif %}
+                                </div>
+                                {% empty %}
+                                <p>No exams available at this time.</p>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </main>
-
         </div>
     </div>
 
@@ -159,10 +211,10 @@
         }
 
         function filterExams() {
-            const selectedCampus = document.getElementById('campusFilter').value;
-            const selectedDate = document.getElementById('dateFilter').value;
+            const selectedCampus = document.getElementById(`campusFilter-${panel}`).value;
+            const selectedDate = document.getElementById(`dateFilter-${panel}`).value;
             const today = new Date();
-            const examCards = document.querySelectorAll('.exam-card');
+            const examCards = document.querySelectorAll(`#${panel}-card .exam-card`);
 
             examCards.forEach(card => {
             const cardCampus = card.getAttribute('data-campus');
