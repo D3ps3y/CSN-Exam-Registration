@@ -56,7 +56,7 @@ class ExamRegistration(models.Model):
     # use the unified User as the foreign key.
     # (If only students can enroll for exams, enforce that in your business logic.)
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments')
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='enrollments')
     registration_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
