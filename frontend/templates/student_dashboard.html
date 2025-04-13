@@ -29,16 +29,18 @@
         <div class="main-layout">
         <nav class="sidebar">
             <ul>
-            <li><a href="#" class="active">Dashboard</a></li>
-            <li><a href="#">My Bookings</a></li>
-            <li><a href="#">Calendar View</a></li>
+            <li><a href="#" class="nav-link active">🏠 Dashboard</a></li>
+            <li><a href="#" class="nav-link">📄 My Bookings</a></li>
+            <li><a href="#" class="nav-link">🗓️ Calendar View</a></li>
             <!-- Add more links as needed -->
             </ul>
         </nav>
 
         <main class="main-window">
-            <!-- Dynamic exam cards or booking UI goes here -->
-            <h1>Welcome, {{ first_name }} {{ last_name }}</h1>
+            <div class="content-card">
+                <!-- Dynamic exam cards or booking UI goes here -->
+                <h1>Welcome, {{ first_name }} {{ last_name }}</h1>
+            </div>
         </main>
         </div>
     </div>
