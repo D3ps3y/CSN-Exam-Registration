@@ -111,15 +111,6 @@ def delete_exam(request, exam_id):
     return render(request, 'delete_exam.html', {'exam': exam})
 
 #########################################################################
-# Enrollment (Student Enrolls in Exam)
-#########################################################################
-@login_required
-def enroll_exam(request, exam_id):
-    exam = get_object_or_404(Exam, id=exam_id)
-    ExamRegistration.objects.get_or_create(exam=exam, student=request.user)
-    return redirect('student_dashboard')
-
-#########################################################################
 # Logout View
 #########################################################################
 def custom_logout(request):
@@ -127,7 +118,7 @@ def custom_logout(request):
     return redirect('home')
 
 #########################################################################
-# AJAX Registration View (Optional)
+# AJAX Registration View
 #########################################################################
 def ajax_register(request):
     if request.method == "POST":
@@ -181,7 +172,7 @@ def ajax_login(request):
     return JsonResponse({"success": False, "errors": ["Invalid request method."]})
 
 #########################################################################
-# AJAX Exam Cancellation View
+# AJAX Exam Cancellation View (Student Cancels an Exam)
 #########################################################################
 def cancel_exam(request, exam_id):
     if request.method == "POST" and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -191,3 +182,21 @@ def cancel_exam(request, exam_id):
         except ExamRegistration.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Enrollment not found'}, status=404)
     return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+#########################################################################
+# AJAX Exam Enrollment View (Student Enrolls in an Exam)
+#########################################################################
+@login_required
+def enroll_exam(request, exam_id):
+    if request.method == "POST":
+        exam = get_object_or_404(Exam, id=exam_id)
+        ExamRegistration.objects.get_or_create(exam=exam, student=request.user)
+
+        # If this is an AJAX request, return JSON instead of redirect
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return JsonResponse({"success": True})
+
+        # Fallback: regular form submission
+        return redirect("student_dashboard")
+
+    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)

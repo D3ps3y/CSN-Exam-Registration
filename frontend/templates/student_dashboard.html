@@ -102,7 +102,11 @@
 
                                         <form action="{% url 'enroll_exam' exam.id %}" method="post">
                                             {% csrf_token %}
-                                            <button type="submit" class="select-btn">Select</button>
+                                            <button type="button"
+                                                class="select-btn"
+                                                data-exam-id="{{ exam.id }}"
+                                                onclick="enrollExam(this)">Select
+                                            </button>
                                         </form>
                                     </div>
                                 {% endif %}
@@ -313,6 +317,32 @@
             return cookieValue;
         }
 
+        function enrollExam(button) {
+            const examId = button.getAttribute("data-exam-id");
+
+            fetch(`/enroll_exam/${examId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the card or replace content
+                    const card = button.closest(".exam-card");
+                    if (card) {
+                        card.remove(); // or update it visually
+                    }
+                } else {
+                    alert(data.error || "Failed to enroll.");
+            }
+            })
+            .catch(err => {
+                console.error("Error enrolling in exam:", err);
+            });
+        }
     </script>
 
 </body>
