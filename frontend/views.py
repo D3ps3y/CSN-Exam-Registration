@@ -230,7 +230,7 @@ def fetch_registration_html(request):
 
     available_exams = Exam.objects.exclude(id__in=enrolled_exam_ids)
 
-    html = render_to_string("partials/registration_exam_list.html.html", {
+    html = render_to_string("partials/registration_exam_list.html", {
         "exams": available_exams,
         "enrolled_exam_ids": enrolled_exam_ids
     })
