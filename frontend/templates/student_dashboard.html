@@ -31,19 +31,19 @@
         <div class="main-layout">
         <nav class="sidebar">
             <ul>
-                <li><a href="#" class="nav-link active">
+                <li><a href="#" id="dashboard" class="nav-link active" onclick="showDashboard()">
                     <span class="icon"><i class="fas fa-house"></i></span>
                     <span class="label">Dashboard</span>
                 </a></li>
 
-                <li><a href="#" class="nav-link">
-                    <span class="icon"><i class="fas fa-file-alt"></i></span>
-                    <span class="label">My Bookings</span>
+                <li><a href="#" id="registration" class="nav-link" onclick="showRegistration()">
+                    <span class="icon"><i class="fas fa-pen-to-square"></i></span>
+                    <span class="label">Register for an Exam</span>
                 </a></li>
 
-                <li><a href="#" class="nav-link">
-                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
-                    <span class="label">Calendar View</span>
+                <li><a href="#" id="bookings" class="nav-link" onclick="showBookings()">
+                    <span class="icon"><i class="fas fa-file-alt"></i></span>
+                    <span class="label">My Bookings</span>
                 </a></li>
             <!-- Add more links as needed -->
             </ul>
@@ -57,5 +57,27 @@
         </main>
         </div>
     </div>
+    <script>
+        function clearActiveLinks() {
+            document.querySelectorAll(".nav-link").forEach(link => {
+                link.classList.remove("active");
+            });
+        }
+
+        function showDashboard() {
+            clearActiveLinks();
+            document.getElementById("dashboard").classList.add("active");
+        }
+
+        function showRegistration() {
+            clearActiveLinks();
+            document.getElementById("registration").classList.add("active");
+        }
+
+        function showBookings() {
+            clearActiveLinks();
+            document.getElementById("bookings").classList.add("active");
+        }
+    </script>
 </body>
 </html>
