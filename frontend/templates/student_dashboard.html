@@ -283,9 +283,11 @@
         }
 
         function refreshRegistrationList() {
+            console.log("REFRESHING REGISTRATION PANEL");
             fetch("/fetch_registration_html/")
                 .then(response => response.json())
                 .then(data => {
+                    console.log("REGISTRATION HTML RESPONSE:", data.html);
                     const regList = document.querySelector("#registration-card .exam-list");
                     if (regList && data.html) {
                         regList.outerHTML = data.html;
