@@ -78,37 +78,35 @@
                         <!-- Dynamic Exam List -->
                         <div class="exam-list grid-view">
                             {% for exam in exams %}
-                                <div class="exam-card"
-                                    data-campus="{{ exam.location }}"
-                                    data-date="{{ exam.exam_date }}">
+                                {% if exam.id not in enrolled_exam_ids %}
+                                    <div class="exam-card"
+                                        data-campus="{{ exam.location }}"
+                                        data-date="{{ exam.exam_date }}">
 
-                                    <div class="exam-header">
-                                        <span class="exam-title">{{ exam.exam_name }}</span>
-                                        <span class="capacity">
-                                            {% if exam.max_seats %}
-                                                {{ exam.enrollments.count }} / {{ exam.max_seats }}
-                                            {% else %}
-                                                {{ exam.enrollments.count }} enrolled
-                                            {% endif %}
-                                        </span>
-                                    </div>
+                                        <div class="exam-header">
+                                            <span class="exam-title">{{ exam.exam_name }}</span>
+                                            <span class="capacity">
+                                                {% if exam.max_seats %}
+                                                    {{ exam.enrollments.count }} / {{ exam.max_seats }}
+                                                {% else %}
+                                                    {{ exam.enrollments.count }} enrolled
+                                                {% endif %}
+                                            </span>
+                                        </div>
 
-                                    <div class="exam-meta">
-                                        <div>Date: {{ exam.exam_date }}</div>
-                                        <div>Time: {{ exam.exam_time }}</div>
-                                        <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
-                                    </div>
+                                        <div class="exam-meta">
+                                            <div>Date: {{ exam.exam_date }}</div>
+                                            <div>Time: {{ exam.exam_time }}</div>
+                                            <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+                                        </div>
 
-                                    {% if exam.id in enrolled_exam_ids %}
-                                        <div class="enrolled">Enrolled</div>
-                                    {% else %}
                                         <form action="{% url 'enroll_exam' exam.id %}" method="post">
                                             {% csrf_token %}
                                             <button type="submit" class="select-btn">Select</button>
                                         </form>
-                                    {% endif %}
-                                </div>
-                                {% empty %}
+                                    </div>
+                                {% endif %}
+                            {% empty %}
                                 <p>No exams available at this time.</p>
                             {% endfor %}
                         </div>
