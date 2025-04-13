@@ -261,20 +261,9 @@ select {
   transform: translateX(-50%);
   font-size: 17px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  animation: fadeOut 3s ease forwards;
-  backdrop-filter: none !important;
-  filter: none !important;
-  opacity: 0 !important; }
+  opacity: 0;
+  transition: opacity 0.4s ease, visibility 0.4s ease; }
 
 #snackbar.show {
   visibility: visible;
   opacity: 1; }
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1; }
-  80% {
-    opacity: 1; }
-  100% {
-    opacity: 0;
-    display: none; } }
