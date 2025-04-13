@@ -224,11 +224,17 @@ def fetch_bookings_html(request):
 # AJAX Unregistered Exam List Fetcher
 #########################################################################
 def fetch_registration_html(request):
+    print("Fetching registration HTML...")
+
     enrolled_exam_ids = ExamRegistration.objects.filter(
         student=request.user
     ).values_list("exam_id", flat=True)
 
+    print("Enrolled exam IDs:", list(enrolled_exam_ids))
+
     available_exams = Exam.objects.exclude(id__in=enrolled_exam_ids)
+
+    print("Available exams:", available_exams)
 
     html = render_to_string("partials/registration_exam_list.html", {
         "exams": available_exams,
