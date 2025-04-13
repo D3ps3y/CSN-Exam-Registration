@@ -157,7 +157,17 @@
                                             <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
                                         </div>
 
-                                        <div class="enrolled">Enrolled</div>
+                                        <div class="booking-actions">
+                                            <span class="confirmed-text">✔ Confirmed</span>
+                                            <form action="{% url 'cancel_exam' exam.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="button" class="cancel-btn" data-exam-id="{{ exam.id }}" onclick="cancelExam(this)">
+                                                Cancel
+                                                </button>
+                                            </form>
+                                        </div>
+
+
                                         {% else %}
                                     {% endif %}
                                 </div>
@@ -259,6 +269,50 @@
                 card.style.display = 'none';
             }
             });
+        }
+
+        function cancelExam(button) {
+            const examId = button.getAttribute("data-exam-id");
+
+            fetch(`/cancel_exam/${examId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the card or update the button
+                    const card = button.closest(".exam-card");
+                    if (card) {
+                        card.remove();
+                    }
+                } else {
+                    alert(data.error || "Failed to cancel exam.");
+                }
+            })
+            .catch(err => {
+                console.error("Error canceling exam:", err);
+            });
+        }
+
+        // CSRF helper for Django
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === name + "=") {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
 
     </script>

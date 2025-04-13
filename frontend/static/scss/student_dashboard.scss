@@ -244,3 +244,32 @@ select {
     margin-top: auto;
     font-size: 0.95rem;
 }
+
+.confirmed-text {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+.booking-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    gap: 1rem;
+}

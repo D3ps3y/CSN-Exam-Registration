@@ -179,3 +179,15 @@ def ajax_login(request):
                 errors.extend(error_list)
             return JsonResponse({"success": False, "errors": errors})
     return JsonResponse({"success": False, "errors": ["Invalid request method."]})
+
+#########################################################################
+# AJAX Exam Cancellation View
+#########################################################################
+def cancel_exam(request, exam_id):
+    if request.method == "POST" and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        try:
+            ExamRegistration.objects.get(student=request.user, exam_id=exam_id).delete()
+            return JsonResponse({'success': True})
+        except ExamRegistration.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Enrollment not found'}, status=404)
+    return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
