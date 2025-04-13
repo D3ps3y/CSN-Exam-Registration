@@ -229,7 +229,6 @@
                     if (card) {
                         card.remove();
                     }
-
                     refreshRegistrationList();
                 } else {
                     alert(data.error || "Failed to cancel exam.");
@@ -275,6 +274,7 @@
                     if (card) {
                         card.remove(); // or update it visually
                     }
+                    refreshRegistrationList();
                 } else {
                     alert(data.error || "Failed to enroll.");
             }
