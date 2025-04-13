@@ -104,7 +104,7 @@
                                     </div>
 
                                     {% if exam.id in enrolled_exam_ids %}
-                                        <button class="enrolled-btn">Enrolled</button>
+                                        <div class="enrolled">Enrolled</div>
                                     {% else %}
                                         <form action="{% url 'enroll_exam' exam.id %}" method="post">
                                             {% csrf_token %}

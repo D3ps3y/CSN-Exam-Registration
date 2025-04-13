@@ -238,15 +238,9 @@ select {
 .select-btn:hover {
     background-color: #218838;
 }
-.enrolled-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-.enrolled-btn:hover {
-    background-color: #0056b3;
+.enrolled {
+    color: #dc3545;
+    font-weight: 600;
+    margin-top: auto;
+    font-size: 0.95rem;
 }
