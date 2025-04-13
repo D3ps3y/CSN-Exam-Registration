@@ -1,6 +1,7 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
+    background: radial-gradient(circle, #24246e, #06051f);
 }
 
 .dashboard-container {
@@ -11,7 +12,7 @@ body {
 
 /* Top Bar */
 .top-bar {
-    background: radial-gradient(circle, #24246e, #06051f);
+    background: transparent;
     color: white;
     display: flex;
     justify-content: space-between;
@@ -65,7 +66,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-    background: radial-gradient(circle, #24246e, #06051f);
+    background: transparent;
     padding: 2rem 1rem;
     width: 220px;
     min-height: 100vh;
