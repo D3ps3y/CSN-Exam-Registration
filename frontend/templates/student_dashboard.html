@@ -210,7 +210,7 @@
             document.getElementById("bookings-card").classList.remove("hidden");
         }
 
-        function filterExams() {
+        function filterExams(panel) {
             const selectedCampus = document.getElementById(`campusFilter-${panel}`).value;
             const selectedDate = document.getElementById(`dateFilter-${panel}`).value;
             const today = new Date();
