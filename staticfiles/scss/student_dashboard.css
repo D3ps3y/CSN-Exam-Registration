@@ -80,7 +80,8 @@ body {
 
 .nav-link i {
   color: inherit;
-  font-size: 1.1rem; }
+  font-size: 1.1rem;
+  margin-right: 5px; }
 
 .nav-link:hover {
   background-color: #1e40af;
