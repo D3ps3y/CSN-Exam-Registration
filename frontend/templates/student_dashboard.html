@@ -331,6 +331,10 @@
             snackbar.classList.remove("show"); // Reset in case it's already showing
             void snackbar.offsetWidth;         // Force reflow
             snackbar.classList.add("show");
+
+            setTimeout(() => {
+                snackbar.classList.remove("show");
+            }, 3000);
         }
     </script>
 

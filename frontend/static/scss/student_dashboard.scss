@@ -294,11 +294,12 @@ select {
     animation: fadeOut 3s ease forwards;
     backdrop-filter: none !important;
     filter: none !important;
-    opacity: 1 !important;
+    opacity: 0 !important;
 }
 
 #snackbar.show {
     visibility: visible;
+    opacity: 1;
 }
 
 @keyframes fadeOut {
