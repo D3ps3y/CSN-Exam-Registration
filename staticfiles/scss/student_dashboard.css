@@ -1,12 +1,13 @@
 body {
   font-family: 'Roboto', sans-serif;
   background: radial-gradient(circle, #24246e, #06051f);
-  overflow: hidden;
-  position: relative;
-  width: 100vw;
-  height: 100vh; }
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column; }
 
 .dashboard-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
   height: 100vh; }
@@ -56,7 +57,7 @@ body {
 .main-layout {
   display: flex;
   flex: 1;
-  height: 100%; }
+  height: hidden; }
 
 /* Sidebar */
 .sidebar {
@@ -106,9 +107,12 @@ body {
 
 /* Main Window */
 .main-window {
-  flex-grow: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 2rem;
-  background-color: #fafafa; }
+  background-color: #fafafa;
+  overflow: hidden; }
 
 .main-window h1 {
   font-size: 2rem;
@@ -116,12 +120,13 @@ body {
   margin-bottom: 1rem; }
 
 .content-card {
-  /* max-height: 600px; /* or any height you want */
+  flex: 1;
   overflow-y: auto;
   padding: 1.5rem;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-height: 0; }
 
 .hidden {
   display: none; }
