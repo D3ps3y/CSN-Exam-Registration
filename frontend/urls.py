@@ -12,7 +12,8 @@ from .views import (
     edit_exam,
     delete_exam,
     cancel_exam,
-    fetch_bookings_html
+    fetch_bookings_html,
+    fetch_registration_html
 )
 
 urlpatterns = [
@@ -29,5 +30,6 @@ urlpatterns = [
     path('faculty/exam/edit/<int:exam_id>/', edit_exam, name='edit_exam'),
     path('faculty/exam/delete/<int:exam_id>/', delete_exam, name='delete_exam'),
     path("fetch_bookings_html/", fetch_bookings_html, name="fetch_bookings_html"),
+    path('fetch_registration_html/', fetch_registration_html, name='fetch_registration_html'),
 
 ]

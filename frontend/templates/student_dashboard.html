@@ -77,42 +77,7 @@
 
                         <!-- Dynamic Exam List -->
                         <div class="exam-list grid-view">
-                            {% for exam in exams %}
-                                {% if exam.id not in enrolled_exam_ids %}
-                                    <div class="exam-card"
-                                        data-campus="{{ exam.location }}"
-                                        data-date="{{ exam.exam_date }}">
-
-                                        <div class="exam-header">
-                                            <span class="exam-title">{{ exam.exam_name }}</span>
-                                            <span class="capacity">
-                                                {% if exam.max_seats %}
-                                                    {{ exam.enrollments.count }} / {{ exam.max_seats }}
-                                                {% else %}
-                                                    {{ exam.enrollments.count }} enrolled
-                                                {% endif %}
-                                            </span>
-                                        </div>
-
-                                        <div class="exam-meta">
-                                            <div>Date: {{ exam.exam_date }}</div>
-                                            <div>Time: {{ exam.exam_time }}</div>
-                                            <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
-                                        </div>
-
-                                        <form action="{% url 'enroll_exam' exam.id %}" method="post">
-                                            {% csrf_token %}
-                                            <button type="button"
-                                                class="select-btn"
-                                                data-exam-id="{{ exam.id }}"
-                                                onclick="enrollExam(this)">Select
-                                            </button>
-                                        </form>
-                                    </div>
-                                {% endif %}
-                            {% empty %}
-                                <p>No exams available at this time.</p>
-                            {% endfor %}
+                            <!-- Registration cards will be loaded here via fetch_registration_html -->
                         </div>
                     </div>
 
@@ -262,6 +227,8 @@
                     if (card) {
                         card.remove();
                     }
+
+                    refreshRegistrationList();
                 } else {
                     alert(data.error || "Failed to cancel exam.");
                 }
@@ -313,6 +280,20 @@
             .catch(err => {
                 console.error("Error enrolling in exam:", err);
             });
+        }
+
+        function refreshRegistrationList() {
+            fetch("/fetch_registration_html/")
+                .then(response => response.json())
+                .then(data => {
+                    const regList = document.querySelector("#registration-card .exam-list");
+                    if (regList && data.html) {
+                        regList.outerHTML = data.html;
+                    }
+                })
+                .catch(err => {
+                    console.error("Error refreshing registration list:", err);
+                });
         }
     </script>
 
