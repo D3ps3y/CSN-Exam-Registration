@@ -130,8 +130,8 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
-    background-color: #fafafa;
+    padding: 1rem;
+    background-color: transparent;
     overflow: hidden;
 }
 
@@ -144,11 +144,14 @@ body {
 .content-card {
     flex: 1;
     overflow-y: auto;
-    padding: 1.5rem;
+    padding: 2rem;
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     min-height: 0;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .hidden {
