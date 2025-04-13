@@ -273,3 +273,37 @@ select {
     margin-top: auto;
     gap: 1rem;
 }
+
+// Errors
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #ff4d4d;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 17px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    animation: fadeOut 3s ease forwards;
+    backdrop-filter: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+#snackbar.show {
+    visibility: visible;
+}
+
+@keyframes fadeOut {
+    0%   {opacity: 1;}
+    80%  {opacity: 1;}
+    100% {opacity: 0; display: none;}
+}
+

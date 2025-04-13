@@ -242,3 +242,11 @@ def fetch_registration_html(request):
     })
 
     return JsonResponse({"html": html})
+
+#########################################################################
+# Grabs Exam Count
+#########################################################################
+@login_required
+def get_exam_count(request):
+    count = ExamRegistration.objects.filter(student=request.user).count()
+    return JsonResponse({"count": count})

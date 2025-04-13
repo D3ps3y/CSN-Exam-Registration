@@ -60,7 +60,11 @@
                     <div id="registration-card" class="hidden">
                         <h1>Exam Registration</h1>
 
-                        <!-- Filters and toggle view -->
+                        <div class="exam-limit-counter" style="text-align: right; font-weight: bold;">
+                            Registered: <span id="exam-count">0</span> / 3
+                        </div>
+
+                        <!-- Filters -->
                         <div class="filters">
                             <select id="dateFilter-registration" name="date-filter" onchange="filterExams('registration')">
                                 <option value="all">All Dates</option>
@@ -132,6 +136,7 @@
             document.getElementById("bookings-card").classList.add("hidden");
 
             refreshRegistrationList();
+            updateExamCount();
         }
 
         function showBookings() {
@@ -230,6 +235,7 @@
                         card.remove();
                     }
                     refreshRegistrationList();
+                    updateExamCount();
                 } else {
                     alert(data.error || "Failed to cancel exam.");
                 }
@@ -257,6 +263,15 @@
         }
 
         function enrollExam(button) {
+
+            fetch("/get_exam_count/")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.count >= 3) {
+                        showSnackbar("You’ve already registered for the maximum of 3 exams.");
+                        return;
+                    }
+
             const examId = button.getAttribute("data-exam-id");
 
             fetch(`/enroll_exam/${examId}/`, {
@@ -298,7 +313,26 @@
                     console.error("Error refreshing registration list:", err);
                 });
         }
+
+        function updateExamCount() {
+            fetch("/get_exam_count/")
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("exam-count").textContent = data.count;
+                });
+        }
+
+        function showSnackbar(message) {
+            const snackbar = document.getElementById("snackbar");
+            snackbar.textContent = message;
+
+            snackbar.classList.remove("show"); // Reset in case it's already showing
+            void snackbar.offsetWidth;         // Force reflow
+            snackbar.classList.add("show");
+        }
     </script>
+
+    <div id="snackbar"></div>
 
 </body>
 </html>
