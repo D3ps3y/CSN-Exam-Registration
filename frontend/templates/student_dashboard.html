@@ -58,7 +58,7 @@
                     </div>
 
                     <div id="registration-card" class="hidden">
-                        <h1>Exam Registration Dashboard</h1>
+                        <h1>Exam Registration</h1>
 
                         <!-- Filters and toggle view -->
                         <div class="filters">
@@ -73,10 +73,6 @@
                                 <option value="North Las Vegas">North Las Vegas</option>
                                 <option value="West Charleston">West Charleston</option>
                             </select>
-                        </div>
-
-                        <div class="toggle-view">
-                            <button class="toggle-btn" onclick="toggleView()">Toggle Grid/List View</button>
                         </div>
 
                         <!-- Dynamic Exam List -->
@@ -119,7 +115,7 @@
                     </div>
 
                     <div id="bookings-card" class="hidden">
-                        <h1>Reservations</h1>
+                        <h1>Bookings</h1>
 
                         <!-- Filters and toggle view -->
                         <div class="filters">
@@ -134,10 +130,6 @@
                                 <option value="North Las Vegas">North Las Vegas</option>
                                 <option value="West Charleston">West Charleston</option>
                             </select>
-                        </div>
-
-                        <div class="toggle-view">
-                            <button class="toggle-btn" onclick="toggleView()">Toggle Grid/List View</button>
                         </div>
 
                         <!-- Dynamic Exam List -->
@@ -269,21 +261,6 @@
             });
         }
 
-        function toggleView() {
-            const cardView = document.querySelector('.exam-list');
-
-            if (cardView.classList.contains('grid-view')) {
-
-            cardView.classList.remove('grid-view');
-            cardView.classList.add('list-view');
-
-            } else {
-
-            cardView.classList.remove('list-view');
-            cardView.classList.add('grid-view');
-
-            }
-        }
     </script>
 
 </body>
