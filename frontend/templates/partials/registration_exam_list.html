@@ -4,7 +4,8 @@
             data-campus="{{ exam.location }}"
             data-date="{{ exam.exam_date|date:'Y-m-d' }}"
             data-subject="{{ exam.exam_subject }}"
-            data-full="{{ exam.enrollments.count >= exam.max_seats }}">
+            data-full="{{ exam.enrollments.count >= exam.max_seats|yesno:'true,false' }}">
+
 
             <div class="exam-header">
                 <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
