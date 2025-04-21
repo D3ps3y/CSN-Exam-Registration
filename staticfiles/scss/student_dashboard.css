@@ -183,13 +183,10 @@ select {
 
 .exam-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem; }
-
-.exam-list.grid-view {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem; }
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  max-width: 1440px;
+  margin: 0 auto; }
 
 .exam-list.list-view {
   display: flex;
