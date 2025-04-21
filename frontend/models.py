@@ -28,6 +28,7 @@ class User(AbstractUser):
 
 class Exam(models.Model):
     exam_subject = models.CharField(max_length=255, default='Untitled Exam Subject')
+    exam_number = models.CharField(max_length=255, default="1234")
     exam_date = models.DateField(default=timezone.localdate)
     exam_time = models.TimeField(default=current_time)
     location = models.CharField(max_length=255, default='Location_Name')

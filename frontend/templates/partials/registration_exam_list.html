@@ -5,7 +5,7 @@
             data-date="{{ exam.exam_date }}">
 
             <div class="exam-header">
-                <span class="exam-title">{{ exam.exam_subject }}</span>
+                <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
                 <span class="capacity">
                     {% if exam.max_seats %}
                         {{ exam.enrollments.count }} / {{ exam.max_seats }}

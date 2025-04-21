@@ -13,7 +13,7 @@
         <ul>
             {% for exam in exams %}
                 <li>
-                    <strong>{{ exam.exam_subject }}</strong>
+                    <strong>{{ exam.exam_subject }} {{ exam.exam_number }}</strong>
                     <br>
                     Date: {{ exam.exam_date }} <br>
                     Time: {{ exam.exam_time }} <br>
