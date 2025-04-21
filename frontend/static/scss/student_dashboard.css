@@ -168,7 +168,8 @@ body {
 .exam-limit-counter {
   font-weight: bold;
   font-size: 1rem;
-  white-space: nowrap; }
+  white-space: nowrap;
+  margin-left: 2rem; }
 
 select {
   padding: 0.5rem;
