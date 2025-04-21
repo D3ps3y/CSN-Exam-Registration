@@ -181,8 +181,9 @@
                 const cardCampus = card.getAttribute('data-campus');
                 const cardDateStr = card.getAttribute('data-date');
                 const cardSubject = card.getAttribute('data-subject');
-                const cardDate = new Date(cardDateStr);
-                cardDate.setHours(0, 0, 0, 0);
+                const parts = cardDateStr.split("-"); // "2025-04-21"
+                const cardDate = new Date(parts[0], parts[1] - 1, parts[2]); // year, month (0-based), day
+
 
                 const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
                 const subjectMatches = (selectedSubject === "all" || cardSubject === selectedSubject); // ✅ NEW LINE
