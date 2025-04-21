@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
             name='Exam',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('exam_name', models.CharField(default='Untitled Exam', max_length=255)),
+                ('exam_subject', models.CharField(default='Untitled Exam', max_length=255)),
                 ('exam_date', models.DateField(default=django.utils.timezone.localdate)),
                 ('exam_time', models.TimeField(default=frontend.models.current_time)),
                 ('location', models.CharField(default='Location_Name', max_length=255)),

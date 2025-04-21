@@ -27,7 +27,7 @@ class User(AbstractUser):
 # but update foreign keys that referenced "Student" to reference the unified User.
 
 class Exam(models.Model):
-    exam_name = models.CharField(max_length=255, default='Untitled Exam')
+    exam_subject = models.CharField(max_length=255, default='Untitled Exam Subject')
     exam_date = models.DateField(default=timezone.localdate)
     exam_time = models.TimeField(default=current_time)
     location = models.CharField(max_length=255, default='Location_Name')
@@ -49,7 +49,7 @@ class Exam(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.exam_name
+        return self.exam_subject
 
 class ExamRegistration(models.Model):
     # Since both students and faculty are now in the same user model,
