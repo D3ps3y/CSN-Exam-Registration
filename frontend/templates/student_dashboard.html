@@ -66,11 +66,15 @@
 
                         <!-- Filters -->
                         <div class="filters">
-                            <select id="dateFilter-registration" name="date-filter" onchange="filterExams('registration')">
-                                <option value="all">All Dates</option>
-                                <option value="this-week">This Week</option>
-                                <option value="next-week">Next Week</option>
-                            </select>
+                            <div class="date-range-filter">
+                                <label>From: <input type="date" id="startDate-registration"
+                                                    onchange="filterExams('registration')">
+                                </label>
+                                <label>To: <input type="date" id="endDate-registration"
+                                                  onchange="filterExams('registration')">
+                                </label>
+                            </div>
+
                             <select id="campusFilter-registration" name="campus-filter" onchange="filterExams('registration')">
                                 <option value="all">All Campuses</option>
                                 <option value="Henderson">Henderson</option>
@@ -88,13 +92,16 @@
                     <div id="bookings-card" class="hidden">
                         <h1>Bookings</h1>
 
-                        <!-- Filters and toggle view -->
+                        <!-- Filters -->
                         <div class="filters">
-                            <select id="dateFilter-bookings" name="date-filter" onchange="filterExams('bookings')">
-                                <option value="all">All Dates</option>
-                                <option value="this-week">This Week</option>
-                                <option value="next-week">Next Week</option>
-                            </select>
+                            <div class="date-range-filter">
+                                <label>From: <input type="date" id="startDate-bookings"
+                                                    onchange="filterExams('bookings')">
+                                </label>
+                                <label>To: <input type="date" id="endDate-bookings"
+                                                  onchange="filterExams('bookings')">
+                                </label>
+                            </div>
                             <select id="campusFilter-bookings" name="campus-filter" onchange="filterExams('bookings')">
                                 <option value="all">All Campuses</option>
                                 <option value="Henderson">Henderson</option>
@@ -159,60 +166,35 @@
 
         function filterExams(panel) {
             const selectedCampus = document.getElementById(`campusFilter-${panel}`).value;
-            const selectedDate = document.getElementById(`dateFilter-${panel}`).value;
-            const today = new Date();
+
+            const startDateInput = document.getElementById(`startDate-${panel}`);
+            const endDateInput = document.getElementById(`endDate-${panel}`);
+
+            const startDate = startDateInput?.value ? new Date(startDateInput.value) : null;
+            const endDate = endDateInput?.value ? new Date(endDateInput.value) : null;
+
+            if (startDate) startDate.setHours(0, 0, 0, 0);
+            if (endDate) endDate.setHours(23, 59, 59, 999);
+
             const examCards = document.querySelectorAll(`#${panel}-card .exam-card`);
 
             examCards.forEach(card => {
-            const cardCampus = card.getAttribute('data-campus');
-            const cardDateStr = card.getAttribute('data-date');
-            const cardDate = new Date(cardDateStr);
+                const cardCampus = card.getAttribute('data-campus');
+                const cardDateStr = card.getAttribute('data-date');
+                const cardDate = new Date(cardDateStr);
+                cardDate.setHours(12, 0, 0, 0); // Normalize
 
-            const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
+                const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
 
-            let dateMatches = true;
+                let dateMatches = true;
+                if (startDate && cardDate < startDate) dateMatches = false;
+                if (endDate && cardDate > endDate) dateMatches = false;
 
-            if (selectedDate === "this-week") {
-                const dayOfWeek = today.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
-
-                // Start of today (to exclude past days if needed)
-                const startOfToday = new Date(today);
-                startOfToday.setHours(0, 0, 0, 0);
-
-                // End of this week (Sunday night)
-                const endOfWeek = new Date(today);
-                endOfWeek.setDate(today.getDate() + (7 - dayOfWeek));
-                endOfWeek.setHours(23, 59, 59, 999);
-
-                dateMatches = cardDate >= startOfToday && cardDate <= endOfWeek;
-            }
-
-
-            if (selectedDate === "next-week") {
-
-                // Clone today's date without affecting it
-                const current = new Date(today);
-
-                // Calculate next Monday
-                const daysUntilNextMonday = (8 - current.getDay()) % 7 || 7;
-                const startOfNextWeek = new Date(current);
-                startOfNextWeek.setDate(current.getDate() + daysUntilNextMonday);
-                startOfNextWeek.setHours(0, 0, 0, 0);
-
-                // Calculate next Sunday (6 days after Monday)
-                const endOfNextWeek = new Date(startOfNextWeek);
-                endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
-                endOfNextWeek.setHours(23, 59, 59, 999);
-
-                dateMatches = cardDate >= startOfNextWeek && cardDate <= endOfNextWeek;
-            }
-
-
-            if (campusMatches && dateMatches) {
-                card.style.removeProperty('display');
-            } else {
-                card.style.display = 'none';
-            }
+                if (campusMatches && dateMatches) {
+                    card.style.removeProperty('display');
+                } else {
+                    card.style.display = 'none';
+                }
             });
         }
 
