@@ -137,22 +137,32 @@ body {
 
 .filters {
   display: flex;
-  gap: 1rem;
+  align-items: center;
   justify-content: center;
+  gap: 1.25rem;
   margin-bottom: 2rem;
-  flex-wrap: wrap; }
+  flex-wrap: nowrap; }
   .filters label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-weight: 500; }
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap; }
   .filters input[type="date"],
   .filters select {
-    padding: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 6px 10px;
     border: 1px solid #ccc;
-    border-radius: 5px; }
-
+    border-radius: 6px;
+    min-width: 140px;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none; }
+  @media (max-width: 600px) {
+    .filters {
+      flex-wrap: wrap;
+      justify-content: flex-start; } }
 select {
   padding: 0.5rem;
   border-radius: 5px;
