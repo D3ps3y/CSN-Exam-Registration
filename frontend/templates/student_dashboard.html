@@ -182,7 +182,7 @@
                 const cardDateStr = card.getAttribute('data-date');
                 const cardSubject = card.getAttribute('data-subject');
                 const cardDate = new Date(cardDateStr);
-                cardDate.setHours(12, 0, 0, 0); // Normalize
+                cardDate.setHours(0, 0, 0, 0);
 
                 const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
                 const subjectMatches = (selectedSubject === "all" || cardSubject === selectedSubject); // ✅ NEW LINE

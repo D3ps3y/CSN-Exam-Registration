@@ -2,7 +2,8 @@
     {% for exam in exams %}
         <div class="exam-card"
             data-campus="{{ exam.location }}"
-            data-date="{{ exam.exam_date }}">
+            data-date="{{ exam.exam_date }}"
+            data-subject="{{ exam.exam_subject }}">
 
             <div class="exam-header">
                 <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
