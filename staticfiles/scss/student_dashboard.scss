@@ -139,6 +139,7 @@ body {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 1rem;
+    text-align: center;
 }
 
 .content-card {
@@ -155,13 +156,25 @@ body {
     display: none;
 }
 
+.filters-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 .filters {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    flex-wrap: nowrap;
+    gap: 1.25rem;
+    flex-wrap: wrap;
 
     .filter-group {
         display: inline-flex;
@@ -178,18 +191,13 @@ body {
         border-radius: 6px;
         min-width: 140px;
     }
-
-    @media (max-width: 768px) {
-        flex-wrap: wrap;
-        justify-content: center;
-
-        .filter-group {
-            margin-top: 0.5rem;
-        }
-    }
 }
 
-
+.exam-limit-counter {
+    font-weight: bold;
+    font-size: 1rem;
+    white-space: nowrap;
+}
 
 select {
     padding: 0.5rem;

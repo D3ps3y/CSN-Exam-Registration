@@ -60,30 +60,33 @@
                     <div id="registration-card" class="hidden">
                         <h1>Exam Registration</h1>
 
-                        <div class="exam-limit-counter" style="text-align: right; font-weight: bold;">
-                            Registered: <span id="exam-count">0</span> / 3
-                        </div>
-
                         <!-- Filters -->
-                        <div class="filters">
-                            <div class="filter-group">
-                                <label for="startDate-registration">From:</label>
-                                <input type="date" id="startDate-registration" onchange="filterExams('registration')">
+                        <div class="filters-row">
+                            <div class="filters">
+                                <div class="filter-group">
+                                    <label for="startDate-registration">From:</label>
+                                    <input type="date" id="startDate-registration" onchange="filterExams('registration')">
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="endDate-registration">To:</label>
+                                    <input type="date" id="endDate-registration" onchange="filterExams('registration')">
+                                </div>
+
+                                <div class="filter-group">
+                                    <select id="campusFilter-registration" onchange="filterExams('registration')">
+                                        <option value="all">All Campuses</option>
+                                        <option value="Henderson">Henderson</option>
+                                        <option value="North Las Vegas">North Las Vegas</option>
+                                        <option value="West Charleston">West Charleston</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="filter-group">
-                                <label for="endDate-registration">To:</label>
-                                <input type="date" id="endDate-registration" onchange="filterExams('registration')">
+                            <div class="exam-limit-counter">
+                                Registered: <span id="exam-count">0</span> / 3
                             </div>
 
-                            <div class="filter-group">
-                                <select id="campusFilter-registration" onchange="filterExams('registration')">
-                                    <option value="all">All Campuses</option>
-                                    <option value="Henderson">Henderson</option>
-                                    <option value="North Las Vegas">North Las Vegas</option>
-                                    <option value="West Charleston">West Charleston</option>
-                                </select>
-                            </div>
                         </div>
 
                         <!-- Dynamic Exam List -->
