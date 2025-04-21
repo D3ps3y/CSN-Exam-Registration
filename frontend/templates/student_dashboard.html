@@ -93,6 +93,16 @@
                                         <!-- Add more subjects as needed -->
                                     </select>
                                 </div>
+
+                                <div class="filter-group">
+                                    <label for="hideFullCheckbox">
+                                        <input type="checkbox" id="hideFullCheckbox"
+                                               onchange="filterExams('registration')" checked>
+                                        Hide Full Exams
+                                    </label>
+                                </div>
+
+
                             </div>
 
                             <div class="exam-limit-counter">
@@ -168,6 +178,8 @@
             const startDateInput = document.getElementById(`startDate-${panel}`);
             const endDateInput = document.getElementById(`endDate-${panel}`);
             const selectedSubject = document.getElementById(`subjectFilter-${panel}`)?.value || "all";
+            const hideFull = document.getElementById(`hideFullCheckbox-${panel}`)?.checked ?? true;
+
 
             let startDate = null;
             let endDate = null;
@@ -210,6 +222,9 @@
                 const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
                 const subjectMatches = (selectedSubject === "all" || cardSubject === selectedSubject);
 
+                const isFull = card.getAttribute('data-full') === "true";
+                const fullMatches = !hideFull || !isFull;
+
                 let dateMatches = true;
                 if (startDate && cardDate < startDate) dateMatches = false;
                 if (endDate && cardDate > endDate) dateMatches = false;
@@ -219,11 +234,12 @@
                             "| End:", endDate?.toISOString(),
                             "| dateMatches:", dateMatches);
 
-                if (campusMatches && dateMatches && subjectMatches) {
+                if (campusMatches && dateMatches && subjectMatches && fullMatches) {
                     card.style.removeProperty('display');
                 } else {
                     card.style.display = 'none';
                 }
+
             });
         }
 

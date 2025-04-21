@@ -3,7 +3,8 @@
         <div class="exam-card"
             data-campus="{{ exam.location }}"
             data-date="{{ exam.exam_date|date:'Y-m-d' }}"
-            data-subject="{{ exam.exam_subject }}">
+            data-subject="{{ exam.exam_subject }}"
+            data-full="{{ exam.enrollments.count >= exam.max_seats }}">
 
             <div class="exam-header">
                 <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
@@ -15,6 +16,11 @@
                     {% endif %}
                 </span>
             </div>
+
+            {% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}
+                <div class="enrolled">This exam is full!</div>
+            {% endif %}
+
 
             <div class="exam-meta">
                 <div>Date: {{ exam.exam_date }}</div>
