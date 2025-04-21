@@ -169,11 +169,19 @@
             const endDateInput = document.getElementById(`endDate-${panel}`);
             const selectedSubject = document.getElementById(`subjectFilter-${panel}`)?.value || "all";
 
-            const startDate = startDateInput?.value ? new Date(startDateInput.value) : null;
-            const endDate = endDateInput?.value ? new Date(endDateInput.value) : null;
+            let startDate = null;
+            let endDate = null;
 
-            if (startDate) startDate.setHours(0, 0, 0, 0);
-            if (endDate) endDate.setHours(23, 59, 59, 999);
+            if (startDateInput?.value) {
+                const sParts = startDateInput.value.split("-");
+                startDate = new Date(sParts[0], sParts[1] - 1, sParts[2]); // local midnight
+            }
+
+            if (endDateInput?.value) {
+                const eParts = endDateInput.value.split("-");
+                endDate = new Date(eParts[0], eParts[1] - 1, eParts[2]);
+                endDate.setHours(23, 59, 59, 999); // include full end-of-day
+            }
 
             const examCards = document.querySelectorAll(`#${panel}-card .exam-card`);
 
