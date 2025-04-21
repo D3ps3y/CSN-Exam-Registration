@@ -141,6 +141,17 @@ body {
   justify-content: center;
   margin-bottom: 2rem;
   flex-wrap: wrap; }
+  .filters label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500; }
+  .filters input[type="date"],
+  .filters select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px; }
 
 select {
   padding: 0.5rem;
