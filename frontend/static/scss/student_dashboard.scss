@@ -159,16 +159,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.25rem;
+    gap: 1.5rem;
     margin-bottom: 2rem;
-    flex-wrap: nowrap; // Force horizontal layout, no wrap on medium screens+
+    flex-wrap: nowrap;
 
-    label {
-        display: flex;
+    .filter-group {
+        display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        font-weight: 500;
-        font-size: 0.95rem;
         white-space: nowrap;
     }
 
@@ -179,16 +177,18 @@ body {
         border: 1px solid #ccc;
         border-radius: 6px;
         min-width: 140px;
-        background-color: #fff;
-        appearance: none;
-        -webkit-appearance: none;
     }
 
-    @media (max-width: 600px) {
-        flex-wrap: wrap; // Allow wrapping only on very small screens
-        justify-content: flex-start;
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .filter-group {
+            margin-top: 0.5rem;
+        }
     }
 }
+
 
 
 select {

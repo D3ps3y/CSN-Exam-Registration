@@ -66,21 +66,24 @@
 
                         <!-- Filters -->
                         <div class="filters">
-                            <div class="date-range-filter">
-                                <label>From: <input type="date" id="startDate-registration"
-                                                    onchange="filterExams('registration')">
-                                </label>
-                                <label>To: <input type="date" id="endDate-registration"
-                                                  onchange="filterExams('registration')">
-                                </label>
+                            <div class="filter-group">
+                                <label for="startDate-registration">From:</label>
+                                <input type="date" id="startDate-registration" onchange="filterExams('registration')">
                             </div>
 
-                            <select id="campusFilter-registration" name="campus-filter" onchange="filterExams('registration')">
-                                <option value="all">All Campuses</option>
-                                <option value="Henderson">Henderson</option>
-                                <option value="North Las Vegas">North Las Vegas</option>
-                                <option value="West Charleston">West Charleston</option>
-                            </select>
+                            <div class="filter-group">
+                                <label for="endDate-registration">To:</label>
+                                <input type="date" id="endDate-registration" onchange="filterExams('registration')">
+                            </div>
+
+                            <div class="filter-group">
+                                <select id="campusFilter-registration" onchange="filterExams('registration')">
+                                    <option value="all">All Campuses</option>
+                                    <option value="Henderson">Henderson</option>
+                                    <option value="North Las Vegas">North Las Vegas</option>
+                                    <option value="West Charleston">West Charleston</option>
+                                </select>
+                            </div>
                         </div>
 
                         <!-- Dynamic Exam List -->
@@ -91,25 +94,6 @@
 
                     <div id="bookings-card" class="hidden">
                         <h1>Bookings</h1>
-
-                        <!-- Filters -->
-                        <div class="filters">
-                            <div class="date-range-filter">
-                                <label>From: <input type="date" id="startDate-bookings"
-                                                    onchange="filterExams('bookings')">
-                                </label>
-                                <label>To: <input type="date" id="endDate-bookings"
-                                                  onchange="filterExams('bookings')">
-                                </label>
-                            </div>
-                            <select id="campusFilter-bookings" name="campus-filter" onchange="filterExams('bookings')">
-                                <option value="all">All Campuses</option>
-                                <option value="Henderson">Henderson</option>
-                                <option value="North Las Vegas">North Las Vegas</option>
-                                <option value="West Charleston">West Charleston</option>
-                            </select>
-                        </div>
-
                         <!-- Dynamic Exam List -->
                         <div class="exam-list grid-view">
                             <!-- Booking cards will be loaded here via fetch_bookings_html -->
