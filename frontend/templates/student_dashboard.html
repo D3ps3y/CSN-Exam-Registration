@@ -81,6 +81,17 @@
                                         <option value="West Charleston">West Charleston</option>
                                     </select>
                                 </div>
+
+                                <div class="filter-group">
+                                    <label for="subjectFilter-registration">Subject:</label>
+                                    <select id="subjectFilter-registration" onchange="filterExams('registration')">
+                                        <option value="all">All Subjects</option>
+                                        <option value="MATH">MATH</option>
+                                        <option value="ENG">ENG</option>
+                                        <option value="BIO">BIO</option>
+                                        <!-- Add more subjects as needed -->
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="exam-limit-counter">
@@ -153,9 +164,9 @@
 
         function filterExams(panel) {
             const selectedCampus = document.getElementById(`campusFilter-${panel}`).value;
-
             const startDateInput = document.getElementById(`startDate-${panel}`);
             const endDateInput = document.getElementById(`endDate-${panel}`);
+            const selectedSubject = document.getElementById(`subjectFilter-${panel}`)?.value || "all";
 
             const startDate = startDateInput?.value ? new Date(startDateInput.value) : null;
             const endDate = endDateInput?.value ? new Date(endDateInput.value) : null;
@@ -168,16 +179,18 @@
             examCards.forEach(card => {
                 const cardCampus = card.getAttribute('data-campus');
                 const cardDateStr = card.getAttribute('data-date');
+                const cardSubject = card.getAttribute('data-subject');
                 const cardDate = new Date(cardDateStr);
                 cardDate.setHours(12, 0, 0, 0); // Normalize
 
                 const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
+                const subjectMatches = (selectedSubject === "all" || cardSubject === selectedSubject); // ✅ NEW LINE
 
                 let dateMatches = true;
                 if (startDate && cardDate < startDate) dateMatches = false;
                 if (endDate && cardDate > endDate) dateMatches = false;
 
-                if (campusMatches && dateMatches) {
+                if (campusMatches && dateMatches && subjectMatches) {
                     card.style.removeProperty('display');
                 } else {
                     card.style.display = 'none';
