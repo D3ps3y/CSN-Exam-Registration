@@ -192,8 +192,20 @@
 
                 if (!cardDateStr) return; // Skip if date is missing
 
-                const parts = cardDateStr.split("-");
-                const cardDate = new Date(parts[0], parts[1] - 1, parts[2]); // local time
+                let cardDate = null;
+                if (cardDateStr && cardDateStr.includes("-")) {
+                    const parts = cardDateStr.split("-");
+                    if (parts.length === 3) {
+                        cardDate = new Date(parts[0], parts[1] - 1, parts[2]);
+                    }
+                }
+
+                if (!cardDate || isNaN(cardDate.getTime())) {
+                    console.warn("Invalid cardDate:", cardDateStr);
+                    card.style.display = 'none';
+                    return;
+                }
+
 
                 const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
                 const subjectMatches = (selectedSubject === "all" || cardSubject === selectedSubject);
