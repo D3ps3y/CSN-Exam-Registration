@@ -119,7 +119,7 @@ class ExamForm(forms.ModelForm):
     class Meta:
 
         model = Exam
-        fields = ['exam_subject', 'exam_date', 'exam_time', 'location', 'building', 'room_number', 'max_seats', 'status']
+        fields = ['exam_subject', 'exam_number', 'exam_date', 'exam_time', 'location', 'building', 'room_number', 'max_seats', 'status']
         widgets = {
             'exam_date': forms.DateInput(attrs={'type': 'date'}),
             # Include 'step': '1' so the input accepts time values in one-second increments.
