@@ -47,6 +47,11 @@
                         <span class="icon"><i class="fas fa-file-alt"></i></span>
                         <span class="label">My Bookings</span>
                     </a></li>
+
+                    <li><a href="#" id="confirmation" class="nav-link" onclick="showConfirmations()">
+                        <span class="icon"><i class="fas fa-circle-check"></i></span>
+                        <span class="label">Exam Confirmation</span>
+                    </a></li>
                 </ul>
             </nav>
 
@@ -117,6 +122,17 @@
                         </div>
                     </div>
 
+                    <div id="confirmation-card" class="hidden">
+                        <h1>Confirm Exam Selection</h1>
+                        <div id="confirmation-details" class="exam-list grid-view"></div>
+
+                        <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                            <button class="select-btn" onclick="confirmEnrollment()">Confirm</button>
+                            <button class="cancel-btn" onclick="cancelConfirmation()">Cancel</button>
+                        </div>
+                    </div>
+
+
                     <div id="bookings-card" class="hidden">
                         <h1>Bookings</h1>
                         <!-- Dynamic Exam List -->
@@ -130,6 +146,57 @@
     </div>
 
     <script>
+
+        let pendingExamId = null;
+
+        function queueExamForConfirmation(button) {
+            const examId = button.getAttribute("data-exam-id");
+            const card = button.closest(".exam-card");
+
+            pendingExamId = examId;
+            const details = document.getElementById("confirmation-details");
+
+            // Clone the card and display it
+            details.innerHTML = "";
+            const cloned = card.cloneNode(true);
+            const confirmButton = cloned.querySelector(".select-btn");
+            if (confirmButton) confirmButton.remove(); // remove original "Select" button
+            details.appendChild(cloned);
+
+            showConfirmations();
+        }
+
+        function confirmEnrollment() {
+            if (!pendingExamId) return;
+
+            fetch(`/enroll_exam/${pendingExamId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    pendingExamId = null;
+                    showBookings(); // go to bookings after confirmation
+                    updateExamCount();
+                } else {
+                    showSnackbar(data.error || "Failed to enroll.");
+                }
+            })
+            .catch(err => {
+                console.error("Error enrolling in exam:", err);
+            });
+        }
+
+        function cancelConfirmation() {
+            pendingExamId = null;
+            showRegistration(); // go back to registration
+        }
+
+
         function clearActiveLinks() {
             document.querySelectorAll(".nav-link").forEach(link => {
                 link.classList.remove("active");
@@ -172,6 +239,16 @@
                     console.error("Error fetching bookings:", err);
                 });
         }
+
+        function showConfirmations() {
+            clearActiveLinks();
+            document.getElementById("confirmation").classList.add("active");
+            document.getElementById("dashboard-card").classList.add("hidden");
+            document.getElementById("registration-card").classList.add("hidden");
+            document.getElementById("bookings-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.remove("hidden");
+}
+
 
         function filterExams(panel) {
             const selectedCampus = document.getElementById(`campusFilter-${panel}`).value;
