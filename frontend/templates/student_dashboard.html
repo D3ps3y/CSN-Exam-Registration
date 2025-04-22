@@ -336,6 +336,8 @@
                     const regList = document.querySelector("#registration-card .exam-list");
                     if (regList && data.html) {
                         regList.outerHTML = data.html;
+
+                        filterExams('registration');
                     }
                 })
                 .catch(err => {
