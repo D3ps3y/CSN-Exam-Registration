@@ -191,7 +191,16 @@ def cancel_exam(request, exam_id):
 def enroll_exam(request, exam_id):
     if request.method == "POST":
         exam = get_object_or_404(Exam, id=exam_id)
-        ExamRegistration.objects.get_or_create(exam=exam, student=request.user)
+
+        # Check if the student is already enrolled
+        if ExamRegistration.objects.filter(exam=exam, student=request.user).exists():
+            return JsonResponse({"success": False, "error": "You're already enrolled in this exam."})
+
+        # Check if the exam is full
+        if exam.max_seats and exam.enrollments.count() >= exam.max_seats:
+            return JsonResponse({"success": False, "error": "This exam is already full."})
+
+        ExamRegistration.objects.create(exam=exam, student=request.user)
 
         # If this is an AJAX request, return JSON instead of redirect
         if request.headers.get("x-requested-with") == "XMLHttpRequest":

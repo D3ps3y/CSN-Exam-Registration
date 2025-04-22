@@ -6,22 +6,16 @@
             data-subject="{{ exam.exam_subject }}"
             data-full="{% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}true{% else %}false{% endif %}">
 
-
-
             <div class="exam-header">
                 <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
                 <span class="capacity">
-                    {% if exam.max_seats %}
-                        {{ exam.enrollments.count }} / {{ exam.max_seats }}
+                    {% if exam.enrollments.count >= exam.max_seats %}
+                        <span class="full-label">Full</span>
                     {% else %}
-                        {{ exam.enrollments.count }} enrolled
+                        {{ exam.enrollments.count }} / {{ exam.max_seats }}
                     {% endif %}
                 </span>
             </div>
-
-            {% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}
-                <div class="enrolled">This exam is full</div>
-            {% endif %}
 
             <div class="exam-meta">
                 <div>Date: {{ exam.exam_date }}</div>
@@ -29,11 +23,22 @@
                 <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
             </div>
 
-            <button type="button"
+            {% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}
+                <button type="button"
+                    class="select-btn"
+                    disabled
+                    style="background-color: gray; cursor: not-allowed;">
+                    Exam is Full
+                </button>
+            {% else %}
+                <button type="button"
                     class="select-btn"
                     data-exam-id="{{ exam.id }}"
-                    onclick="enrollExam(this)">Select
-            </button>
+                    onclick="enrollExam(this)">
+                    Select
+                </button>
+            {% endif %}
+
         </div>
     {% empty %}
         <p>No exams available at this time.</p>
