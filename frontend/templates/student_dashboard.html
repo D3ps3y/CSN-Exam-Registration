@@ -448,30 +448,45 @@
         function refreshRegistrationList() {
             console.log("REFRESHING REGISTRATION PANEL");
 
+            const card = document.querySelector("#registration-card");
             const regList = document.querySelector("#registration-panel");
-            if (regList) {
-                regList.innerHTML = `
-                <div class="spinner-wrapper">
+
+            // Show spinner in the center of the card
+            if (card) {
+                // Remove old spinner if exists
+                const existing = card.querySelector(".spinner-wrapper");
+                if (existing) existing.remove();
+
+                const spinner = document.createElement("div");
+                spinner.className = "spinner-wrapper";
+                spinner.innerHTML = `
                     <div class="spinner-container">
                         <div class="spinner"></div>
                     </div>
-                </div>
                 `;
+                card.appendChild(spinner);
             }
+
+            // Fetch the data and update the list
             setTimeout(() => {
                 fetch("/fetch_registration_html/")
                     .then(response => response.json())
                     .then(data => {
                         if (regList && data.html) {
                             regList.innerHTML = data.html;
-                            filterExams('registration');
+                            filterExams("registration");
                         }
+
+                        // Remove spinner after loading
+                        const existing = card?.querySelector(".spinner-wrapper");
+                        if (existing) existing.remove();
                     })
                     .catch(err => {
                         console.error("Error refreshing registration list:", err);
                     });
             }, 0);
         }
+
 
 
         function updateExamCount() {
