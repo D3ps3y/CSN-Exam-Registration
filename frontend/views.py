@@ -190,8 +190,8 @@ def cancel_exam(request, exam_id):
 @login_required
 def fetch_bookings_html(request):
     exams = Exam.objects.filter(
-        enrollments_student=request.user,
-        enrollments_status="confirmed"
+        enrollments__student=request.user,
+        enrollments__status="confirmed"
     ).distinct()
 
     html = render_to_string("partials/bookings_list.html", {
