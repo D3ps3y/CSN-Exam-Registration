@@ -117,7 +117,7 @@
                         </div>
 
                         <!-- Dynamic Exam List -->
-                        <div class="exam-list grid-view">
+                        <div id="registration-list" class="exam-list grid-view">
                             <!-- Registration cards will be loaded here via fetch_registration_html -->
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                     <div id="bookings-card" class="hidden">
                         <h1>Bookings</h1>
                         <!-- Dynamic Exam List -->
-                        <div class="exam-list grid-view">
+                        <div id="bookings-list" class="exam-list grid-view">
                             <!-- Booking cards will be loaded here via fetch_bookings_html -->
                         </div>
                     </div>
@@ -198,7 +198,13 @@
             document.querySelectorAll(".nav-link").forEach(link => {
                 link.classList.remove("active");
             });
+
+            // Hide all cards
+            document.querySelectorAll(".content-card > div").forEach(panel => {
+                panel.classList.add("hidden");
+            });
         }
+
 
         function showDashboard() {
             clearActiveLinks();
@@ -230,7 +236,7 @@
             fetch("/fetch_bookings_html/")
                 .then(response => response.json())
                 .then(data => {
-                    document.querySelector("#bookings-card .exam-list").outerHTML = data.html;
+                    document.querySelector("#bookings-list").outerHTML = data.html;
                 })
                 .catch(err => {
                     console.error("Error fetching bookings:", err);
@@ -407,7 +413,7 @@
             fetch("/fetch_registration_html/")
                 .then(response => response.json())
                 .then(data => {
-                    const regList = document.querySelector("#registration-card .exam-list");
+                    const regList = document.querySelector("#registration-list");
                     if (regList && data.html) {
                         regList.outerHTML = data.html;
 
