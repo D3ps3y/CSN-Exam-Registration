@@ -194,15 +194,17 @@ select {
 
 .exam-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 280px);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
   padding: 1rem 0;
   width: 100%;
-  max-width: 100%;
-  /* or 1440px if you want a max limit */
+  max-width: 1440px;
+  /* give it room to grow */
   margin: 0 auto;
   position: relative;
-  min-height: 400px; }
+  min-height: 400px;
+  justify-content: center;
+  /* center the grid if there's leftover space */ }
 
 .exam-list.list-view {
   display: flex;
