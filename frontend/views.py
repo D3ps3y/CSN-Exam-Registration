@@ -265,12 +265,13 @@ def get_exam_count(request):
 #########################################################################
 @login_required
 def fetch_confirmation_html(request):
-    # Get list of pending exam IDs from session (initialize if not set)
-    pending_ids = request.session.get("pending_exams", [])
-
+    pending_ids = request.session.get("pending_exam_ids", [])
     exams = Exam.objects.filter(id__in=pending_ids)
 
-    html = render_to_string("exam_confirmation_list.html", {"exams": exams})
+    html = render_to_string("partials/exam_confirmation_list.html", {
+        "exams": exams
+    })
+
     return JsonResponse({"html": html})
 
 #########################################################################
