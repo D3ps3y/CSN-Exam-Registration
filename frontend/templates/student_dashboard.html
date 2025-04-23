@@ -248,7 +248,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (bookingsList && data.html) {
-                            bookingsList.outerHTML = data.html;
+                            bookingsList.innerHTML = data.html;
                         } else {
                             console.warn("Element #bookings-list not found.");
                         }
@@ -457,7 +457,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (regList && data.html) {
-                            regList.outerHTML = data.html;
+                            regList.innerHTML = data.html;
                             filterExams('registration');
                         }
                     })
