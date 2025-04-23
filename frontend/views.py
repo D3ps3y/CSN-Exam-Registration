@@ -191,7 +191,7 @@ def cancel_exam(request, exam_id):
 def fetch_bookings_html(request):
     exams = Exam.objects.filter(
         enrollments__student=request.user,
-        enrollments__status="confirmed"
+        enrollments__status="confirmed"  // Change
     ).distinct()
 
     html = render_to_string("partials/bookings_list.html", {
