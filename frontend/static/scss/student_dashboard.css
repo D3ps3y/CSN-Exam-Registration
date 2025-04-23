@@ -194,9 +194,9 @@ select {
 
 .exam-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(5, 280px);
   gap: 1rem;
-  max-width: 1440px;
+  justify-items: center;
   margin: 0 auto; }
 
 .exam-list.list-view {
