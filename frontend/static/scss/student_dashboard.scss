@@ -225,12 +225,15 @@ select {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1rem;
-    justify-content: center;
+    justify-content: center; /* centers grid when fewer than 5 cards */
     align-content: start;
+    padding: 1rem 0;
     min-height: 400px;
     position: relative;
+    width: 100%;
+    max-width: 1440px; /* Optional cap */
+    margin: 0 auto;
 }
-
 
 .exam-list.list-view {
     display: flex;
