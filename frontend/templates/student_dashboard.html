@@ -448,26 +448,28 @@
         function refreshRegistrationList() {
             console.log("REFRESHING REGISTRATION PANEL");
 
-            const card = document.querySelector("#registration-card");
             const regList = document.querySelector("#registration-panel");
 
-            // Show spinner in the center of the card
-            if (card) {
-                // Remove old spinner if exists
-                const existing = card.querySelector(".spinner-wrapper");
-                if (existing) existing.remove();
+            // Clear the panel immediately
+            if (regList) {
+                regList.innerHTML = "";
+
+                // Create and insert the spinner directly into the panel
+                const spinnerWrapper = document.createElement("div");
+                spinnerWrapper.className = "spinner-wrapper";
+
+                const spinnerContainer = document.createElement("div");
+                spinnerContainer.className = "spinner-container";
 
                 const spinner = document.createElement("div");
-                spinner.className = "spinner-wrapper";
-                spinner.innerHTML = `
-                    <div class="spinner-container">
-                        <div class="spinner"></div>
-                    </div>
-                `;
-                card.appendChild(spinner);
+                spinner.className = "spinner";
+
+                spinnerContainer.appendChild(spinner);
+                spinnerWrapper.appendChild(spinnerContainer);
+                regList.appendChild(spinnerWrapper);
             }
 
-            // Fetch the data and update the list
+            // Fetch and replace content
             setTimeout(() => {
                 fetch("/fetch_registration_html/")
                     .then(response => response.json())
@@ -476,16 +478,13 @@
                             regList.innerHTML = data.html;
                             filterExams("registration");
                         }
-
-                        // Remove spinner after loading
-                        const existing = card?.querySelector(".spinner-wrapper");
-                        if (existing) existing.remove();
                     })
                     .catch(err => {
                         console.error("Error refreshing registration list:", err);
                     });
             }, 0);
         }
+
 
 
 
