@@ -259,11 +259,17 @@
             clearActiveLinks();
             document.getElementById("confirmation").classList.add("active");
 
+            const list = document.getElementById("exam-confirmation");
+
+            if (list) {
+                list.innerHTML = `<div class="spinner-container"><div class="spinner"></div></div>`;
+            }
+
+
             setTimeout(() => {
                 fetch("/fetch_confirmation_html/")
                     .then(response => response.json())
                     .then(data => {
-                        const list = document.getElementById("exam-confirmation");
                         if (list) {
                             list.innerHTML = data.html;
                         }
