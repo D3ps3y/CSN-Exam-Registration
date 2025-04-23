@@ -259,3 +259,12 @@ def fetch_registration_html(request):
 def get_exam_count(request):
     count = ExamRegistration.objects.filter(student=request.user).count()
     return JsonResponse({"count": count})
+
+#########################################################################
+# AJAX Exam Confirmation Fetcher
+#########################################################################
+@login_required
+def fetch_confirmation_html(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    html = render_to_string("exam_confirmation_list.html", {"exam": exam})
+    return JsonResponse({"html": html})

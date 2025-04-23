@@ -123,13 +123,10 @@
                     </div>
 
                     <div id="confirmation-card" class="hidden">
-                        <h1>Confirm Exam Selection</h1>
-                        <div id="confirmation-details" class="exam-list grid-view"></div>
+                        <h1>Exam Confirmation</h1>
+                        <!-- Dynamic Exam List -->
+                        <div id="exam-confirmation" class="exam-list grid-view"></div>
 
-                        <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                            <button class="select-btn" onclick="confirmEnrollment()">Confirm</button>
-                            <button class="cancel-btn" onclick="cancelConfirmation()">Cancel</button>
-                        </div>
                     </div>
 
 
@@ -151,20 +148,20 @@
 
         function queueExamForConfirmation(button) {
             const examId = button.getAttribute("data-exam-id");
-            const card = button.closest(".exam-card");
-
             pendingExamId = examId;
-            const details = document.getElementById("confirmation-details");
 
-            // Clone the card and display it
-            details.innerHTML = "";
-            const cloned = card.cloneNode(true);
-            const confirmButton = cloned.querySelector(".select-btn");
-            if (confirmButton) confirmButton.remove(); // remove original "Select" button
-            details.appendChild(cloned);
-
-            showConfirmations();
+            fetch(`/fetch_confirmation_html/${examId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    const details = document.getElementById("confirmation-details");
+                    details.innerHTML = data.html;
+                    showConfirmations();
+                })
+                .catch(err => {
+                    console.error("Error fetching confirmation HTML:", err);
+                });
         }
+
 
         function confirmEnrollment() {
             if (!pendingExamId) return;
