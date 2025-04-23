@@ -237,55 +237,18 @@
             document.getElementById("confirmation-card").classList.add("hidden");
             document.getElementById("bookings-card").classList.remove("hidden");
 
-            const bookingsList = document.querySelector("#bookings-list");
-            if (bookingsList) {
-                bookingsList.innerHTML = `<div class="spinner-container"><div class="spinner"></div></div>`;
-            }
-
-            setTimeout(() => {
-                // Fetch the latest bookings
-                fetch("/fetch_bookings_html/")
-                    .then(response => response.json())
-                    .then(data => {
-                        if (bookingsList && data.html) {
-                            bookingsList.innerHTML = data.html;
-                        } else {
-                            console.warn("Element #bookings-list not found.");
-                        }
-                    })
-                    .catch(err => {
-                        console.error("Error fetching bookings:", err);
-                    });
-            }, 0);
+            refreshBookingsList();
         }
 
         function showConfirmations() {
             clearActiveLinks();
             document.getElementById("confirmation").classList.add("active");
+            document.getElementById("dashboard-card").classList.add("hidden");
+            document.getElementById("registration-card").classList.add("hidden");
+            document.getElementById("bookings-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.remove("hidden");
 
-            const list = document.getElementById("exam-confirmation");
-            if (list) {
-                list.innerHTML = `<div class="spinner-container"><div class="spinner"></div></div>`;
-            }
-
-
-            setTimeout(() => {
-                fetch("/fetch_confirmation_html/")
-                    .then(response => response.json())
-                    .then(data => {
-                        if (list) {
-                            list.innerHTML = data.html;
-                        }
-                    })
-                    .catch(err => {
-                        console.error("Error fetching confirmation list:", err);
-                    });
-
-                document.getElementById("dashboard-card").classList.add("hidden");
-                document.getElementById("registration-card").classList.add("hidden");
-                document.getElementById("bookings-card").classList.add("hidden");
-                document.getElementById("confirmation-card").classList.remove("hidden");
-            }, 0);
+            refreshConfirmationList();
         }
 
 
@@ -485,8 +448,83 @@
             }, 0);
         }
 
+        function refreshBookingsList() {
+            console.log("REFRESHING BOOKINGS PANEL");
 
+            const bookingsList = document.querySelector("#bookings-list");
 
+            // Clear the panel immediately
+            if (bookingsList) {
+                bookingsList.innerHTML = "";
+
+                // Create and insert the spinner directly into the panel
+                const spinnerWrapper = document.createElement("div");
+                spinnerWrapper.className = "spinner-wrapper";
+
+                const spinnerContainer = document.createElement("div");
+                spinnerContainer.className = "spinner-container";
+
+                const spinner = document.createElement("div");
+                spinner.className = "spinner";
+
+                spinnerContainer.appendChild(spinner);
+                spinnerWrapper.appendChild(spinnerContainer);
+                bookingsList.appendChild(spinnerWrapper);
+            }
+
+            // Fetch and replace content
+            setTimeout(() => {
+                fetch("/fetch_bookings_html/")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (bookingsList && data.html) {
+                            bookingsList.innerHTML = data.html;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error refreshing bookings list:", err);
+                    });
+            }, 0);
+        }
+
+        function refreshConfirmationList() {
+            console.log("REFRESHING CONFIRMATIONS PANEL");
+
+            const confirmationList = document.querySelector("#exam-confirmation");
+
+            // Clear the panel immediately
+            if (confirmationList) {
+                confirmationList.innerHTML = "";
+
+                // Create and insert the spinner directly into the panel
+                const spinnerWrapper = document.createElement("div");
+                spinnerWrapper.className = "spinner-wrapper";
+
+                const spinnerContainer = document.createElement("div");
+                spinnerContainer.className = "spinner-container";
+
+                const spinner = document.createElement("div");
+                spinner.className = "spinner";
+
+                spinnerContainer.appendChild(spinner);
+                spinnerWrapper.appendChild(spinnerContainer);
+                confirmationList.appendChild(spinnerWrapper);
+            }
+
+            // Fetch and replace content
+            setTimeout(() => {
+                fetch("/fetch_confirmation_html/")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (confirmationList && data.html) {
+                            confirmationList.innerHTML = data.html;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error refreshing confirmations list:", err);
+                    });
+            }, 0);
+        }
 
         function updateExamCount() {
             fetch("/get_exam_count/")
