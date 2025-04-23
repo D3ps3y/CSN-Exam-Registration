@@ -160,7 +160,6 @@
             .then(data => {
                 if (data.success) {
                     showSnackbar("Exam was sent to Exam Confirmations.");
-                    refreshRegistrationList();
                     updateExamCount();
                 }
             });
@@ -180,7 +179,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showBookings(); // Move to bookings
+                    showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
                     updateExamCount();
                 } else {
                     showSnackbar(data.error || "Failed to confirm exam.");
