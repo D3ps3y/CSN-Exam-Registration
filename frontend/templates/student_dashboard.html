@@ -232,17 +232,25 @@
             document.getElementById("bookings").classList.add("active");
             document.getElementById("dashboard-card").classList.add("hidden");
             document.getElementById("registration-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.add("hidden");
             document.getElementById("bookings-card").classList.remove("hidden");
 
-            // Fetch the latest bookings
-            fetch("/fetch_bookings_html/")
-                .then(response => response.json())
-                .then(data => {
-                    document.querySelector("#bookings-list").outerHTML = data.html;
-                })
-                .catch(err => {
-                    console.error("Error fetching bookings:", err);
-                });
+            setTimeout(() => {
+                // Fetch the latest bookings
+                fetch("/fetch_bookings_html/")
+                    .then(response => response.json())
+                    .then(data => {
+                        const bookingsList = document.querySelector("#bookings-list");
+                        if (bookingsList) {
+                            bookingsList.outerHTML = data.html;
+                        } else {
+                            console.warn("Element #bookings-list not found.");
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error fetching bookings:", err);
+                    });
+            }, 0);
         }
 
         function showConfirmations() {
