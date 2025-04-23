@@ -308,6 +308,11 @@ select {
   visibility: visible;
   opacity: 1; }
 
+.spinner-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%; }
+
 .spinner-container {
   position: absolute;
   top: 50%;
@@ -315,9 +320,7 @@ select {
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  pointer-events: none; }
+  align-items: center; }
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);

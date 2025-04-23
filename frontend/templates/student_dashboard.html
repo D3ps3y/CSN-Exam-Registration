@@ -450,7 +450,13 @@
 
             const regList = document.querySelector("#registration-panel");
             if (regList) {
-                regList.innerHTML = `<div class="spinner-container"><div class="spinner"></div></div>`;
+                regList.innerHTML = `
+                <div class="spinner-wrapper">
+                    <div class="spinner-container">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                `;
             }
             setTimeout(() => {
                 fetch("/fetch_registration_html/")
