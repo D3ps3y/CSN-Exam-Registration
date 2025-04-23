@@ -1,40 +1,39 @@
 <div class="exam-list grid-view">
-    {% if exams %}
-        {% for exam in exams %}
+    {% if queued_exams %}
+        {% for reg in queued_exams %}
             <div class="exam-card"
-                data-campus="{{ exam.location }}"
-                data-date="{{ exam.exam_date|date:'Y-m-d' }}"
-                data-subject="{{ exam.exam_subject }}"
-                data-full="{% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}true{% else %}false{% endif %}">
+                data-campus="{{ reg.exam.location }}"
+                data-date="{{ reg.exam.exam_date|date:'Y-m-d' }}"
+                data-subject="{{ reg.exam.exam_subject }}"
+                data-full="{% if reg.exam.max_seats and reg.exam.enrollments.count >= reg.exam.max_seats %}true{% else %}false{% endif %}">
 
                 <div class="exam-header">
-                <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
+                    <span class="exam-title">{{ reg.exam.exam_subject }} {{ reg.exam.exam_number }}</span>
                 </div>
 
                 <div class="exam-meta">
-                    <div>Date: {{ exam.exam_date }}</div>
-                    <div>Time: {{ exam.exam_time }}</div>
-                    <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+                    <div>Date: {{ reg.exam.exam_date }}</div>
+                    <div>Time: {{ reg.exam.exam_time }}</div>
+                    <div>Location: {{ reg.exam.location }} ({{ reg.exam.building }}, Room: {{ reg.exam.room_number }})</div>
                 </div>
 
                 <div style="margin-top: 1rem;">
-
                     <button class="select-btn"
                             onclick="confirmEnrollment(this)"
-                            data-exam-id="{{ exam.id }}">
+                            data-exam-id="{{ reg.exam.id }}">
                         Confirm
                     </button>
 
                     <button class="cancel-btn"
                             onclick="cancelExam(this)"
-                            data-exam-id="{{ exam.id }}">
+                            data-exam-id="{{ reg.exam.id }}">
                         Cancel
                     </button>
-
                 </div>
             </div>
         {% endfor %}
     {% else %}
-        <p>No exams available at this time.</p>
+        <p>No exams waiting for confirmation.</p>
     {% endif %}
 </div>
+
