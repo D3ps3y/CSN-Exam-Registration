@@ -237,13 +237,17 @@
             document.getElementById("confirmation-card").classList.add("hidden");
             document.getElementById("bookings-card").classList.remove("hidden");
 
+            const bookingsList = document.querySelector("#bookings-list");
+            if (bookingsList) {
+                bookingsList.innerHTML = `<div class="spinner-container"><div class="spinner"></div></div>`;
+            }
+
             setTimeout(() => {
                 // Fetch the latest bookings
                 fetch("/fetch_bookings_html/")
                     .then(response => response.json())
                     .then(data => {
-                        const bookingsList = document.querySelector("#bookings-list");
-                        if (bookingsList) {
+                        if (bookingsList && data.html) {
                             bookingsList.outerHTML = data.html;
                         } else {
                             console.warn("Element #bookings-list not found.");
@@ -260,7 +264,6 @@
             document.getElementById("confirmation").classList.add("active");
 
             const list = document.getElementById("exam-confirmation");
-
             if (list) {
                 list.innerHTML = `<div class="spinner-container"><div class="spinner"></div></div>`;
             }
@@ -444,20 +447,26 @@
 
         function refreshRegistrationList() {
             console.log("REFRESHING REGISTRATION PANEL");
-            fetch("/fetch_registration_html/")
-                .then(response => response.json())
-                .then(data => {
-                    const regList = document.querySelector("#registration-list");
-                    if (regList && data.html) {
-                        regList.outerHTML = data.html;
 
-                        filterExams('registration');
-                    }
-                })
-                .catch(err => {
-                    console.error("Error refreshing registration list:", err);
-                });
+            const regList = document.querySelector("#registration-list");
+            if (regList) {
+                regList.innerHTML = `<div class="spinner-container"><div class="spinner"></div></div>`;
+            }
+            setTimeout(() => {
+                fetch("/fetch_registration_html/")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (regList && data.html) {
+                            regList.outerHTML = data.html;
+                            filterExams('registration');
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error refreshing registration list:", err);
+                    });
+            }, 0);
         }
+
 
         function updateExamCount() {
             fetch("/get_exam_count/")
