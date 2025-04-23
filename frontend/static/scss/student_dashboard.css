@@ -136,6 +136,9 @@ body {
 .hidden {
   display: none; }
 
+#registration-card {
+  position: relative; }
+
 .filters-row {
   display: flex;
   justify-content: center;
@@ -317,6 +320,8 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: white;
+  /* Optional: adds contrast or loading cover */
   z-index: 10; }
 
 .spinner-container {
