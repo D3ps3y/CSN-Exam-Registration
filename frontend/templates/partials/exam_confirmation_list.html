@@ -10,10 +10,10 @@
                 <div class="exam-header">
                     <span class="exam-title">{{ reg.exam.exam_subject }} {{ reg.exam.exam_number }}</span>
                     <span class="capacity">
-                        {% if reg.exam.max_seats and reg.exam.enrollments.count >= reg.exam.max_seats %}
+                        {% if reg.exam.enrollments.filter(status='confirmed').count >= reg.exam.max_seats %}
                             <span class="full-label">Full</span>
                         {% else %}
-                            {{ reg.exam.enrollments.count }} / {{ reg.exam.max_seats }}
+                            {{ reg.exam.enrollments.filter(status='confirmed').count }} / {{ reg.exam.max_seats }}
                         {% endif %}
                     </span>
                 </div>
