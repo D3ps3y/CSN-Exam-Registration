@@ -159,7 +159,9 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showConfirmations(); // Load all pending confirmations
+                    showSnackbar("Exam was sent to Exam Confirmations.");
+                    refreshRegistrationList();
+                    updateExamCount();
                 }
             });
         }

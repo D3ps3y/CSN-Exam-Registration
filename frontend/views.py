@@ -228,7 +228,10 @@ def fetch_registration_html(request):
 #########################################################################
 @login_required
 def get_exam_count(request):
-    count = ExamRegistration.objects.filter(student=request.user).count()
+    count = ExamRegistration.objects.filter(
+        student=request.user,
+        status="confirmed" # Only confirmed exams should count as registered
+    ).count()
     return JsonResponse({"count": count})
 
 #########################################################################
