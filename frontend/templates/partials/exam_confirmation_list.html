@@ -9,14 +9,23 @@
 
                 <div class="exam-header">
                     <span class="exam-title">{{ reg.exam.exam_subject }} {{ reg.exam.exam_number }}</span>
+                    <span class="capacity">
+                        {% if reg.exam.max_seats and reg.exam.enrollments.count >= reg.exam.max_seats %}
+                            <span class="full-label">Full</span>
+                        {% else %}
+                            {{ reg.exam.enrollments.count }} / {{ reg.exam.max_seats }}
+                        {% endif %}
+                    </span>
                 </div>
 
+                <!-- Meta Info Section -->
                 <div class="exam-meta">
                     <div>Date: {{ reg.exam.exam_date }}</div>
                     <div>Time: {{ reg.exam.exam_time }}</div>
                     <div>Location: {{ reg.exam.location }} ({{ reg.exam.building }}, Room: {{ reg.exam.room_number }})</div>
                 </div>
 
+                <!-- Action Buttons -->
                 <div style="margin-top: 1rem;">
                     <button class="select-btn"
                             onclick="confirmEnrollment(this)"
@@ -36,4 +45,5 @@
         <p>No exams waiting for confirmation.</p>
     {% endif %}
 </div>
+
 

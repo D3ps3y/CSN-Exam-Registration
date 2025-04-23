@@ -143,9 +143,6 @@
     </div>
 
     <script>
-
-        let pendingExamId = null;
-
         function queueExamForConfirmation(button) {
             const examId = button.getAttribute("data-exam-id");
 
@@ -156,9 +153,14 @@
                     "X-Requested-With": "XMLHttpRequest"
                 }
             })
+
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    const card = button.closest(".exam-card");
+                    if (card) {
+                        card.remove();
+                    }
                     showSnackbar("Exam was sent to Exam Confirmations.");
                     updateExamCount();
                 }
@@ -179,6 +181,10 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    const card = button.closest(".exam-card");
+                    if (card) {
+                        card.remove();
+                    }
                     showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
                     updateExamCount();
                 } else {
@@ -186,13 +192,6 @@
                 }
             });
         }
-
-
-        function cancelConfirmation() {
-            pendingExamId = null;
-            showRegistration(); // go back to registration
-        }
-
 
         function clearActiveLinks() {
             document.querySelectorAll(".nav-link").forEach(link => {
