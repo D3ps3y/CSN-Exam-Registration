@@ -17,6 +17,7 @@ from .views import (
     get_exam_count,
     fetch_confirmation_html,
     queue_exam,
+    confirm_queued_exam
 )
 
 urlpatterns = [
@@ -37,4 +38,5 @@ urlpatterns = [
     path('fetch_confirmation_html/', fetch_confirmation_html, name='fetch_confirmation_html'),
     path('get_exam_count/', get_exam_count, name='get_exam_count'),
     path ('queue_exam/<int:exam_id>/', queue_exam, name='queue_exam'),
+    path("confirm_queued_exam/<int:exam_id>/", confirm_queued_exam, name="confirm_queued_exam"),
 ]

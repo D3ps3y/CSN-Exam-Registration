@@ -185,46 +185,17 @@ def cancel_exam(request, exam_id):
     return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
 
 #########################################################################
-# AJAX Exam Enrollment View (Student Enrolls in an Exam)
-#########################################################################
-@login_required
-def enroll_exam(request, exam_id):
-    if request.method == "POST":
-        exam = get_object_or_404(Exam, id=exam_id)
-
-        # Check if the student is already enrolled
-        if ExamRegistration.objects.filter(exam=exam, student=request.user).exists():
-            return JsonResponse({"success": False, "error": "You're already enrolled in this exam."})
-
-        # Check if the exam is full
-        if exam.max_seats and exam.enrollments.count() >= exam.max_seats:
-            return JsonResponse({"success": False, "error": "This exam is already full."})
-
-        ExamRegistration.objects.create(exam=exam, student=request.user)
-
-        # If this is an AJAX request, return JSON instead of redirect
-        if request.headers.get("x-requested-with") == "XMLHttpRequest":
-            return JsonResponse({"success": True})
-
-        # Fallback: regular form submission
-        return redirect("student_dashboard")
-
-    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
-
-#########################################################################
 # AJAX Booking Fetcher
 #########################################################################
 @login_required
 def fetch_bookings_html(request):
-    enrolled_exam_ids = ExamRegistration.objects.filter(
-        student=request.user
-    ).values_list("exam_id", flat=True)
-
-    exams = Exam.objects.filter(id__in=enrolled_exam_ids)
+    exams = Exam.objects.filter(
+        enrollments_student=request.user,
+        enrollments_status="confirmed"
+    ).distinct()
 
     html = render_to_string("partials/bookings_list.html", {
         "exams": exams,
-        "enrolled_exam_ids": enrolled_exam_ids,
     })
 
     return JsonResponse({"html": html})
@@ -265,11 +236,13 @@ def get_exam_count(request):
 #########################################################################
 @login_required
 def fetch_confirmation_html(request):
-    pending_ids = request.session.get("pending_exam_ids", [])
-    exams = Exam.objects.filter(id__in=pending_ids)
+    queued_exams = ExamRegistration.objects.filter(
+        student=request.user,
+        status="queued"
+    ).select_related("exam")
 
     html = render_to_string("partials/exam_confirmation_list.html", {
-        "exams": exams
+        "queued_exams": queued_exams
     })
 
     return JsonResponse({"html": html})
@@ -280,9 +253,46 @@ def fetch_confirmation_html(request):
 @login_required
 def queue_exam(request, exam_id):
     if request.method == "POST":
-        pending = request.session.get("pending_exams", [])
-        if exam_id not in pending:
-            pending.append(exam_id)
-            request.session["pending_exams"] = pending
+        exam = get_object_or_404(Exam, id=exam_id)
+
+        # Already confirmed
+        if ExamRegistration.objects.filter(exam=exam, student=request.user, status="confirmed").exists():
+            return JsonResponse({"success": False, "error": "You are already enrolled in this exam."})
+
+        # Already queued
+        if ExamRegistration.objects.filter(exam=exam, student=request.user, status="queued").exists():
+            return JsonResponse({"success": False, "error": "You have already queued this exam."})
+
+        ExamRegistration.objects.create(exam=exam, student=request.user, status="queued")
+
         return JsonResponse({"success": True})
+
     return JsonResponse({"success": False})
+
+#########################################################################
+# AJAX Queue Confirmation (Get sent to bookings)
+#########################################################################
+@login_required
+def confirm_queued_exam(request, exam_id):
+    if request.method == "POST":
+        exam = get_object_or_404(Exam, id=exam_id)
+
+        try:
+            queued = ExamRegistration.objects.get(
+                exam=exam, student=request.user, status="queued"
+            )
+        except ExamRegistration.DoesNotExist:
+            return JsonResponse({"success": False, "error": "You have not queued this exam."})
+
+        # Check if the exam is full (only confirmed count matters)
+        confirmed_count = exam.enrollments.filter(status="confirmed").count()
+        if exam.max_seats and confirmed_count >= exam.max_seats:
+            return JsonResponse({"success": False, "error": "This exam is already full."})
+
+        # Promote from queued to confirmed
+        queued.status = "confirmed"
+        queued.save()
+
+        return JsonResponse({"success": True})
+
+    return JsonResponse({"success": False, "error": "Invalid request method"})

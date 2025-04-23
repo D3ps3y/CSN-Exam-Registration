@@ -53,12 +53,16 @@ class Exam(models.Model):
         return self.exam_subject
 
 class ExamRegistration(models.Model):
-    # Since both students and faculty are now in the same user model,
-    # use the unified User as the foreign key.
-    # (If only students can enroll for exams, enforce that in your business logic.)
+
+    STATUS_CHOICES = [
+        ("queued", "Queued"),
+        ("confirmed", "Confirmed"),
+    ]
+
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments')
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='enrollments')
     registration_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="queued")
 
     def __str__(self):
         return f"{self.student} -> {self.exam}"

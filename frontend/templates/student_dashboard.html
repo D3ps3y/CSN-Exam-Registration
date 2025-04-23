@@ -165,30 +165,27 @@
         }
 
 
-        function confirmEnrollment() {
-            if (!pendingExamId) return;
+        function confirmEnrollment(button) {
+            const examId = button.getAttribute("data-exam-id");
 
-            fetch(`/enroll_exam/${pendingExamId}/`, {
+            fetch(`/confirm_queued_exam/${examId}/`, {
                 method: "POST",
                 headers: {
                     "X-CSRFToken": getCookie("csrftoken"),
                     "X-Requested-With": "XMLHttpRequest"
                 }
             })
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    pendingExamId = null;
-                    showBookings(); // go to bookings after confirmation
+                    showBookings(); // Move to bookings
                     updateExamCount();
                 } else {
-                    showSnackbar(data.error || "Failed to enroll.");
+                    showSnackbar(data.error || "Failed to confirm exam.");
                 }
-            })
-            .catch(err => {
-                console.error("Error enrolling in exam:", err);
             });
         }
+
 
         function cancelConfirmation() {
             pendingExamId = null;
@@ -367,45 +364,6 @@
                 }
             }
             return cookieValue;
-        }
-
-        function enrollExam(button) {
-
-            fetch("/get_exam_count/")
-                .then(res => res.json())
-                .then(data => {
-                    if (data.count >= 3) {
-                        showSnackbar("You’ve already registered for the maximum of 3 exams.");
-                        return;
-                    }
-
-                const examId = button.getAttribute("data-exam-id");
-
-                fetch(`/enroll_exam/${examId}/`, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRFToken": getCookie("csrftoken"),
-                        "X-Requested-With": "XMLHttpRequest"
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Remove the card or replace content
-                        const card = button.closest(".exam-card");
-                        if (card) {
-                            card.remove(); // or update it visually
-                        }
-                        refreshRegistrationList();
-                        updateExamCount();
-                    } else {
-                        alert(data.error || "Failed to enroll.");
-                    }
-                })
-                .catch(err => {
-                    console.error("Error enrolling in exam:", err);
-                });
-            })
         }
 
         function refreshRegistrationList() {

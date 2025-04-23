@@ -18,8 +18,19 @@
                 </div>
 
                 <div style="margin-top: 1rem;">
-                    <button class="select-btn" onclick="confirmEnrollment()">Confirm</button>
-                    <button class="cancel-btn" onclick="cancelExam(this)" data-exam-id="{{ exam.id }}">Cancel</button>
+
+                    <button class="select-btn"
+                            onclick="confirmEnrollment(this)"
+                            data-exam-id="{{ exam.id }}">
+                        Confirm
+                    </button>
+
+                    <button class="cancel-btn"
+                            onclick="cancelExam(this)"
+                            data-exam-id="{{ exam.id }}">
+                        Cancel
+                    </button>
+
                 </div>
             </div>
         {% endfor %}
