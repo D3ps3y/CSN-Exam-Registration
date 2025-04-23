@@ -223,11 +223,14 @@ select {
 }
 .exam-list {
     display: grid;
-    grid-template-columns: repeat(5, 280px);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1rem;
-    justify-items: center;
-    margin: 0 auto;
+    justify-content: center;
+    align-content: start;
+    min-height: 400px;
+    position: relative;
 }
+
 
 .exam-list.list-view {
     display: flex;
@@ -352,9 +355,11 @@ select {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 300px;
-    padding: 1.5rem 0;
+    height: 100%;
+    width: 100%;
+    grid-column: 1 / -1; /* make it span all columns */
 }
+
 
 .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
