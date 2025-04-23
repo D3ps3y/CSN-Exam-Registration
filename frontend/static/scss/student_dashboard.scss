@@ -227,10 +227,11 @@ select {
     gap: 1rem;
     padding: 1rem 0;
     width: 100%;
-    max-width: 1440px; /* give it room to grow */
+    max-width: 100%; /* give it room to grow */
     margin: 0 auto;
     position: relative;
     min-height: 400px;
+    justify-content: center;
 }
 
 .exam-list.list-view {
@@ -361,8 +362,7 @@ select {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
-    z-index: 10;
+    pointer-events: none;
 }
 
 .spinner {
