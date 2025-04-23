@@ -153,7 +153,7 @@
             fetch(`/fetch_confirmation_html/${examId}/`)
                 .then(response => response.json())
                 .then(data => {
-                    const details = document.getElementById("confirmation-details");
+                    const details = document.getElementById("exam-confirmation");
                     details.innerHTML = data.html;
                     showConfirmations();
                 })
