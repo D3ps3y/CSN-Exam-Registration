@@ -1,18 +1,19 @@
 <div class="exam-list grid-view">
-    {% for exam in exams %}
+    {% for item in exam_data %}
+        {% with exam=item.exam confirmed=item.confirmed_count %}
         <div class="exam-card"
             data-campus="{{ exam.location }}"
             data-date="{{ exam.exam_date|date:'Y-m-d' }}"
             data-subject="{{ exam.exam_subject }}"
-            data-full="{% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}true{% else %}false{% endif %}">
+            data-full="{% if confirmed >= exam.max_seats %}true{% else %}false{% endif %}">
 
             <div class="exam-header">
                 <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
                 <span class="capacity">
-                    {% if exam.enrollments.filter(status='confirmed').count >= exam.max_seats %}
+                    {% if confirmed >= exam.max_seats %}
                         <span class="full-label">Full</span>
                     {% else %}
-                        {{ exam.enrollments.filter(status='confirmed').count }} / {{ exam.max_seats }}
+                        {{ confirmed }} / {{ exam.max_seats }}
                     {% endif %}
                 </span>
             </div>
@@ -23,7 +24,7 @@
                 <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
             </div>
 
-            {% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}
+            {% if confirmed >= exam.max_seats %}
                 <button type="button"
                     class="select-btn"
                     disabled
@@ -38,7 +39,7 @@
                     Select
                 </button>
             {% endif %}
-
+        {% endwith %}
         </div>
     {% empty %}
         <p>No exams available at this time.</p>

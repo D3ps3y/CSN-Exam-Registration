@@ -203,6 +203,8 @@ def fetch_bookings_html(request):
 #########################################################################
 # AJAX Unregistered Exam List Fetcher
 #########################################################################
+from django.db.models import Count, Q
+
 def fetch_registration_html(request):
     print("Fetching registration HTML...")
 
@@ -214,14 +216,23 @@ def fetch_registration_html(request):
 
     available_exams = Exam.objects.exclude(id__in=enrolled_exam_ids)
 
-    print("Available exams:", available_exams)
+    # Build a list of dicts with each exam and its confirmed count
+    exam_data = []
+    for exam in available_exams:
+        confirmed_count = exam.enrollments.filter(status='confirmed').count()
+        exam_data.append({
+            'exam': exam,
+            'confirmed_count': confirmed_count
+        })
+
+    print("Available exams with confirmed counts:", exam_data)
 
     html = render_to_string("partials/registration_exam_list.html", {
-        "exams": available_exams,
-        "enrolled_exam_ids": enrolled_exam_ids
+        "exam_data": exam_data
     })
 
     return JsonResponse({"html": html})
+
 
 #########################################################################
 # Grabs Exam Count
