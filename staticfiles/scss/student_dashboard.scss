@@ -223,7 +223,7 @@ select {
 }
 .exam-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
     max-width: 1440px;
     margin: 0 auto;
@@ -352,6 +352,7 @@ select {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 300px;
     padding: 1.5rem 0;
 }
 
