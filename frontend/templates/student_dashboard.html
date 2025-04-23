@@ -117,7 +117,7 @@
                         </div>
 
                         <!-- Dynamic Exam List -->
-                        <div id="registration-list" class="exam-list grid-view">
+                        <div id="registration-panel">
                             <!-- Registration cards will be loaded here via fetch_registration_html -->
                         </div>
                     </div>
@@ -448,7 +448,7 @@
         function refreshRegistrationList() {
             console.log("REFRESHING REGISTRATION PANEL");
 
-            const regList = document.querySelector("#registration-list");
+            const regList = document.querySelector("#registration-panel");
             if (regList) {
                 regList.innerHTML = `<div class="spinner-container"><div class="spinner"></div></div>`;
             }
