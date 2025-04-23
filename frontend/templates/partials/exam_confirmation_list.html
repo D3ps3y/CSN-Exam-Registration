@@ -1,27 +1,29 @@
 <div class="exam-list grid-view">
-    {% for exam in exams %}
-        <div class="exam-card"
-            data-campus="{{ exam.location }}"
-            data-date="{{ exam.exam_date|date:'Y-m-d' }}"
-            data-subject="{{ exam.exam_subject }}"
-            data-full="{% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}true{% else %}false{% endif %}">
+    {% if exams %}
+        {% for exam in exams %}
+            <div class="exam-card"
+                data-campus="{{ exam.location }}"
+                data-date="{{ exam.exam_date|date:'Y-m-d' }}"
+                data-subject="{{ exam.exam_subject }}"
+                data-full="{% if exam.max_seats and exam.enrollments.count >= exam.max_seats %}true{% else %}false{% endif %}">
 
-            <div class="exam-header">
+                <div class="exam-header">
                 <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
-            </div>
+                </div>
 
-            <div class="exam-meta">
-                <div>Date: {{ exam.exam_date }}</div>
-                <div>Time: {{ exam.exam_time }}</div>
-                <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
-            </div>
+                <div class="exam-meta">
+                    <div>Date: {{ exam.exam_date }}</div>
+                    <div>Time: {{ exam.exam_time }}</div>
+                    <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+                </div>
 
-            <div style="margin-top: 1rem;">
-                <button class="select-btn" onclick="confirmEnrollment()">Confirm</button>
-                <button class="cancel-btn" onclick="cancelExam(this)" data-exam-id="{{ exam.id }}">Cancel</button>
+                <div style="margin-top: 1rem;">
+                    <button class="select-btn" onclick="confirmEnrollment()">Confirm</button>
+                    <button class="cancel-btn" onclick="cancelExam(this)" data-exam-id="{{ exam.id }}">Cancel</button>
+                </div>
             </div>
-        </div>
-    {% empty %}
+        {% endfor %}
+    {% else %}
         <p>No exams available at this time.</p>
-    {% endfor %}
+    {% endif %}
 </div>
