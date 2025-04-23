@@ -148,18 +148,20 @@
 
         function queueExamForConfirmation(button) {
             const examId = button.getAttribute("data-exam-id");
-            pendingExamId = examId;
 
-            fetch(`/fetch_confirmation_html/${examId}/`)
-                .then(response => response.json())
-                .then(data => {
-                    const details = document.getElementById("exam-confirmation");
-                    details.innerHTML = data.html;
-                    showConfirmations();
-                })
-                .catch(err => {
-                    console.error("Error fetching confirmation HTML:", err);
-                });
+            fetch(`/queue_exam/${examId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showConfirmations(); // Load all pending confirmations
+                }
+            });
         }
 
 

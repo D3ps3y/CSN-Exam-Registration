@@ -264,7 +264,24 @@ def get_exam_count(request):
 # AJAX Exam Confirmation Fetcher
 #########################################################################
 @login_required
-def fetch_confirmation_html(request, exam_id):
-    exam = get_object_or_404(Exam, id=exam_id)
-    html = render_to_string("exam_confirmation_list.html", {"exam": exam})
+def fetch_confirmation_html(request):
+    # Get list of pending exam IDs from session (initialize if not set)
+    pending_ids = request.session.get("pending_exams", [])
+
+    exams = Exam.objects.filter(id__in=pending_ids)
+
+    html = render_to_string("exam_confirmation_list.html", {"exams": exams})
     return JsonResponse({"html": html})
+
+#########################################################################
+# AJAX Exam Confirmation Queue
+#########################################################################
+@login_required
+def queue_exam(request, exam_id):
+    if request.method == "POST":
+        pending = request.session.get("pending_exams", [])
+        if exam_id not in pending:
+            pending.append(exam_id)
+            request.session["pending_exams"] = pending
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False})
