@@ -214,6 +214,7 @@
             document.getElementById("dashboard-card").classList.remove("hidden");
             document.getElementById("registration-card").classList.add("hidden");
             document.getElementById("bookings-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.add("hidden");
         }
 
         function showRegistration() {
@@ -222,6 +223,7 @@
             document.getElementById("dashboard-card").classList.add("hidden");
             document.getElementById("registration-card").classList.remove("hidden");
             document.getElementById("bookings-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.add("hidden");
 
             refreshRegistrationList();
             updateExamCount();
@@ -257,22 +259,24 @@
             clearActiveLinks();
             document.getElementById("confirmation").classList.add("active");
 
-            fetch("/fetch_confirmation_html/")
-                .then(response => response.json())
-                .then(data => {
-                    const list = document.getElementById("exam-confirmation");
-                    if (list) {
-                        list.innerHTML = data.html;
-                    }
-                })
-                .catch(err => {
-                    console.error("Error fetching confirmation list:", err);
-                });
+            setTimeout(() => {
+                fetch("/fetch_confirmation_html/")
+                    .then(response => response.json())
+                    .then(data => {
+                        const list = document.getElementById("exam-confirmation");
+                        if (list) {
+                            list.innerHTML = data.html;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error fetching confirmation list:", err);
+                    });
 
-            document.getElementById("dashboard-card").classList.add("hidden");
-            document.getElementById("registration-card").classList.add("hidden");
-            document.getElementById("bookings-card").classList.add("hidden");
-            document.getElementById("confirmation-card").classList.remove("hidden");
+                document.getElementById("dashboard-card").classList.add("hidden");
+                document.getElementById("registration-card").classList.add("hidden");
+                document.getElementById("bookings-card").classList.add("hidden");
+                document.getElementById("confirmation-card").classList.remove("hidden");
+            }, 0);
         }
 
 
