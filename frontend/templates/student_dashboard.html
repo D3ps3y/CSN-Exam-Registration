@@ -157,10 +157,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    const card = button.closest(".exam-card");
-                    if (card) {
-                        card.remove();
-                    }
+                    refreshRegistrationList();
                     showSnackbar("Exam was sent to Exam Confirmations.");
                     updateExamCount();
                 }
@@ -181,10 +178,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    const card = button.closest(".exam-card");
-                    if (card) {
-                        card.remove();
-                    }
+                    refreshConfirmationList();
                     showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
                     updateExamCount();
                 } else {
@@ -333,12 +327,13 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Remove the card or update the button
-                    const card = button.closest(".exam-card");
-                    if (card) {
-                        card.remove();
+                    if (!document.getElementById("registration-card").classList.contains("hidden")) {
+                        refreshRegistrationList();
+                    } else if (!document.getElementById("confirmation-card").classList.contains("hidden")) {
+                        refreshConfirmationList();
+                    } else if (!document.getElementById("bookings-card").classList.contains("hidden")) {
+                        refreshBookingsList();
                     }
-                    refreshRegistrationList();
                     updateExamCount();
                 } else {
                     alert(data.error || "Failed to cancel exam.");
