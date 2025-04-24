@@ -258,18 +258,6 @@ select {
       justify-content: center;
       gap: 1rem;
       margin-top: 1rem; }
-      .add-exam-form-wrapper .exam-form-grid .button-group button {
-        padding: 0.5rem 1.25rem;
-        border: none;
-        border-radius: 6px;
-        font-weight: 500;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        background-color: #2563eb;
-        color: white; }
-        .add-exam-form-wrapper .exam-form-grid .button-group button:hover {
-          background-color: #1e40af; }
 
 .exam-card.edit-style {
   box-sizing: border-box;
