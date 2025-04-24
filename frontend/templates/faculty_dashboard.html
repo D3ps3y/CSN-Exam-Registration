@@ -1,34 +1,494 @@
+{% load static %}
+{% load sass_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Faculty Dashboard</title>
+    <link rel="stylesheet" href="{% sass_src 'scss/faculty_dashboard.scss' %}">
 </head>
+
 <body>
-    <h1>Faculty Dashboard</h1>
-    <p>Welcome, {{ request.user.first_name }}!</p>
+    <div class="dashboard-container">
 
-    <h2>Your Exams</h2>
-    {% if exams %}
-        <ul>
-            {% for exam in exams %}
-                <li>
-                    <strong>{{ exam.exam_subject }} {{ exam.exam_number }}</strong>
-                    <br>
-                    Date: {{ exam.exam_date }} <br>
-                    Time: {{ exam.exam_time }} <br>
-                    Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }}) <br>
-                    Status: {{ exam.status }} <br>
-                    <a href="{% url 'edit_exam' exam.id %}">Edit</a> |
-                    <a href="{% url 'delete_exam' exam.id %}">Delete</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>You haven't created any exams yet.</p>
-    {% endif %}
+        <!-- Top Navigation Bar -->
+        <header class="top-bar">
+        <div class="logo">
+            <img src="{% static 'images/csn_logo.png' %}" alt="Website Logo">
+        </div>
+        <div class="top-center">Faculty Dashboard</div>
+        <div class="account-area">
+            <a href="{% url 'logout' %}">Log Out</a>
+        </div>
+        </header>
 
-    <p><a href="{% url 'add_exam' %}">Add a New Exam</a></p>
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
+        <!-- Sidebar + Main Content Area -->
+        <div class="main-layout">
+
+            <nav class="sidebar">
+                <ul>
+                    <!-- Add more links as needed -->
+                    <li><a href="#" id="dashboard" class="nav-link active" onclick="">
+                        <span class="icon"><i class="fas fa-house"></i></span>
+                        <span class="label">Dashboard</span>
+                    </a></li>
+
+                    <li><a href="#" id="createExam" class="nav-link" onclick="">
+                        <span class="icon"><i class="fas fa-pen-to-square"></i></span>
+                        <span class="label">Create an Exam</span>
+                    </a></li>
+
+                    <li><a href="#" id="editExam" class="nav-link" onclick="">
+                        <span class="icon"><i class="fas fa-pen-to-square"></i></span>
+                        <span class="label">Edit an Exam</span>
+                    </a></li>
+
+                </ul>
+            </nav>
+
+            <main class="main-window">
+                <div class="content-card">
+                    <!-- Dynamic exam cards goes here -->
+
+                    <div id="dashboard-card">
+                        <h1>Welcome, {{ first_name }} {{ last_name }}</h1>
+
+                        <!-- Filters -->
+                        <div class="filters-row">
+                            <div class="filters">
+                                <div class="filter-group">
+                                    <label for="startDate-registration">From:</label>
+                                    <input type="date" id="startDate-registration" onchange="filterExams('registration')">
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="endDate-registration">To:</label>
+                                    <input type="date" id="endDate-registration" onchange="filterExams('registration')">
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="campusFilter-registration">Campus:</label>
+                                    <select id="campusFilter-registration" onchange="filterExams('registration')">
+                                        <option value="all">All Campuses</option>
+                                        <option value="Henderson">Henderson</option>
+                                        <option value="North Las Vegas">North Las Vegas</option>
+                                        <option value="West Charleston">West Charleston</option>
+                                    </select>
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="subjectFilter-registration">Subject:</label>
+                                    <select id="subjectFilter-registration" onchange="filterExams('registration')">
+                                        <option value="all">All Subjects</option>
+                                        <option value="MATH">MATH</option>
+                                        <option value="ENG">ENG</option>
+                                        <option value="BIO">BIO</option>
+                                        <!-- Add more subjects as needed -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Exam List -->
+                        <div id="dashboard-panel"></div>
+
+                    </div>
+
+                    <div id="createExam-card" class="hidden">
+                        <h1>Create an Exam</h1>
+
+                        <!-- Dynamic Exam List -->
+                        <div id="createExam-panel"></div>
+
+                    </div>
+
+                    <div id="editExam-card" class="hidden">
+                        <h1>Edit an Exam</h1>
+
+                        <!-- Dynamic Exam List -->
+                        <div id="editExam-panel"></div>
+
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function queueExamForConfirmation(button) {
+            const examId = button.getAttribute("data-exam-id");
+
+            fetch(`/queue_exam/${examId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    refreshRegistrationList();
+                    showSnackbar("Exam was sent to Exam Confirmations.");
+                    updateExamCount();
+                }
+            });
+        }
+
+
+        function confirmEnrollment(button) {
+            const examId = button.getAttribute("data-exam-id");
+
+            fetch("/get_exam_count/")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.count >= 3) {
+                        showSnackbar("You’ve already confirmed the maximum of 3 exams.");
+                        return;
+                    }
+
+                    fetch(`/confirm_queued_exam/${examId}/`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": getCookie("csrftoken"),
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            refreshConfirmationList();
+                            showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
+                            updateExamCount();
+                        } else {
+                            showSnackbar(data.error || "Failed to confirm exam.");
+                        }
+                    });
+                });
+        }
+
+        function clearActiveLinks() {
+            document.querySelectorAll(".nav-link").forEach(link => {
+                link.classList.remove("active");
+            });
+
+            // Hide all cards
+            document.querySelectorAll(".content-card > div").forEach(panel => {
+                panel.classList.add("hidden");
+            });
+        }
+
+
+        function showDashboard() {
+            clearActiveLinks();
+            document.getElementById("dashboard").classList.add("active");
+            document.getElementById("dashboard-card").classList.remove("hidden");
+            document.getElementById("registration-card").classList.add("hidden");
+            document.getElementById("bookings-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.add("hidden");
+        }
+
+        function showRegistration() {
+            clearActiveLinks();
+            document.getElementById("registration").classList.add("active");
+            document.getElementById("dashboard-card").classList.add("hidden");
+            document.getElementById("registration-card").classList.remove("hidden");
+            document.getElementById("bookings-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.add("hidden");
+
+            refreshRegistrationList();
+            updateExamCount();
+        }
+
+        function showBookings() {
+            clearActiveLinks();
+            document.getElementById("bookings").classList.add("active");
+            document.getElementById("dashboard-card").classList.add("hidden");
+            document.getElementById("registration-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.add("hidden");
+            document.getElementById("bookings-card").classList.remove("hidden");
+
+            refreshBookingsList();
+        }
+
+        function showConfirmations() {
+            clearActiveLinks();
+            document.getElementById("confirmation").classList.add("active");
+            document.getElementById("dashboard-card").classList.add("hidden");
+            document.getElementById("registration-card").classList.add("hidden");
+            document.getElementById("bookings-card").classList.add("hidden");
+            document.getElementById("confirmation-card").classList.remove("hidden");
+
+            refreshConfirmationList();
+        }
+
+
+
+        function filterExams(panel) {
+            const selectedCampus = document.getElementById(`campusFilter-${panel}`).value;
+            const startDateInput = document.getElementById(`startDate-${panel}`);
+            const endDateInput = document.getElementById(`endDate-${panel}`);
+            const selectedSubject = document.getElementById(`subjectFilter-${panel}`)?.value || "all";
+            const hideFull = document.getElementById("hideFullCheckbox")?.checked ?? true;
+
+
+            let startDate = null;
+            let endDate = null;
+
+            if (startDateInput?.value) {
+                const sParts = startDateInput.value.split("-");
+                startDate = new Date(sParts[0], sParts[1] - 1, sParts[2]); // local midnight
+            }
+
+            if (endDateInput?.value) {
+                const eParts = endDateInput.value.split("-");
+                endDate = new Date(eParts[0], eParts[1] - 1, eParts[2]);
+                endDate.setHours(23, 59, 59, 999); // include full end-of-day
+            }
+
+            const examCards = document.querySelectorAll(`#${panel}-card .exam-card`);
+
+            examCards.forEach(card => {
+                const cardCampus = card.getAttribute('data-campus');
+                const cardDateStr = card.getAttribute('data-date');
+                const cardSubject = card.getAttribute('data-subject');
+
+                if (!cardDateStr) return; // Skip if date is missing
+
+                let cardDate = null;
+                if (cardDateStr && cardDateStr.includes("-")) {
+                    const parts = cardDateStr.split("-");
+                    if (parts.length === 3) {
+                        cardDate = new Date(parts[0], parts[1] - 1, parts[2]);
+                    }
+                }
+
+                if (!cardDate || isNaN(cardDate.getTime())) {
+                    console.warn("Invalid cardDate:", cardDateStr);
+                    card.style.display = 'none';
+                    return;
+                }
+
+
+                const campusMatches = (selectedCampus === "all" || cardCampus === selectedCampus);
+                const subjectMatches = (selectedSubject === "all" || cardSubject === selectedSubject);
+
+                const isFull = card.getAttribute('data-full') === "true";
+                const fullMatches = !hideFull || !isFull;
+
+                let dateMatches = true;
+                if (startDate && cardDate < startDate) dateMatches = false;
+                if (endDate && cardDate > endDate) dateMatches = false;
+
+                console.log("CARD:", cardDate.toISOString(),
+                            "| Start:", startDate?.toISOString(),
+                            "| End:", endDate?.toISOString(),
+                            "| dateMatches:", dateMatches);
+
+                if (campusMatches && dateMatches && subjectMatches && fullMatches) {
+                    card.style.removeProperty('display');
+                } else {
+                    card.style.display = 'none';
+                }
+
+            });
+        }
+
+        function cancelExam(button) {
+            const examId = button.getAttribute("data-exam-id");
+
+            fetch(`/cancel_exam/${examId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (!document.getElementById("registration-card").classList.contains("hidden")) {
+                        refreshRegistrationList();
+                    } else if (!document.getElementById("confirmation-card").classList.contains("hidden")) {
+                        refreshConfirmationList();
+                    } else if (!document.getElementById("bookings-card").classList.contains("hidden")) {
+                        refreshBookingsList();
+                    }
+                    updateExamCount();
+                } else {
+                    alert(data.error || "Failed to cancel exam.");
+                }
+            })
+            .catch(err => {
+                console.error("Error canceling exam:", err);
+            });
+        }
+
+        // CSRF helper for Django
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === name + "=") {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function refreshRegistrationList() {
+            console.log("REFRESHING REGISTRATION PANEL");
+
+            const regList = document.querySelector("#registration-panel");
+
+            // Clear the panel immediately
+            if (regList) {
+                regList.innerHTML = "";
+
+                // Create and insert the spinner directly into the panel
+                const spinnerWrapper = document.createElement("div");
+                spinnerWrapper.className = "spinner-wrapper";
+
+                const spinnerContainer = document.createElement("div");
+                spinnerContainer.className = "spinner-container";
+
+                const spinner = document.createElement("div");
+                spinner.className = "spinner";
+
+                spinnerContainer.appendChild(spinner);
+                spinnerWrapper.appendChild(spinnerContainer);
+                regList.appendChild(spinnerWrapper);
+            }
+
+            // Fetch and replace content
+            setTimeout(() => {
+                fetch("/fetch_registration_html/")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (regList && data.html) {
+                            regList.innerHTML = data.html;
+                            filterExams("registration");
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error refreshing registration list:", err);
+                    });
+            }, 0);
+        }
+
+        function refreshBookingsList() {
+            console.log("REFRESHING BOOKINGS PANEL");
+
+            const bookingsList = document.querySelector("#bookings-list");
+
+            // Clear the panel immediately
+            if (bookingsList) {
+                bookingsList.innerHTML = "";
+
+                // Create and insert the spinner directly into the panel
+                const spinnerWrapper = document.createElement("div");
+                spinnerWrapper.className = "spinner-wrapper";
+
+                const spinnerContainer = document.createElement("div");
+                spinnerContainer.className = "spinner-container";
+
+                const spinner = document.createElement("div");
+                spinner.className = "spinner";
+
+                spinnerContainer.appendChild(spinner);
+                spinnerWrapper.appendChild(spinnerContainer);
+                bookingsList.appendChild(spinnerWrapper);
+            }
+
+            // Fetch and replace content
+            setTimeout(() => {
+                fetch("/fetch_bookings_html/")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (bookingsList && data.html) {
+                            bookingsList.innerHTML = data.html;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error refreshing bookings list:", err);
+                    });
+            }, 0);
+        }
+
+        function refreshConfirmationList() {
+            console.log("REFRESHING CONFIRMATIONS PANEL");
+
+            const confirmationList = document.querySelector("#exam-confirmation");
+
+            // Clear the panel immediately
+            if (confirmationList) {
+                confirmationList.innerHTML = "";
+
+                // Create and insert the spinner directly into the panel
+                const spinnerWrapper = document.createElement("div");
+                spinnerWrapper.className = "spinner-wrapper";
+
+                const spinnerContainer = document.createElement("div");
+                spinnerContainer.className = "spinner-container";
+
+                const spinner = document.createElement("div");
+                spinner.className = "spinner";
+
+                spinnerContainer.appendChild(spinner);
+                spinnerWrapper.appendChild(spinnerContainer);
+                confirmationList.appendChild(spinnerWrapper);
+            }
+
+            // Fetch and replace content
+            setTimeout(() => {
+                fetch("/fetch_confirmation_html/")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (confirmationList && data.html) {
+                            confirmationList.innerHTML = data.html;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error refreshing confirmations list:", err);
+                    });
+            }, 0);
+        }
+
+        function updateExamCount() {
+            fetch("/get_exam_count/")
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("exam-count").textContent = data.count;
+                });
+        }
+
+        function showSnackbar(message) {
+            const snackbar = document.getElementById("snackbar");
+            snackbar.textContent = message;
+
+            snackbar.classList.remove("show"); // Reset in case it's already showing
+            void snackbar.offsetWidth;         // Force reflow
+            snackbar.classList.add("show");
+
+            setTimeout(() => {
+                snackbar.classList.remove("show");
+            }, 3000);
+        }
+    </script>
+
+    <div id="snackbar"></div>
+
 </body>
 </html>
