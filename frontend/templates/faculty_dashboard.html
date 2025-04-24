@@ -326,6 +326,7 @@
                     const card = document.querySelector(`.exam-card[data-exam-id="${examId}"]`);
                     if (card) card.remove();
                     refreshFacultyDashboard(); // Optional if you want to update the main view too
+                    refreshEditExamPanel();
                 } else {
                     showSnackbar(data.error || "Failed to delete exam.");
                 }
