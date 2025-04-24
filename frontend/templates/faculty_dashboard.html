@@ -38,7 +38,7 @@
                         <span class="label">Dashboard</span>
                     </a></li>
 
-                    <li><a href="#" id="createExam" class="nav-link" onclick="loadCreateExamForm()">
+                    <li><a href="#" id="createExam" class="nav-link" onclick="showCreateExam()">
                         <span class="icon"><i class="fas fa-pen-to-square"></i></span>
                         <span class="label">Create an Exam</span>
                     </a></li>
@@ -133,7 +133,6 @@
             });
         }
 
-
         function showDashboard() {
             clearActiveLinks();
             document.getElementById("dashboard").classList.add("active");
@@ -143,40 +142,25 @@
             document.getElementById("confirmation-card").classList.add("hidden");
         }
 
-        function showRegistration() {
+        function showCreateExam() {
             clearActiveLinks();
-            document.getElementById("registration").classList.add("active");
-            document.getElementById("registration-card").classList.remove("hidden");
+            document.getElementById("createExam").classList.add("active");
             document.getElementById("dashboard-card").classList.add("hidden");
-            document.getElementById("bookings-card").classList.add("hidden");
-            document.getElementById("confirmation-card").classList.add("hidden");
+            document.getElementById("createExam-card").classList.remove("hidden");
+            document.getElementById("editExam-card").classList.add("hidden");
 
-            refreshRegistrationList();
-            updateExamCount();
+            refreshCreateExamPanel();
         }
 
-        function showBookings() {
+        function showEditExam() {
             clearActiveLinks();
-            document.getElementById("bookings").classList.add("active");
-            document.getElementById("bookings-card").classList.remove("hidden");
+            document.getElementById("editExam").classList.add("active");
             document.getElementById("dashboard-card").classList.add("hidden");
-            document.getElementById("registration-card").classList.add("hidden");
-            document.getElementById("confirmation-card").classList.add("hidden");
+            document.getElementById("createExam-card").classList.add("hidden");
+            document.getElementById("editExam-card").classList.remove("hidden");
 
-            refreshBookingsList();
+            refreshEditExamPanel();
         }
-
-        function showConfirmations() {
-            clearActiveLinks();
-            document.getElementById("confirmation").classList.add("active");
-            document.getElementById("confirmation-card").classList.remove("hidden");
-            document.getElementById("dashboard-card").classList.add("hidden");
-            document.getElementById("registration-card").classList.add("hidden");
-            document.getElementById("bookings-card").classList.add("hidden");
-
-            refreshConfirmationList();
-        }
-
 
 
         function filterExams(panel) {
@@ -247,24 +231,79 @@
                 }
 
             });
+        }]
+
+        function moveToEditPanel(examId) {
+            fetch(`/get_exam_data/${examId}/`)
+                .then(res => res.json())
+                .then(data => {
+                    const editPanel = document.querySelector("#editExam-panel");
+
+                    const card = document.createElement("div");
+                    card.className = "exam-card editable";
+                    card.dataset.examId = examId;
+                    card.innerHTML = `
+                        <input name="exam_subject" value="${data.exam_subject}" />
+                        <input name="exam_number" value="${data.exam_number}" />
+                        <input type="date" name="exam_date" value="${data.exam_date}" />
+                        <input type="time" name="exam_time" step="1" value="${data.exam_time}" />
+                        <input name="location" value="${data.location}" />
+                        <input name="building" value="${data.building}" />
+                        <input name="room_number" value="${data.room_number}" />
+                        <input type="number" name="max_seats" value="${data.max_seats}" />
+                        <select name="status">
+                            <option value="upcoming" ${data.status === "upcoming" ? "selected" : ""}>Upcoming</option>
+                            <option value="completed" ${data.status === "completed" ? "selected" : ""}>Completed</option>
+                            <option value="cancelled" ${data.status === "cancelled" ? "selected" : ""}>Cancelled</option>
+                        </select>
+                        <button onclick="saveExamChanges(${examId})">Save Changes</button>
+                    `;
+
+                    editPanel.appendChild(card);
+                    showEditExam(); // show the right panel
+                });
         }
 
-        // CSRF helper for Django
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== "") {
-                const cookies = document.cookie.split(";");
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === name + "=") {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
+        function saveExamChanges(examId) {
+            const card = document.querySelector(`.exam-card[data-exam-id="${examId}"]`);
+            const formData = {
+                exam_subject: card.querySelector('input[name="exam_subject"]').value,
+                exam_number: card.querySelector('input[name="exam_number"]').value,
+                exam_date: card.querySelector('input[name="exam_date"]').value,
+                exam_time: card.querySelector('input[name="exam_time"]').value,
+                location: card.querySelector('input[name="location"]').value,
+                building: card.querySelector('input[name="building"]').value,
+                room_number: card.querySelector('input[name="room_number"]').value,
+                max_seats: card.querySelector('input[name="max_seats"]').value,
+                status: card.querySelector('select[name="status"]').value,
+            };
+
+            fetch(`/update_exam/${examId}/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    card.remove(); // remove the form
+                    showSnackbar("Changes saved!");
+                    showDashboard(); // refresh the updated list
+                } else {
+                    showSnackbar(data.error || "Failed to save changes.");
                 }
-            }
-            return cookieValue;
+            })
+            .catch(err => {
+                console.error("Error saving changes:", err);
+                showSnackbar("Error saving changes.");
+            });
         }
+
+
 
         function refreshFacultyDashboard() {
             console.log("REFRESHING REGISTRATION PANEL");
@@ -306,16 +345,14 @@
             }, 0);
         }
 
-        function loadCreateExamForm() {
-            console.log("REFRESHING BOOKINGS PANEL");
+        function refreshCreateExamPanel() {
+            console.log("REFRESHING CREATE EXAM PANEL");
 
-            const bookingsList = document.querySelector("#bookings-list");
+            const panel = document.querySelector("#createExam-panel");
 
-            // Clear the panel immediately
-            if (bookingsList) {
-                bookingsList.innerHTML = "";
+            if (panel) {
+                panel.innerHTML = "";
 
-                // Create and insert the spinner directly into the panel
                 const spinnerWrapper = document.createElement("div");
                 spinnerWrapper.className = "spinner-wrapper";
 
@@ -327,34 +364,33 @@
 
                 spinnerContainer.appendChild(spinner);
                 spinnerWrapper.appendChild(spinnerContainer);
-                bookingsList.appendChild(spinnerWrapper);
+                panel.appendChild(spinnerWrapper);
             }
 
-            // Fetch and replace content
+            // Fetch the form
             setTimeout(() => {
-                fetch("/fetch_bookings_html/")
-                    .then(response => response.json())
+                fetch("/fetch_add_exam_form/")
+                    .then(res => res.json())
                     .then(data => {
-                        if (bookingsList && data.html) {
-                            bookingsList.innerHTML = data.html;
+                        if (panel && data.html) {
+                            panel.innerHTML = data.html;
                         }
                     })
                     .catch(err => {
-                        console.error("Error refreshing bookings list:", err);
+                        console.error("Error loading create exam form:", err);
                     });
             }, 0);
         }
 
-        function loadEditExamList() {
-            console.log("REFRESHING CONFIRMATIONS PANEL");
 
-            const confirmationList = document.querySelector("#exam-confirmation");
+        function refreshEditExamPanel() {
+            console.log("REFRESHING EDIT EXAM PANEL");
 
-            // Clear the panel immediately
-            if (confirmationList) {
-                confirmationList.innerHTML = "";
+            const panel = document.querySelector("#editExam-panel");
 
-                // Create and insert the spinner directly into the panel
+            if (panel) {
+                panel.innerHTML = "";
+
                 const spinnerWrapper = document.createElement("div");
                 spinnerWrapper.className = "spinner-wrapper";
 
@@ -366,23 +402,23 @@
 
                 spinnerContainer.appendChild(spinner);
                 spinnerWrapper.appendChild(spinnerContainer);
-                confirmationList.appendChild(spinnerWrapper);
+                panel.appendChild(spinnerWrapper);
             }
 
-            // Fetch and replace content
             setTimeout(() => {
-                fetch("/fetch_confirmation_html/")
-                    .then(response => response.json())
+                fetch("/fetch_faculty_exam_grid/")
+                    .then(res => res.json())
                     .then(data => {
-                        if (confirmationList && data.html) {
-                            confirmationList.innerHTML = data.html;
+                        if (panel && data.html) {
+                            panel.innerHTML = data.html;
                         }
                     })
                     .catch(err => {
-                        console.error("Error refreshing confirmations list:", err);
+                        console.error("Error loading edit exam list:", err);
                     });
             }, 0);
         }
+
 
         function updateExamCount() {
             fetch("/get_exam_count/")
@@ -403,6 +439,23 @@
             setTimeout(() => {
                 snackbar.classList.remove("show");
             }, 3000);
+        }
+
+        // CSRF helper for Django
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === name + "=") {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
     </script>
 

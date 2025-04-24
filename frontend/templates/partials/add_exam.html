@@ -1,0 +1,10 @@
+<div class="exam-list grid-view">
+    <h1>Add a New Exam</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Exam</button>
+    </form>
+</div>
+
+

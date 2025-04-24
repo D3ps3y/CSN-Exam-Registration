@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Exam</title>
-</head>
-<body>
+<div class="exam-list grid-view">
     <h1>Edit Exam: {{ exam.exam_subject }} {{ exam.exam_number }}</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save Changes</button>
     </form>
-    <p><a href="{% url 'faculty_dashboard' %}">Back to Dashboard</a></p>
-</body>
-</html>
+</div>

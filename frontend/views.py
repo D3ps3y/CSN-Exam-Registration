@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from frontend.forms import UnifiedRegisterForm, LoginForm, ExamForm
 from .models import Exam, ExamRegistration
 from django.template.loader import render_to_string
+import json
 
 User = get_user_model()
 
@@ -220,7 +221,6 @@ def fetch_bookings_html(request):
 #########################################################################
 # AJAX Unregistered Exam List Fetcher
 #########################################################################
-from django.db.models import Count, Q
 
 def fetch_registration_html(request):
     print("Fetching registration HTML...")
@@ -336,3 +336,51 @@ def confirm_queued_exam(request, exam_id):
         return JsonResponse({"success": True})
 
     return JsonResponse({"success": False, "error": "Invalid request method"})
+
+#########################################################################
+# AJAX Grabs Add Exam Form
+#########################################################################
+@login_required
+def fetch_add_exam_form(request):
+    form = ExamForm()
+    html = render_to_string("partials/add_exam_form.html", {"form": form}, request=request)
+    return JsonResponse({"html": html})
+
+#########################################################################
+# AJAX Grabs Edit Exam Form
+#########################################################################
+@login_required
+def fetch_edit_exam_form(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
+    form = ExamForm(instance=exam)
+    html = render_to_string("partials/edit_exam_form.html", {"form": form, "exam": exam}, request=request)
+    return JsonResponse({"html": html})
+
+#########################################################################
+# AJAX Update Exam
+#########################################################################
+@login_required
+def update_exam(request, exam_id):
+    if request.method == "POST" and request.headers.get("x-requested-with") == "XMLHttpRequest":
+        exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
+        try:
+            data = json.loads(request.body)
+
+            # Update fields
+            exam.exam_subject = data.get("exam_subject", exam.exam_subject)
+            exam.exam_number = data.get("exam_number", exam.exam_number)
+            exam.exam_date = data.get("exam_date", exam.exam_date)
+            exam.exam_time = data.get("exam_time", exam.exam_time)
+            exam.location = data.get("location", exam.location)
+            exam.building = data.get("building", exam.building)
+            exam.room_number = data.get("room_number", exam.room_number)
+            exam.max_seats = data.get("max_seats", exam.max_seats)
+            exam.status = data.get("status", exam.status)
+
+            exam.save()
+
+            return JsonResponse({"success": True})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)}, status=400)
+
+    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
