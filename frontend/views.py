@@ -382,7 +382,6 @@ def update_exam(request, exam_id):
             exam.building = data.get("building", exam.building)
             exam.room_number = data.get("room_number", exam.room_number)
             exam.max_seats = data.get("max_seats", exam.max_seats)
-            exam.status = data.get("status", exam.status)
 
             exam.save()
 
@@ -422,7 +421,6 @@ def get_exam_data(request, exam_id):
         "building": exam.building,
         "room_number": exam.room_number,
         "max_seats": exam.max_seats,
-        "status": exam.status,
     }
 
     return JsonResponse(data)
