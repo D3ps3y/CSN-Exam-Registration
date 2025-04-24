@@ -379,6 +379,7 @@
                     .then(data => {
                         if (panel && data.html) {
                             panel.innerHTML = data.html;
+                            handleAddExamFormSubmission();
                         }
                     })
                     .catch(err => {
@@ -422,6 +423,41 @@
                         console.error("Error loading edit exam list:", err);
                     });
             }, 0);
+        }
+
+        function handleAddExamFormSubmission() {
+            const form = document.querySelector("#add-exam-form");
+
+            if (form) {
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    fetch("/ajax_add_exam/", {
+                        method: "POST",
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRFToken": getCookie("csrftoken")
+                        },
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            showSnackbar("Exam created successfully.");
+                            refreshFacultyDashboard(); // Optional: update dashboard
+                            form.reset();
+                        } else {
+                            showSnackbar("Failed to create exam.");
+                            console.error(data.errors);
+                        }
+                    })
+                    .catch(err => {
+                        console.error("AJAX error:", err);
+                    });
+                });
+            }
         }
 
 

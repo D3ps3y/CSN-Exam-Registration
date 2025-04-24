@@ -88,16 +88,16 @@ def faculty_dashboard(request):
 #########################################################################
 @login_required
 def add_exam(request):
-    if request.method == "POST":
+    if request.method == "POST" and request.headers.get("x-requested-with") == "XMLHttpRequest":
         form = ExamForm(request.POST)
         if form.is_valid():
             exam = form.save(commit=False)
             exam.created_by = request.user
             exam.save()
-            return redirect('faculty_dashboard')
-    else:
-        form = ExamForm()
-    return render(request, 'add_exam.html', {'form': form})
+            return JsonResponse({"success": True})
+        else:
+            return JsonResponse({"success": False, "errors": form.errors}, status=400)
+    return JsonResponse({"success": False, "error": "Invalid request."}, status=400)
 
 @login_required
 def edit_exam(request, exam_id):
