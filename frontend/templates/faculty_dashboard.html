@@ -139,6 +139,8 @@
             document.getElementById("dashboard-card").classList.remove("hidden");
             document.getElementById("createExam-card").classList.add("hidden");
             document.getElementById("editExam-card").classList.add("hidden");
+
+            refreshFacultyDashboard();
         }
 
 
@@ -304,13 +306,13 @@
         }
 
         function refreshFacultyDashboard() {
-            console.log("REFRESHING REGISTRATION PANEL");
+            console.log("REFRESHING FACULTY DASHBOARD PANEL");
 
-            const regList = document.querySelector("#registration-panel");
+            const examList = document.querySelector("#dashboard-panel");
 
             // Clear the panel immediately
-            if (regList) {
-                regList.innerHTML = "";
+            if (examList) {
+                examList.innerHTML = "";
 
                 // Create and insert the spinner directly into the panel
                 const spinnerWrapper = document.createElement("div");
@@ -324,7 +326,7 @@
 
                 spinnerContainer.appendChild(spinner);
                 spinnerWrapper.appendChild(spinnerContainer);
-                regList.appendChild(spinnerWrapper);
+                examList.appendChild(spinnerWrapper);
             }
 
             // Fetch and replace content
