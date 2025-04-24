@@ -269,12 +269,20 @@ select {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+form.grid-form {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  padding: 1rem 0;
+}
+
 .form-row {
   display: contents;
 }
 
 .form-row label {
-  font-weight: 400;
+  font-weight: 500;
   text-align: right;
   padding-right: 0.5rem;
 }

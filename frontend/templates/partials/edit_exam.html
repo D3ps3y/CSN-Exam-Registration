@@ -4,7 +4,7 @@
         <div class="exam-header">
             <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
         </div>
-        <form onsubmit="return false;">
+        <form class="grid-form" onsubmit="return false;">
             {% csrf_token %}
             <div class="form-row">
                 <label>Exam Subject</label>
@@ -53,7 +53,7 @@
                     <div class="exam-header">
                         <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
                     </div>
-                    <form onsubmit="return false;">
+                    <form class="grid-form" onsubmit="return false;">
                         {% csrf_token %}
                         <div class="form-row">
                             <label>Exam Subject</label>
