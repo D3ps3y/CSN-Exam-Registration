@@ -353,8 +353,11 @@ def fetch_add_exam_form(request):
 def fetch_edit_exam_form(request):  # plural
     exams = Exam.objects.filter(created_by=request.user)
 
+    # Prepare a list of (exam, form) tuples
+    exam_forms = [(exam, ExamForm(instance=exam)) for exam in exams]
+
     html = render_to_string("partials/edit_exam.html", {
-        "exams": exams
+        "exam_forms": exam_forms
     }, request=request)
 
     return JsonResponse({"html": html})

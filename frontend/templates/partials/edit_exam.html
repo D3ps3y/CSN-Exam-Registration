@@ -1,16 +1,16 @@
 <div class="exam-list grid-view">
-    {% if exams %}
-        {% for exam in exams %}
-            <div class="exam-card">
+    {% if exam_forms %}
+        {% for exam, form in exam_forms %}
+            <div class="exam-card" data-exam-id="{{ exam.id }}">
                 <h1>Edit Exam: {{ exam.exam_subject }} {{ exam.exam_number }}</h1>
-                <form method="post" onsubmit="return false;">
+                <form onsubmit="return false;">
                     {% csrf_token %}
-                    {{ form.as_p }}  {# Or render individual fields using exam.form if passed as formset #}
-                    <button type="submit" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
+                    {{ form.as_p }}
+                    <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
                 </form>
             </div>
         {% endfor %}
     {% else %}
-        <p>No exams available to edit, make one!</p>
+        <p>No exams available to edit.</p>
     {% endif %}
 </div>
