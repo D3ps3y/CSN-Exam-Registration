@@ -1,5 +1,5 @@
 <div class="exam-list grid-view">
-    <form method="post">
+    <form id="add-exam-form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Create Exam</button>

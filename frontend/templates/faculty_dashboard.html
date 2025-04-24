@@ -429,6 +429,7 @@
             const form = document.querySelector("#add-exam-form");
 
             if (form) {
+                console.log("Found the add exam form and attached event listener");
                 form.addEventListener("submit", function (e) {
                     e.preventDefault();
 
@@ -457,6 +458,8 @@
                         console.error("AJAX error:", err);
                     });
                 });
+            } else {
+                console.warn("Could not find #add-exam-form in the DOM");
             }
         }
 
