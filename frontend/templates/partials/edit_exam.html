@@ -6,7 +6,10 @@
                 <form onsubmit="return false;">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
+                    <div class="form-actions">
+                        <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
+                        <button type="button" onclick="deleteExam({{ exam.id }})" class="delete-btn">Delete</button>
+                    </div>
                 </form>
             </div>
         {% endfor %}

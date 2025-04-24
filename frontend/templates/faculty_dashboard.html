@@ -300,6 +300,7 @@
                     card.remove(); // remove the form
                     showSnackbar("Exam updated!");
                     showDashboard(); // refresh the updated list
+                    refreshEditExamPanel();
                 } else {
                     showSnackbar(data.error || "Failed to save changes.");
                 }
@@ -309,6 +310,34 @@
                 showSnackbar("Error saving changes.");
             });
         }
+
+        function deleteExam(examId) {
+            if (!confirm("Are you sure you want to delete this exam?")) return;
+
+            fetch(`/faculty/exam/delete/${examId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showSnackbar("Exam deleted.");
+                    const card = document.querySelector(`.exam-card[data-exam-id="${examId}"]`);
+                    if (card) card.remove();
+                    refreshFacultyDashboard(); // Optional if you want to update the main view too
+                } else {
+                    showSnackbar(data.error || "Failed to delete exam.");
+                }
+            })
+            .catch(err => {
+                console.error("Error deleting exam:", err);
+                showSnackbar("Error deleting exam.");
+            });
+        }
+
 
         function refreshFacultyDashboard() {
             console.log("REFRESHING FACULTY DASHBOARD PANEL");
