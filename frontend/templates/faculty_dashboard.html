@@ -33,17 +33,17 @@
             <nav class="sidebar">
                 <ul>
                     <!-- Add more links as needed -->
-                    <li><a href="#" id="dashboard" class="nav-link active" onclick="">
+                    <li><a href="#" id="dashboard" class="nav-link active" onclick="showDashboard()">
                         <span class="icon"><i class="fas fa-house"></i></span>
                         <span class="label">Dashboard</span>
                     </a></li>
 
-                    <li><a href="#" id="createExam" class="nav-link" onclick="">
+                    <li><a href="#" id="createExam" class="nav-link" onclick="loadCreateExamForm()">
                         <span class="icon"><i class="fas fa-pen-to-square"></i></span>
                         <span class="label">Create an Exam</span>
                     </a></li>
 
-                    <li><a href="#" id="editExam" class="nav-link" onclick="">
+                    <li><a href="#" id="editExam" class="nav-link" onclick="loadEditExamList()">
                         <span class="icon"><i class="fas fa-pen-to-square"></i></span>
                         <span class="label">Edit an Exam</span>
                     </a></li>
@@ -62,18 +62,18 @@
                         <div class="filters-row">
                             <div class="filters">
                                 <div class="filter-group">
-                                    <label for="startDate-registration">From:</label>
-                                    <input type="date" id="startDate-registration" onchange="filterExams('registration')">
+                                    <label for="startDate-dashboard">From:</label>
+                                    <input type="date" id="startDate-dashboard" onchange="filterExams('dashboard')">
                                 </div>
 
                                 <div class="filter-group">
-                                    <label for="endDate-registration">To:</label>
-                                    <input type="date" id="endDate-registration" onchange="filterExams('registration')">
+                                    <label for="endDate-dashboard">To:</label>
+                                    <input type="date" id="endDate-dashboard" onchange="filterExams('dashboard')">
                                 </div>
 
                                 <div class="filter-group">
-                                    <label for="campusFilter-registration">Campus:</label>
-                                    <select id="campusFilter-registration" onchange="filterExams('registration')">
+                                    <label for="campusFilter-dashboard">Campus:</label>
+                                    <select id="campusFilter-dashboard" onchange="filterExams('dashboard')">
                                         <option value="all">All Campuses</option>
                                         <option value="Henderson">Henderson</option>
                                         <option value="North Las Vegas">North Las Vegas</option>
@@ -82,8 +82,8 @@
                                 </div>
 
                                 <div class="filter-group">
-                                    <label for="subjectFilter-registration">Subject:</label>
-                                    <select id="subjectFilter-registration" onchange="filterExams('registration')">
+                                    <label for="subjectFilter-dashboard">Subject:</label>
+                                    <select id="subjectFilter-dashboard" onchange="filterExams('dashboard')">
                                         <option value="all">All Subjects</option>
                                         <option value="MATH">MATH</option>
                                         <option value="ENG">ENG</option>
@@ -121,58 +121,6 @@
     </div>
 
     <script>
-        function queueExamForConfirmation(button) {
-            const examId = button.getAttribute("data-exam-id");
-
-            fetch(`/queue_exam/${examId}/`, {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "X-Requested-With": "XMLHttpRequest"
-                }
-            })
-
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    refreshRegistrationList();
-                    showSnackbar("Exam was sent to Exam Confirmations.");
-                    updateExamCount();
-                }
-            });
-        }
-
-
-        function confirmEnrollment(button) {
-            const examId = button.getAttribute("data-exam-id");
-
-            fetch("/get_exam_count/")
-                .then(res => res.json())
-                .then(data => {
-                    if (data.count >= 3) {
-                        showSnackbar("You’ve already confirmed the maximum of 3 exams.");
-                        return;
-                    }
-
-                    fetch(`/confirm_queued_exam/${examId}/`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRFToken": getCookie("csrftoken"),
-                            "X-Requested-With": "XMLHttpRequest"
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            refreshConfirmationList();
-                            showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
-                            updateExamCount();
-                        } else {
-                            showSnackbar(data.error || "Failed to confirm exam.");
-                        }
-                    });
-                });
-        }
 
         function clearActiveLinks() {
             document.querySelectorAll(".nav-link").forEach(link => {
@@ -198,8 +146,8 @@
         function showRegistration() {
             clearActiveLinks();
             document.getElementById("registration").classList.add("active");
-            document.getElementById("dashboard-card").classList.add("hidden");
             document.getElementById("registration-card").classList.remove("hidden");
+            document.getElementById("dashboard-card").classList.add("hidden");
             document.getElementById("bookings-card").classList.add("hidden");
             document.getElementById("confirmation-card").classList.add("hidden");
 
@@ -210,10 +158,10 @@
         function showBookings() {
             clearActiveLinks();
             document.getElementById("bookings").classList.add("active");
+            document.getElementById("bookings-card").classList.remove("hidden");
             document.getElementById("dashboard-card").classList.add("hidden");
             document.getElementById("registration-card").classList.add("hidden");
             document.getElementById("confirmation-card").classList.add("hidden");
-            document.getElementById("bookings-card").classList.remove("hidden");
 
             refreshBookingsList();
         }
@@ -221,10 +169,10 @@
         function showConfirmations() {
             clearActiveLinks();
             document.getElementById("confirmation").classList.add("active");
+            document.getElementById("confirmation-card").classList.remove("hidden");
             document.getElementById("dashboard-card").classList.add("hidden");
             document.getElementById("registration-card").classList.add("hidden");
             document.getElementById("bookings-card").classList.add("hidden");
-            document.getElementById("confirmation-card").classList.remove("hidden");
 
             refreshConfirmationList();
         }
@@ -301,36 +249,6 @@
             });
         }
 
-        function cancelExam(button) {
-            const examId = button.getAttribute("data-exam-id");
-
-            fetch(`/cancel_exam/${examId}/`, {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    if (!document.getElementById("registration-card").classList.contains("hidden")) {
-                        refreshRegistrationList();
-                    } else if (!document.getElementById("confirmation-card").classList.contains("hidden")) {
-                        refreshConfirmationList();
-                    } else if (!document.getElementById("bookings-card").classList.contains("hidden")) {
-                        refreshBookingsList();
-                    }
-                    updateExamCount();
-                } else {
-                    alert(data.error || "Failed to cancel exam.");
-                }
-            })
-            .catch(err => {
-                console.error("Error canceling exam:", err);
-            });
-        }
-
         // CSRF helper for Django
         function getCookie(name) {
             let cookieValue = null;
@@ -348,7 +266,7 @@
             return cookieValue;
         }
 
-        function refreshRegistrationList() {
+        function refreshFacultyDashboard() {
             console.log("REFRESHING REGISTRATION PANEL");
 
             const regList = document.querySelector("#registration-panel");
@@ -388,7 +306,7 @@
             }, 0);
         }
 
-        function refreshBookingsList() {
+        function loadCreateExamForm() {
             console.log("REFRESHING BOOKINGS PANEL");
 
             const bookingsList = document.querySelector("#bookings-list");
@@ -427,7 +345,7 @@
             }, 0);
         }
 
-        function refreshConfirmationList() {
+        function loadEditExamList() {
             console.log("REFRESHING CONFIRMATIONS PANEL");
 
             const confirmationList = document.querySelector("#exam-confirmation");

@@ -73,7 +73,14 @@ def student_dashboard(request):
 def faculty_dashboard(request):
     # Display only the exams created by this faculty user.
     exams = Exam.objects.filter(created_by=request.user)
-    return render(request, 'faculty_dashboard.html', {'exams': exams})
+
+    context = {
+        "exams": exams,
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
+    }
+
+    return render(request, 'faculty_dashboard.html', context)
 
 #########################################################################
 # Faculty Exam Management
