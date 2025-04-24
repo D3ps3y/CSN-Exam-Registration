@@ -1,6 +1,3 @@
-<!-- Always include the wrapper (for styling), but not the grid inside AJAX mode -->
-<div class="edit-exam-form-wrapper">
-
   {% if single %}
     <!-- Injected via AJAX: NO .exam-list -->
     <div class="exam-card" data-exam-id="{{ exam.id }}">
@@ -103,5 +100,3 @@
         <p>No exams available to edit, create one first!</p>
     {% endif %}
   {% endif %}
-
-</div>
