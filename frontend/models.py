@@ -35,12 +35,6 @@ class Exam(models.Model):
     building = models.CharField(max_length=255, default='Main Building')
     room_number = models.CharField(max_length=50, default='Room_Number')
     max_seats = models.IntegerField(default=20)
-    STATUS_CHOICES = [
-        ('upcoming', 'Upcoming'),
-        ('completed', 'Completed'),
-        ('cancelled', 'Cancelled'),
-    ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='upcoming')
     # For exams created by faculty, store a reference to the user (faculty).
     created_by = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.SET_NULL,

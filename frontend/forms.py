@@ -324,13 +324,12 @@ class ExamForm(forms.ModelForm):
         fields = [
             'exam_subject',
             'exam_number',
-            'exam_date',
-            'exam_time',
             'location',
             'building',
             'room_number',
+            'exam_date',
+            'exam_time',
             'max_seats',
-            'status'
         ]
         widgets = {
             'exam_date': forms.DateInput(attrs={'type': 'date'}),

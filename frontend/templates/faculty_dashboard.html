@@ -282,7 +282,6 @@
                 building: card.querySelector('select[name="building"]').value,
                 room_number: card.querySelector('input[name="room_number"]').value,
                 max_seats: card.querySelector('input[name="max_seats"]').value,
-                status: card.querySelector('select[name="status"]').value,
             };
 
             fetch(`/update_exam/${examId}/`, {
