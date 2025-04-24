@@ -248,22 +248,7 @@
                     const card = document.createElement("div");
                     card.className = "exam-card editable";
                     card.dataset.examId = examId;
-                    card.innerHTML = `
-                        <input name="exam_subject" value="${data.exam_subject}" />
-                        <input name="exam_number" value="${data.exam_number}" />
-                        <input type="date" name="exam_date" value="${data.exam_date}" />
-                        <input type="time" name="exam_time" step="1" value="${data.exam_time}" />
-                        <input name="location" value="${data.location}" />
-                        <input name="building" value="${data.building}" />
-                        <input name="room_number" value="${data.room_number}" />
-                        <input type="number" name="max_seats" value="${data.max_seats}" />
-                        <select name="status">
-                            <option value="upcoming" ${data.status === "upcoming" ? "selected" : ""}>Upcoming</option>
-                            <option value="completed" ${data.status === "completed" ? "selected" : ""}>Completed</option>
-                            <option value="cancelled" ${data.status === "cancelled" ? "selected" : ""}>Cancelled</option>
-                        </select>
-                        <button onclick="saveExamChanges(${examId})">Save Changes</button>
-                    `;
+                    card.innerHTML = data.html;
 
                     editPanel.appendChild(card);
                     showEditExam(); // show the right panel
