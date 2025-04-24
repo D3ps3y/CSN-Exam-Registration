@@ -274,12 +274,12 @@
         function saveExamChanges(examId) {
             const card = document.querySelector(`.exam-card[data-exam-id="${examId}"]`);
             const formData = {
-                exam_subject: card.querySelector('input[name="exam_subject"]').value,
+                exam_subject: card.querySelector('select[name="exam_subject"]').value,
                 exam_number: card.querySelector('input[name="exam_number"]').value,
                 exam_date: card.querySelector('input[name="exam_date"]').value,
                 exam_time: card.querySelector('input[name="exam_time"]').value,
-                location: card.querySelector('input[name="location"]').value,
-                building: card.querySelector('input[name="building"]').value,
+                location: card.querySelector('select[name="location"]').value,
+                building: card.querySelector('select[name="building"]').value,
                 room_number: card.querySelector('input[name="room_number"]').value,
                 max_seats: card.querySelector('input[name="max_seats"]').value,
                 status: card.querySelector('select[name="status"]').value,

@@ -222,6 +222,10 @@ select {
   gap: 0.5rem;
   font-size: 0.9rem; }
 
+.exam-card select {
+  position: relative;
+  z-index: 10; }
+
 .exam-header {
   display: flex;
   justify-content: space-between;
