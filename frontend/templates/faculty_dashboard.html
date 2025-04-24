@@ -244,13 +244,7 @@
                 .then(res => res.json())
                 .then(data => {
                     const editPanel = document.querySelector("#editExam-panel");
-
-                    const card = document.createElement("div");
-                    card.className = "exam-card editable";
-                    card.dataset.examId = examId;
-                    card.innerHTML = data.html;
-
-                    editPanel.appendChild(card);
+                    editPanel.innerHTML += data.html;
                     showEditExam();
                 })
                 .catch(err => {
