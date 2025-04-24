@@ -231,7 +231,7 @@
                 }
 
             });
-        }]
+        }
 
         function moveToEditPanel(examId) {
             fetch(`/get_exam_data/${examId}/`)
@@ -303,6 +303,9 @@
             });
         }
 
+        function loadEditExamList() {
+            showEditExam();
+        }
 
 
         function refreshFacultyDashboard() {
