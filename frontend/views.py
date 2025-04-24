@@ -397,3 +397,25 @@ def fetch_faculty_exam_grid(request):
     })
 
     return JsonResponse({"html": html})
+
+#########################################################################
+# AJAX Grabs Exams Data
+#########################################################################
+@login_required
+def get_exam_data(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
+
+    # Convert the exam fields into a dictionary
+    data = {
+        "exam_subject": exam.exam_subject,
+        "exam_number": exam.exam_number,
+        "exam_date": exam.exam_date.strftime("%Y-%m-%d"),
+        "exam_time": exam.exam_time.strftime("%H:%M:%S"),
+        "location": exam.location,
+        "building": exam.building,
+        "room_number": exam.room_number,
+        "max_seats": exam.max_seats,
+        "status": exam.status,
+    }
+
+    return JsonResponse(data)
