@@ -1,5 +1,5 @@
+<div class="edit-exam-form-wrapper">
 {% if single %}
-    <!-- Single card (used for dynamically loaded single exam via AJAX) -->
     <div class="exam-card" data-exam-id="{{ exam.id }}">
         <div class="exam-header">
             <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
@@ -100,5 +100,6 @@
         <p>No exams available to edit, create one first!</p>
     {% endif %}
 {% endif %}
+</div>
 
 

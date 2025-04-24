@@ -226,63 +226,71 @@ select {
   align-items: stretch;
   justify-content: flex-start; }
 
-.exam-form-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 1rem 1.5rem;
-  align-items: center;
-  padding: 1.5rem 0; }
-  .exam-form-grid label {
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.25rem; }
-  .exam-form-grid input,
-  .exam-form-grid select {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    width: 100%;
-    box-sizing: border-box; }
-  .exam-form-grid .button-group {
-    grid-column: span 2;
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-start;
-    margin-top: 1rem; }
-    .exam-form-grid .button-group button {
-      padding: 0.5rem 1.25rem;
-      border: none;
-      border-radius: 6px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background-color 0.2s ease; }
-    .exam-form-grid .button-group button:first-child {
-      background-color: #2563eb;
-      color: white; }
-      .exam-form-grid .button-group button:first-child:hover {
-        background-color: #1e40af; }
-    .exam-form-grid .button-group button:last-child {
-      background-color: #f5f5f5;
-      color: #333; }
-      .exam-form-grid .button-group button:last-child:hover {
-        background-color: #e2e2e2; }
-
 .add-exam-form-wrapper {
   display: flex;
   justify-content: center;
-  padding-top: 2rem;
-  width: 100%; }
-  .add-exam-form-wrapper form {
+  padding-top: 2rem; }
+  .add-exam-form-wrapper #add-exam-form {
     max-width: 600px;
     width: 100%; }
-  .add-exam-form-wrapper button {
-    background-color: #2563eb;
-    color: white;
-    margin: 1rem auto 0 auto; }
-    .add-exam-form-wrapper button:hover {
-      background-color: #1e40af; }
+  .add-exam-form-wrapper .exam-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem 1.5rem;
+    padding: 1.5rem 0; }
+    .add-exam-form-wrapper .exam-form-grid label {
+      font-weight: 600;
+      color: #333; }
+    .add-exam-form-wrapper .exam-form-grid input,
+    .add-exam-form-wrapper .exam-form-grid select {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95rem; }
+    .add-exam-form-wrapper .exam-form-grid .button-group {
+      grid-column: span 2;
+      display: flex;
+      justify-content: flex-start;
+      gap: 1rem; }
+      .add-exam-form-wrapper .exam-form-grid .button-group button {
+        padding: 0.5rem 1.25rem;
+        font-size: 0.95rem; }
+
+.edit-exam-form-wrapper .exam-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem 1.5rem; }
+  .edit-exam-form-wrapper .exam-form-grid .form-row {
+    display: contents; }
+  .edit-exam-form-wrapper .exam-form-grid label {
+    font-weight: 600;
+    color: #333; }
+  .edit-exam-form-wrapper .exam-form-grid input,
+  .edit-exam-form-wrapper .exam-form-grid select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px; }
+  .edit-exam-form-wrapper .exam-form-grid .button-group {
+    grid-column: span 2;
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem; }
+    .edit-exam-form-wrapper .exam-form-grid .button-group button {
+      padding: 0.5rem 1.25rem;
+      font-size: 0.95rem; }
+
+.faculty-exam-grid-wrapper .exam-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem; }
+  .faculty-exam-grid-wrapper .exam-list .exam-card {
+    padding: 1rem;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+  .faculty-exam-grid-wrapper .exam-list .exam-header {
+    font-weight: bold;
+    margin-bottom: 0.5rem; }
 
 .exam-header {
   display: flex;
