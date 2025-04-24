@@ -474,6 +474,33 @@ select {
   gap: 1rem;
 }
 
+.edit-btn {
+  background-color: #2563eb;     // vibrant CSN blue
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, transform 0.1s ease;
+
+  display: block;
+  margin: 1rem auto 0 auto;
+
+  &:hover {
+    background-color: #1e40af;   // deeper blue
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    background-color: #1c3aa9;
+    transform: translateY(0);
+  }
+}
+
+
 // Errors
 
 #snackbar {
