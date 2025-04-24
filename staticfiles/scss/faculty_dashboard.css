@@ -277,6 +277,10 @@ select {
   .add-exam-form-wrapper form {
     max-width: 600px;
     width: 100%; }
+  .add-exam-form-wrapper button {
+    background-color: #2563eb;
+    color: white;
+    margin: 1rem auto 0 auto; }
 
 .exam-header {
   display: flex;
