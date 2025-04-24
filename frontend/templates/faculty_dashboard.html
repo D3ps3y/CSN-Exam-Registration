@@ -244,7 +244,15 @@
                 .then(res => res.json())
                 .then(data => {
                     const editPanel = document.querySelector("#editExam-panel");
-                    editPanel.innerHTML = data.html;
+
+                    if (editPanel.querySelector(".exam-card")) {
+                        // Already has at least one exam-card, so append
+                        editPanel.innerHTML += data.html;
+                    } else {
+                        // First card — set the full grid container
+                        editPanel.innerHTML = data.html;
+                    }
+
                     showEditExam();
                 })
                 .catch(err => {
