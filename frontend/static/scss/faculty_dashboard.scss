@@ -264,7 +264,6 @@ select {
   min-height: unset;
   align-items: stretch;
   justify-content: flex-start;
-  width: 100%;
 }
 
 // ADD EXAM SCSS
@@ -313,12 +312,18 @@ select {
 
 // EDIT EXAM SCSS
 .edit-exam-form-wrapper {
+  width: 100%;
+
   .exam-form-grid {
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
     display: grid;
+    grid-template-columns: 1fr 2fr;
     gap: 1rem 1.5rem;
 
     .form-row {
-      display: contents; // Allows label/input to remain aligned in grid
+      display: contents;
     }
 
     label {
@@ -351,7 +356,7 @@ select {
       }
 
       button:first-child {
-        background-color: #2563eb; // Blue you liked
+        background-color: #2563eb;
         color: white;
 
         &:hover {
@@ -370,6 +375,7 @@ select {
     }
   }
 }
+
 
 // DASHBOARD SCSS
 .faculty-exam-grid-wrapper {
