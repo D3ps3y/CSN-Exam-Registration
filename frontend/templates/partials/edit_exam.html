@@ -1,19 +1,28 @@
 <div class="exam-list grid-view">
-    {% if exam_forms %}
-        {% for exam, form in exam_forms %}
-            <div class="exam-card" data-exam-id="{{ exam.id }}">
-                <h1>Edit Exam: {{ exam.exam_subject }} {{ exam.exam_number }}</h1>
-                <form onsubmit="return false;">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <div class="form-actions">
-                        <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
-                        <button type="button" onclick="deleteExam({{ exam.id }})" class="delete-btn">Delete</button>
-                    </div>
-                </form>
-            </div>
-        {% endfor %}
+    {% if single %}
+        <div class="exam-card" data-exam-id="{{ exam.id }}">
+            <form onsubmit="return false;">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
+                <button type="button" onclick="deleteExam({{ exam.id }})" style="margin-left: 10px;">Delete Exam</button>
+            </form>
+        </div>
     {% else %}
-        <p>No exams available to edit.</p>
+        {% if exam_forms %}
+            {% for exam, form in exam_forms %}
+                <div class="exam-card" data-exam-id="{{ exam.id }}">
+                    <form onsubmit="return false;">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
+                        <button type="button" onclick="deleteExam({{ exam.id }})">Delete Exam</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No exams available to edit, create one first!</p>
+        {% endif %}
     {% endif %}
 </div>
+

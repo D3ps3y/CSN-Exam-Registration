@@ -426,3 +426,19 @@ def get_exam_data(request, exam_id):
     }
 
     return JsonResponse(data)
+
+#########################################################################
+# AJAX Grabs a Single Exam Form
+#########################################################################
+@login_required
+def get_single_edit_exam_form(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
+    form = ExamForm(instance=exam)
+
+    html = render_to_string("partials/edit_exam.html", {
+        "form": form,
+        "exam": exam,
+        "single": True  # You can use this flag inside the template to switch rendering
+    }, request=request)
+
+    return JsonResponse({"html": html})

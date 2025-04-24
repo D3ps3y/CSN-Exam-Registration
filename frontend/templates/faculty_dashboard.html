@@ -240,7 +240,7 @@
         }
 
         function moveToEditPanel(examId) {
-            fetch(`/get_exam_data/${examId}/`)
+            fetch(`/get_single_edit_exam_form/${examId}/`)
                 .then(res => res.json())
                 .then(data => {
                     const editPanel = document.querySelector("#editExam-panel");
@@ -251,9 +251,14 @@
                     card.innerHTML = data.html;
 
                     editPanel.appendChild(card);
-                    showEditExam(); // show the right panel
+                    showEditExam();
+                })
+                .catch(err => {
+                    console.error("Error loading edit form:", err);
+                    showSnackbar("Failed to load edit form.");
                 });
         }
+
 
         function saveExamChanges(examId) {
             const card = document.querySelector(`.exam-card[data-exam-id="${examId}"]`);
