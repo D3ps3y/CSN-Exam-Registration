@@ -350,11 +350,15 @@ def fetch_add_exam_form(request):
 # AJAX Grabs Edit Exam Form
 #########################################################################
 @login_required
-def fetch_edit_exam_form(request, exam_id):
-    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
-    form = ExamForm(instance=exam)
-    html = render_to_string("partials/edit_exam.html", {"form": form, "exam": exam}, request=request)
+def fetch_edit_exam_form(request):  # plural
+    exams = Exam.objects.filter(created_by=request.user)
+
+    html = render_to_string("partials/edit_exam.html", {
+        "exams": exams
+    }, request=request)
+
     return JsonResponse({"html": html})
+
 
 #########################################################################
 # AJAX Update Exam
