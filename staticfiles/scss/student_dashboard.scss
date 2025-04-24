@@ -254,38 +254,6 @@ select {
     font-size: 0.9rem;
 }
 
-.exam-card select {
-    position: relative;
-    z-index: 10;
-}
-
-.exam-card form {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 0.75rem 1rem;
-    align-items: center;
-    padding: 1rem 0;
-}
-
-.exam-card input[type="text"],
-.exam-card input[type="number"],
-.exam-card input[type="date"],
-.exam-card input[type="time"],
-.exam-card select {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.exam-card label {
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-    display: inline-block;
-}
-
 .exam-header {
     display: flex;
     justify-content: space-between;
@@ -378,7 +346,7 @@ select {
     transform: translateX(-50%);
     font-size: 17px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    opacity: 0; // ✅ Remove !important
+    opacity: 0;
     transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
