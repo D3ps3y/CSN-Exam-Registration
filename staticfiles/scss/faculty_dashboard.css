@@ -281,6 +281,8 @@ select {
     background-color: #2563eb;
     color: white;
     margin: 1rem auto 0 auto; }
+    .add-exam-form-wrapper button:hover {
+      background-color: #1e40af; }
 
 .exam-header {
   display: flex;

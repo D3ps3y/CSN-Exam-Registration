@@ -333,6 +333,10 @@ select {
     background-color: #2563eb;
     color: white;
     margin: 1rem auto 0 auto;
+
+    &:hover {
+      background-color: #1e40af;
+    }
   }
 }
 
