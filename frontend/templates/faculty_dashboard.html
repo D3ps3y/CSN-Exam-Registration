@@ -245,13 +245,22 @@
                 .then(data => {
                     const editPanel = document.querySelector("#editExam-panel");
 
-                    if (editPanel.querySelector(".exam-card")) {
-                        // Already has at least one exam-card, so append
-                        editPanel.innerHTML += data.html;
-                    } else {
-                        // First card — set the full grid container
-                        editPanel.innerHTML = data.html;
+                    // If the grid doesn't exist yet, create and inject it
+                    let grid = editPanel.querySelector(".exam-list");
+                    if (!grid) {
+                        grid = document.createElement("div");
+                        grid.className = "exam-list grid-view";
+                        editPanel.appendChild(grid);
                     }
+
+                    // Avoid duplicates
+                    if (grid.querySelector(`[data-exam-id="${examId}"]`)) {
+                        showSnackbar("This exam is already being edited.");
+                        return;
+                    }
+
+                    // Inject only the card content (NOT another .exam-list)
+                    grid.insertAdjacentHTML("beforeend", data.html);
 
                     showEditExam();
                 })

@@ -1,22 +1,22 @@
-<div class="exam-list grid-view">
-    {% if single %}
-        <div class="exam-card"
-             data-exam-id="{{ exam.id }}">
-            <div class="exam-header">
-                <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
-            </div>
-            <form onsubmit="return false;">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
-                <button type="button" onclick="deleteExam({{ exam.id }})" style="margin-left: 10px;">Delete Exam</button>
-            </form>
+{% if single %}
+    <!-- Single card (used for dynamically loaded single exam via AJAX) -->
+    <div class="exam-card" data-exam-id="{{ exam.id }}">
+        <div class="exam-header">
+            <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
         </div>
-    {% else %}
-        {% if exam_forms %}
+        <form onsubmit="return false;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
+            <button type="button" onclick="deleteExam({{ exam.id }})" style="margin-left: 10px;">Delete Exam</button>
+        </form>
+    </div>
+{% else %}
+    {% if exam_forms %}
+        <!-- Grid container wraps all exam cards -->
+        <div class="exam-list grid-view">
             {% for exam, form in exam_forms %}
-                <div class="exam-card"
-                     data-exam-id="{{ exam.id }}">
+                <div class="exam-card" data-exam-id="{{ exam.id }}">
                     <div class="exam-header">
                         <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
                     </div>
@@ -28,9 +28,10 @@
                     </form>
                 </div>
             {% endfor %}
-        {% else %}
-            <p>No exams available to edit, create one first!</p>
-        {% endif %}
+        </div>
+    {% else %}
+        <p>No exams available to edit, create one first!</p>
     {% endif %}
-</div>
+{% endif %}
+
 
