@@ -19,7 +19,7 @@ from .views import (
     confirm_queued_exam,
     update_exam,
     fetch_faculty_exam_grid,
-    get_exam_data
+    get_exam_data,
 )
 
 urlpatterns = [

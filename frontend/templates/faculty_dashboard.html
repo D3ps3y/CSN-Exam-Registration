@@ -303,10 +303,6 @@
             });
         }
 
-        function loadEditExamList() {
-            showEditExam();
-        }
-
         function refreshFacultyDashboard() {
             console.log("REFRESHING REGISTRATION PANEL");
 
@@ -333,16 +329,16 @@
 
             // Fetch and replace content
             setTimeout(() => {
-                fetch("/fetch_registration_html/")
+                fetch("/fetch_faculty_exam_grid/")
                     .then(response => response.json())
                     .then(data => {
                         if (regList && data.html) {
                             regList.innerHTML = data.html;
-                            filterExams("registration");
+                            filterExams("dashboard");
                         }
                     })
                     .catch(err => {
-                        console.error("Error refreshing registration list:", err);
+                        console.error("Error loading dashboard exam list:", err);
                     });
             }, 0);
         }
@@ -408,7 +404,7 @@
             }
 
             setTimeout(() => {
-                fetch("/fetch_faculty_exam_grid/")
+                fetch("/fetch_edit_exam_form/")
                     .then(res => res.json())
                     .then(data => {
                         if (panel && data.html) {
