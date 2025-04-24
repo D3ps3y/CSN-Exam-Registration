@@ -253,6 +253,10 @@ select {
   flex-direction: column;
   gap: 0.5rem;
   font-size: 0.9rem;
+  height: auto;
+  min-height: unset;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 .exam-header {
   display: flex;
