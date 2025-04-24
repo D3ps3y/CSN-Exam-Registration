@@ -333,5 +333,8 @@ class ExamForm(forms.ModelForm):
         ]
         widgets = {
             'exam_date': forms.DateInput(attrs={'type': 'date'}),
-            # exam_time is overridden above
+            'exam_number': forms.TextInput(attrs={
+                'placeholder': 'Enter exam number'}),
+            'room_number': forms.TextInput(attrs={
+                'placeholder': 'Enter room number'}),
         }

@@ -27,15 +27,14 @@ class User(AbstractUser):
 # but update foreign keys that referenced "Student" to reference the unified User.
 
 class Exam(models.Model):
-    exam_subject = models.CharField(max_length=255, default='Untitled Exam Subject')
-    exam_number = models.CharField(max_length=255, default="1234")
+    exam_subject = models.CharField(max_length=255)
+    exam_number = models.CharField(max_length=255, blank=True, null=True)
     exam_date = models.DateField(default=timezone.localdate)
     exam_time = models.TimeField(default=current_time)
-    location = models.CharField(max_length=255, default='Location_Name')
-    building = models.CharField(max_length=255, default='Main Building')
-    room_number = models.CharField(max_length=50, default='Room_Number')
+    location = models.CharField(max_length=255)
+    building = models.CharField(max_length=255)
+    room_number = models.CharField(max_length=50, blank=True, null=True)
     max_seats = models.IntegerField(default=20)
-    # For exams created by faculty, store a reference to the user (faculty).
     created_by = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.SET_NULL,
         help_text="Faculty member who created this exam."
