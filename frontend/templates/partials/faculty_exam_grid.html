@@ -1,0 +1,22 @@
+<div class="exam-list grid-view">
+    {% for exam in exams %}
+        <div class="exam-card"
+             data-campus="{{ exam.location }}"
+             data-date="{{ exam.exam_date|date:'Y-m-d' }}"
+             data-subject="{{ exam.exam_subject }}">
+            <div class="exam-header">
+                <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
+            </div>
+            <div class="exam-meta">
+                <div>Date: {{ exam.exam_date }}</div>
+                <div>Time: {{ exam.exam_time }}</div>
+                <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+            </div>
+            <div style="margin-top: 1rem;">
+                <button onclick="moveToEditPanel({{ exam.id }})">Edit</button>
+            </div>
+        </div>
+    {% empty %}
+        <p>No exams found, create an exam to get started!</p>
+    {% endfor %}
+</div>

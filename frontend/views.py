@@ -343,7 +343,7 @@ def confirm_queued_exam(request, exam_id):
 @login_required
 def fetch_add_exam_form(request):
     form = ExamForm()
-    html = render_to_string("partials/add_exam_form.html", {"form": form}, request=request)
+    html = render_to_string("partials/add_exam.html", {"form": form}, request=request)
     return JsonResponse({"html": html})
 
 #########################################################################
@@ -353,7 +353,7 @@ def fetch_add_exam_form(request):
 def fetch_edit_exam_form(request, exam_id):
     exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
     form = ExamForm(instance=exam)
-    html = render_to_string("partials/edit_exam_form.html", {"form": form, "exam": exam}, request=request)
+    html = render_to_string("partials/edit_exam.html", {"form": form, "exam": exam}, request=request)
     return JsonResponse({"html": html})
 
 #########################################################################
@@ -384,3 +384,16 @@ def update_exam(request, exam_id):
             return JsonResponse({"success": False, "error": str(e)}, status=400)
 
     return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
+
+#########################################################################
+# AJAX Grabs Faculty Exams (Grid)
+#########################################################################
+@login_required
+def fetch_faculty_exam_grid(request):
+    exams = Exam.objects.filter(created_by=request.user)
+
+    html = render_to_string("partials/faculty_exam_grid.html", {
+        "exams": exams
+    })
+
+    return JsonResponse({"html": html})

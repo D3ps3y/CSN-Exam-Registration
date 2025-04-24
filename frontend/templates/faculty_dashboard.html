@@ -43,7 +43,7 @@
                         <span class="label">Create an Exam</span>
                     </a></li>
 
-                    <li><a href="#" id="editExam" class="nav-link" onclick="loadEditExamList()">
+                    <li><a href="#" id="editExam" class="nav-link" onclick="refreshEditExamPanel()">
                         <span class="icon"><i class="fas fa-pen-to-square"></i></span>
                         <span class="label">Edit an Exam</span>
                     </a></li>
@@ -137,10 +137,10 @@
             clearActiveLinks();
             document.getElementById("dashboard").classList.add("active");
             document.getElementById("dashboard-card").classList.remove("hidden");
-            document.getElementById("registration-card").classList.add("hidden");
-            document.getElementById("bookings-card").classList.add("hidden");
-            document.getElementById("confirmation-card").classList.add("hidden");
+            document.getElementById("createExam-card").classList.add("hidden");
+            document.getElementById("editExam-card").classList.add("hidden");
         }
+
 
         function showCreateExam() {
             clearActiveLinks();
@@ -306,7 +306,6 @@
         function loadEditExamList() {
             showEditExam();
         }
-
 
         function refreshFacultyDashboard() {
             console.log("REFRESHING REGISTRATION PANEL");

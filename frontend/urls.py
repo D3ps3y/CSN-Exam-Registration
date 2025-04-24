@@ -7,8 +7,8 @@ from .views import (
     custom_logout,
     ajax_register,
     ajax_login,
-    add_exam,
-    edit_exam,
+    fetch_add_exam_form,
+    fetch_edit_exam_form,
     delete_exam,
     cancel_exam,
     fetch_bookings_html,
@@ -17,7 +17,7 @@ from .views import (
     fetch_confirmation_html,
     queue_exam,
     confirm_queued_exam,
-    update_exam
+    update_exam, fetch_faculty_exam_grid
 )
 
 urlpatterns = [
@@ -29,8 +29,8 @@ urlpatterns = [
     path('student/', student_dashboard, name='student_dashboard'),
     path("cancel_exam/<int:exam_id>/", cancel_exam, name="cancel_exam"),
     path('faculty/', faculty_dashboard, name='faculty_dashboard'),
-    path('faculty/exam/add/', add_exam, name='add_exam'),
-    path('faculty/exam/edit/<int:exam_id>/', edit_exam, name='edit_exam'),
+    path('faculty/exam/add/', fetch_add_exam_form, name='add_exam'),
+    path('faculty/exam/edit/<int:exam_id>/', fetch_edit_exam_form, name='edit_exam'),
     path('faculty/exam/delete/<int:exam_id>/', delete_exam, name='delete_exam'),
     path("fetch_bookings_html/", fetch_bookings_html, name="fetch_bookings_html"),
     path('fetch_registration_html/', fetch_registration_html, name='fetch_registration_html'),
@@ -39,5 +39,7 @@ urlpatterns = [
     path ('queue_exam/<int:exam_id>/', queue_exam, name='queue_exam'),
     path("confirm_queued_exam/<int:exam_id>/", confirm_queued_exam, name="confirm_queued_exam"),
     path("update_exam/<int:exam_id>/", update_exam, name="update_exam"),
+    path("fetch_faculty_exam_grid/", fetch_faculty_exam_grid, name="fetch_faculty_exam_grid"),
+
 
 ]
