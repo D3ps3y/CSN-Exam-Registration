@@ -267,8 +267,8 @@ select {
 
   label {
     font-weight: 600;
-    margin-bottom: 0.25rem;
     color: #333;
+    margin-bottom: 0.25rem;
   }
 
   input,
@@ -286,27 +286,37 @@ select {
     display: flex;
     gap: 1rem;
     justify-content: flex-start;
+    margin-top: 1rem;
 
     button {
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1.25rem;
       border: none;
       border-radius: 6px;
-      cursor: pointer;
       font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
     }
 
     button:first-child {
       background-color: #2563eb;
       color: white;
+
+      &:hover {
+        background-color: #1e40af;
+      }
     }
 
     button:last-child {
       background-color: #f5f5f5;
       color: #333;
+
+      &:hover {
+        background-color: #e2e2e2;
+      }
     }
   }
 }
-
 
 .exam-header {
   display: flex;
