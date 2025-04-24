@@ -164,6 +164,11 @@
             refreshEditExamPanel();
         }
 
+        document.addEventListener("DOMContentLoaded", function () {
+            // Make sure dashboard is shown first
+            showDashboard();
+            refreshFacultyDashboard(); // Refresh exam cards
+        });
 
         function filterExams(panel) {
             const selectedCampus = document.getElementById(`campusFilter-${panel}`).value;
