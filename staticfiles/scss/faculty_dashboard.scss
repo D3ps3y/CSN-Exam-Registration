@@ -409,6 +409,12 @@ select {
   margin: 1rem auto 0 auto;
 }
 
+.exam-title-dashboard {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #222;
+}
+
 .capacity {
   font-weight: bold;
   color: #000;
@@ -486,7 +492,6 @@ select {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s ease, transform 0.1s ease;
 
-  display: block;
   margin: 1rem auto 0 auto;
 
   &:hover {
