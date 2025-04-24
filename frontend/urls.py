@@ -20,6 +20,7 @@ from .views import (
     update_exam,
     fetch_faculty_exam_grid,
     get_exam_data,
+    add_exam,
 )
 
 urlpatterns = [
@@ -41,8 +42,10 @@ urlpatterns = [
     path ('queue_exam/<int:exam_id>/', queue_exam, name='queue_exam'),
     path("confirm_queued_exam/<int:exam_id>/", confirm_queued_exam, name="confirm_queued_exam"),
     path("update_exam/<int:exam_id>/", update_exam, name="update_exam"),
-    path("fetch_add_exam_form/", fetch_add_exam_form, name="fetch_add_exam_form"),
     path("fetch_faculty_exam_grid/", fetch_faculty_exam_grid, name="fetch_faculty_exam_grid"),
     path("get_exam_data/<int:exam_id>/", get_exam_data, name="get_exam_data"),
     path("update_exam/<int:exam_id>/", update_exam, name="update_exam"),
+    path("ajax_add_exam/", add_exam, name="ajax_add_exam"),
+
+
 ]
