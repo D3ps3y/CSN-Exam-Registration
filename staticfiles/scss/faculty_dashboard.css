@@ -402,7 +402,8 @@ select {
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s ease, transform 0.1s ease;
-  margin: 1rem auto 0 auto; }
+  display: block;
+  margin: 0.25rem auto 0 auto; }
   .edit-btn:hover {
     background-color: #1e40af;
     transform: translateY(-1px); }
