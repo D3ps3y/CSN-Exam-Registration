@@ -243,6 +243,14 @@ select {
   gap: 1rem;
 }
 
+.exam-list.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+
 .exam-card {
   background-color: white;
   border-radius: 10px;
@@ -256,6 +264,7 @@ select {
   min-height: unset;
   align-items: stretch;
   justify-content: flex-start;
+  width: 100%;
 }
 
 // ADD EXAM SCSS
