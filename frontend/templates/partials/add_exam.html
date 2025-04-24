@@ -1,35 +1,32 @@
-<div class="exam-list grid-view">
-    <div class="add-exam-form-wrapper">
-        <form id="add-exam-form" class="exam-form-grid" method="post">
+<div class="add-exam-form-wrapper">
+    <form id="add-exam-form" class="exam-form-grid" method="post">
         {% csrf_token %}
-            <label>Exam Subject</label>
-            {{ form.exam_subject }}
+        <label>Exam Subject</label>
+        {{ form.exam_subject }}
 
-            <label>Exam Number</label>
-            {{ form.exam_number }}
+        <label>Exam Number</label>
+        {{ form.exam_number }}
 
-            <label>Location</label>
-            {{ form.location }}
+        <label>Location</label>
+        {{ form.location }}
 
-            <label>Building</label>
-            {{ form.building }}
+        <label>Building</label>
+        {{ form.building }}
 
-            <label>Room Number</label>
-            {{ form.room_number }}
+        <label>Room Number</label>
+        {{ form.room_number }}
 
-            <label>Exam Date</label>
-            {{ form.exam_date }}
+        <label>Exam Date</label>
+        {{ form.exam_date }}
 
-            <label>Exam Time</label>
-            {{ form.exam_time }}
+        <label>Exam Time</label>
+        {{ form.exam_time }}
 
-            <label>Max Seats</label>
-            {{ form.max_seats }}
+        <label>Max Seats</label>
+        {{ form.max_seats }}
 
-            <div class="button-group">
-                <button type="submit">Create Exam</button>
-            </div>
-        </form>
-    </div>
-
+        <div class="button-group">
+            <button type="submit">Create Exam</button>
+        </div>
+    </form>
 </div>
