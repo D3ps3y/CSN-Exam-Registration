@@ -1,46 +1,46 @@
 <div class="exam-list grid-view">
     {% for item in exam_data %}
         {% with exam=item.exam confirmed=item.confirmed_count %}
-        <div class="exam-card"
-            data-campus="{{ exam.location }}"
-            data-date="{{ exam.exam_date|date:'Y-m-d' }}"
-            data-subject="{{ exam.exam_subject }}"
-            data-full="{% if confirmed >= exam.max_seats %}true{% else %}false{% endif %}">
+            <div class="exam-card"
+                data-campus="{{ exam.location }}"
+                data-date="{{ exam.exam_date|date:'Y-m-d' }}"
+                data-subject="{{ exam.exam_subject }}"
+                data-full="{% if confirmed >= exam.max_seats %}true{% else %}false{% endif %}">
 
-            <div class="exam-header">
-                <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
-                <span class="capacity">
-                    {% if confirmed >= exam.max_seats %}
-                        <span class="full-label">Full</span>
-                    {% else %}
-                        {{ confirmed }} / {{ exam.max_seats }}
-                    {% endif %}
-                </span>
+                <div class="exam-header">
+                    <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
+                    <span class="capacity">
+                        {% if confirmed >= exam.max_seats %}
+                            <span class="full-label">Full</span>
+                        {% else %}
+                            {{ confirmed }} / {{ exam.max_seats }}
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="exam-meta">
+                    <div>Date: {{ exam.exam_date }}</div>
+                    <div>Time: {{ exam.exam_time }}</div>
+                    <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+                </div>
+
+                {% if confirmed >= exam.max_seats %}
+                    <button type="button"
+                        class="select-btn"
+                        disabled
+                        style="background-color: gray; cursor: not-allowed;">
+                        Exam is Full
+                    </button>
+                {% else %}
+                    <button type="button"
+                        class="select-btn"
+                        data-exam-id="{{ exam.id }}"
+                        onclick="queueExamForConfirmation(this)">
+                        Select
+                    </button>
+                {% endif %}
             </div>
-
-            <div class="exam-meta">
-                <div>Date: {{ exam.exam_date }}</div>
-                <div>Time: {{ exam.exam_time }}</div>
-                <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
-            </div>
-
-            {% if confirmed >= exam.max_seats %}
-                <button type="button"
-                    class="select-btn"
-                    disabled
-                    style="background-color: gray; cursor: not-allowed;">
-                    Exam is Full
-                </button>
-            {% else %}
-                <button type="button"
-                    class="select-btn"
-                    data-exam-id="{{ exam.id }}"
-                    onclick="queueExamForConfirmation(this)">
-                    Select
-                </button>
-            {% endif %}
         {% endwith %}
-        </div>
     {% empty %}
         <p>No exams available at this time.</p>
     {% endfor %}

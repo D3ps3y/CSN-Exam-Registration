@@ -189,16 +189,26 @@ def cancel_exam(request, exam_id):
 #########################################################################
 @login_required
 def fetch_bookings_html(request):
-    exams = Exam.objects.filter(
-        enrollments__student=request.user,
-        enrollments__status="confirmed"
-    ).distinct()
+    confirmed_regs = ExamRegistration.objects.filter(
+        student=request.user,
+        status="confirmed"
+    ).select_related("exam")
+
+    exam_data = []
+    for reg in confirmed_regs:
+        exam = reg.exam
+        confirmed_count = exam.enrollments.filter(status="confirmed").count()
+        exam_data.append({
+            "exam": exam,
+            "confirmed_count": confirmed_count
+        })
 
     html = render_to_string("partials/bookings_list.html", {
-        "exams": exams,
+        "exam_data": exam_data
     })
 
     return JsonResponse({"html": html})
+
 
 #########################################################################
 # AJAX Unregistered Exam List Fetcher
@@ -233,7 +243,6 @@ def fetch_registration_html(request):
 
     return JsonResponse({"html": html})
 
-
 #########################################################################
 # Grabs Exam Count
 #########################################################################
@@ -250,16 +259,26 @@ def get_exam_count(request):
 #########################################################################
 @login_required
 def fetch_confirmation_html(request):
-    queued_exams = ExamRegistration.objects.filter(
+    queued_regs = ExamRegistration.objects.filter(
         student=request.user,
         status="queued"
     ).select_related("exam")
 
+    exam_data = []
+    for reg in queued_regs:
+        exam = reg.exam
+        confirmed_count = exam.enrollments.filter(status="confirmed").count()
+        exam_data.append({
+            "exam": exam,
+            "confirmed_count": confirmed_count
+        })
+
     html = render_to_string("partials/exam_confirmation_list.html", {
-        "queued_exams": queued_exams
+        "exam_data": exam_data
     })
 
     return JsonResponse({"html": html})
+
 
 #########################################################################
 # AJAX Exam Confirmation Queue

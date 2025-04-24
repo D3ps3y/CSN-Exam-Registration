@@ -1,31 +1,33 @@
 <div class="exam-list grid-view">
-    {% for exam in exams %}
-        <div class="exam-card"
-             data-campus="{{ exam.location }}"
-             data-date="{{ exam.exam_date }}">
+    {% for item in exam_data %}
+        {% with exam=item.exam confirmed=item.confirmed_count %}
+            <div class="exam-card"
+                data-campus="{{ exam.location }}"
+                data-date="{{ exam.exam_date }}">
 
-            <div class="exam-header">
-                <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
-                <span class="capacity">
-                    {% if exam.enrollments.filter(status='confirmed').count >= exam.max_seats %}
-                        <span class="full-label">Full</span>
-                    {% else %}
-                        {{ exam.enrollments.filter(status='confirmed').count }} / {{ exam.max_seats }}
-                    {% endif %}
-                </span>
-            </div>
+                <div class="exam-header">
+                    <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
+                    <span class="capacity">
+                        {% if confirmed >= exam.max_seats %}
+                            <span class="full-label">Full</span>
+                        {% else %}
+                            {{ confirmed }} / {{ exam.max_seats }}
+                        {% endif %}
+                    </span>
+                </div>
 
-            <div class="exam-meta">
-                <div>Date: {{ exam.exam_date }}</div>
-                <div>Time: {{ exam.exam_time }}</div>
-                <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
-            </div>
+                <div class="exam-meta">
+                    <div>Date: {{ exam.exam_date }}</div>
+                    <div>Time: {{ exam.exam_time }}</div>
+                    <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+                </div>
 
-            <div class="booking-actions">
-                <span class="confirmed-text">✔ Confirmed</span>
-                <button type="button" class="cancel-btn" data-exam-id="{{ exam.id }}" onclick="cancelExam(this)">Cancel</button>
+                <div class="booking-actions">
+                    <span class="confirmed-text">✔ Confirmed</span>
+                    <button type="button" class="cancel-btn" data-exam-id="{{ exam.id }}" onclick="cancelExam(this)">Cancel</button>
+                </div>
             </div>
-        </div>
+        {% endwith %}
     {% empty %}
         <p>No exams are currently booked.</p>
     {% endfor %}
