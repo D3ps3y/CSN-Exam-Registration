@@ -1,5 +1,8 @@
+<!-- Always include the wrapper (for styling), but not the grid inside AJAX mode -->
 <div class="edit-exam-form-wrapper">
-{% if single %}
+
+  {% if single %}
+    <!-- Injected via AJAX: NO .exam-list -->
     <div class="exam-card" data-exam-id="{{ exam.id }}">
         <div class="exam-header">
             <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
@@ -44,9 +47,10 @@
             </div>
         </form>
     </div>
-{% else %}
+
+  {% else %}
     {% if exam_forms %}
-        <!-- Grid container wraps all exam cards -->
+        <!-- Full panel view: include the grid -->
         <div class="exam-list grid-view">
             {% for exam, form in exam_forms %}
                 <div class="exam-card" data-exam-id="{{ exam.id }}">
@@ -87,7 +91,6 @@
                             <label>Max Seats</label>
                             {{ form.max_seats }}
                         </div>
-
                         <div class="button-group">
                             <button type="button" onclick="saveExamChanges({{ exam.id }})">Save Changes</button>
                             <button type="button" onclick="deleteExam({{ exam.id }})">Delete Exam</button>
@@ -99,7 +102,6 @@
     {% else %}
         <p>No exams available to edit, create one first!</p>
     {% endif %}
-{% endif %}
+  {% endif %}
+
 </div>
-
-

@@ -215,8 +215,7 @@ select {
 .exam-list.grid-view {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-  justify-content: center; }
+  gap: 1.5rem; }
 
 .exam-card {
   background-color: white;
@@ -267,8 +266,10 @@ select {
   padding: 1rem; }
   .edit-exam-form-wrapper .exam-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem; }
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    align-items: start; }
   .edit-exam-form-wrapper .exam-card {
     background: white;
     padding: 1.5rem 2rem;

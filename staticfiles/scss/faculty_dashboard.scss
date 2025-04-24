@@ -247,7 +247,6 @@ select {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
-  justify-content: center;
 }
 
 
@@ -317,8 +316,10 @@ select {
 
   .exam-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); // Responsive 1+ column
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 2rem;
+    width: 100%;
+    align-items: start;
   }
 
   .exam-card {
@@ -392,6 +393,7 @@ select {
     }
   }
 }
+
 
 
 // DASHBOARD SCSS
