@@ -317,13 +317,6 @@ select {
   background: white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
-  .exam-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 1rem 1.5rem;
-    width: 100%;
-  }
-
   .form-row {
     display: contents;
   }
