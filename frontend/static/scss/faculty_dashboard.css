@@ -264,7 +264,8 @@ select {
 
 .edit-exam-form-wrapper {
   display: flex;
-  flex-direction: column; }
+  justify-content: center;
+  width: 100%; }
   .edit-exam-form-wrapper .exam-card {
     width: 100%;
     max-width: 700px;
@@ -273,8 +274,8 @@ select {
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
   .edit-exam-form-wrapper .exam-form-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
     gap: 1rem 1.5rem;
     width: 100%; }
   .edit-exam-form-wrapper .form-row {
