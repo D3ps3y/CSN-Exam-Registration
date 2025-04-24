@@ -113,11 +113,11 @@ def edit_exam(request, exam_id):
 
 @login_required
 def delete_exam(request, exam_id):
-    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
-    if request.method == "POST":
+    if request.method == "POST" and request.headers.get("x-requested-with") == "XMLHttpRequest":
+        exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
         exam.delete()
-        return redirect('faculty_dashboard')
-    return render(request, 'delete_exam.html', {'exam': exam})
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
 
 #########################################################################
 # Logout View
