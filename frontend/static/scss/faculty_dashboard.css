@@ -252,7 +252,7 @@ select {
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 0.95rem; }
-    .add-exam-form-wrapper .exam-form-grid .button-group {
+    .add-exam-form-wrapper .exam-form-grid .add-button-group {
       grid-column: span 2;
       display: flex;
       justify-content: center;
