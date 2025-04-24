@@ -318,6 +318,19 @@ select {
   }
 }
 
+.add-exam-form-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  width: 100%;
+
+  form {
+    max-width: 600px;
+    width: 100%;
+  }
+}
+
+
 .exam-header {
   display: flex;
   justify-content: space-between;

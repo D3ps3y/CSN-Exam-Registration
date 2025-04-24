@@ -269,6 +269,15 @@ select {
       .exam-form-grid .button-group button:last-child:hover {
         background-color: #e2e2e2; }
 
+.add-exam-form-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  width: 100%; }
+  .add-exam-form-wrapper form {
+    max-width: 600px;
+    width: 100%; }
+
 .exam-header {
   display: flex;
   justify-content: space-between;
