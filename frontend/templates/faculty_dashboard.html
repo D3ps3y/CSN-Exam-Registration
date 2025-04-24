@@ -334,8 +334,8 @@
                 fetch("/fetch_faculty_exam_grid/")
                     .then(response => response.json())
                     .then(data => {
-                        if (regList && data.html) {
-                            regList.innerHTML = data.html;
+                        if (examList && data.html) {
+                            examList.innerHTML = data.html;
                             filterExams("dashboard");
                         }
                     })
