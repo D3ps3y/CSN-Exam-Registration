@@ -263,16 +263,20 @@ select {
         font-size: 0.95rem; }
 
 .edit-exam-form-wrapper {
-  display: flex;
-  justify-content: center;
   width: 100%; }
+  .edit-exam-form-wrapper .exam-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
+    gap: 2rem;
+    width: 100%; }
   .edit-exam-form-wrapper .exam-card {
-    width: 100%;
-    max-width: 700px;
     background: white;
     padding: 1.5rem 2rem;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto; }
   .edit-exam-form-wrapper .exam-form-grid {
     display: grid;
     grid-template-columns: 1fr 2fr;
