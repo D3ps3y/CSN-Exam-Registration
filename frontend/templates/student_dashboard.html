@@ -168,23 +168,32 @@
         function confirmEnrollment(button) {
             const examId = button.getAttribute("data-exam-id");
 
-            fetch(`/confirm_queued_exam/${examId}/`, {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "X-Requested-With": "XMLHttpRequest"
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    refreshConfirmationList();
-                    showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
-                    updateExamCount();
-                } else {
-                    showSnackbar(data.error || "Failed to confirm exam.");
-                }
-            });
+            fetch("/get_exam_count/")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.count >= 3) {
+                        showSnackbar("You’ve already confirmed the maximum of 3 exams.");
+                        return;
+                    }
+
+                    fetch(`/confirm_queued_exam/${examId}/`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": getCookie("csrftoken"),
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            refreshConfirmationList();
+                            showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
+                            updateExamCount();
+                        } else {
+                            showSnackbar(data.error || "Failed to confirm exam.");
+                        }
+                    });
+                });
         }
 
         function clearActiveLinks() {
