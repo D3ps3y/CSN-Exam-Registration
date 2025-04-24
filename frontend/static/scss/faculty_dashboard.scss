@@ -493,7 +493,7 @@ select {
   transition: background-color 0.2s ease, transform 0.1s ease;
 
   display: block;
-  margin: 0.25rem auto 0 auto;
+  margin: 0 auto;
 
   &:hover {
     background-color: #1e40af;   // deeper blue
