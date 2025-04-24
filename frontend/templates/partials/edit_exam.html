@@ -1,6 +1,10 @@
 <div class="exam-list grid-view">
     {% if single %}
-        <div class="exam-card" data-exam-id="{{ exam.id }}">
+        <div class="exam-card"
+             data-exam-id="{{ exam.id }}">
+            <div class="exam-header">
+                <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
+            </div>
             <form onsubmit="return false;">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -11,7 +15,11 @@
     {% else %}
         {% if exam_forms %}
             {% for exam, form in exam_forms %}
-                <div class="exam-card" data-exam-id="{{ exam.id }}">
+                <div class="exam-card"
+                     data-exam-id="{{ exam.id }}">
+                    <div class="exam-header">
+                        <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
+                    </div>
                     <form onsubmit="return false;">
                         {% csrf_token %}
                         {{ form.as_p }}
