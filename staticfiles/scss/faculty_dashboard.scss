@@ -311,7 +311,7 @@ select {
 
 // EDIT EXAM SCSS
 .exam-card.edit-style {
-  width: 100%;
+  box-sizing: border-box;
   padding: 1.5rem 2rem;
   border-radius: 10px;
   background: white;
