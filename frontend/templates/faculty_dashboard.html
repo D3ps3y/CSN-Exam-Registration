@@ -286,10 +286,14 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    card.remove(); // remove the form
+                    // Remove the edited form from the edit panel
+                    if (card) card.remove();
+
+                    // Refresh the dashboard so the updates are reflected
+                    refreshFacultyDashboard();
+
+                    // Show success message
                     showSnackbar("Exam updated!");
-                    showDashboard(); // refresh the updated list
-                    refreshEditExamPanel();
                 } else {
                     showSnackbar(data.error || "Failed to save changes.");
                 }
@@ -299,6 +303,7 @@
                 showSnackbar("Error saving changes.");
             });
         }
+
 
         function deleteExam(examId) {
             if (!confirm("Are you sure you want to delete this exam?")) return;
