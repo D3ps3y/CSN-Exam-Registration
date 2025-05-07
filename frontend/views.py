@@ -451,7 +451,7 @@ def faculty_report_data(request):
         return JsonResponse({"html": "<p>Unauthorized access.</p>"}, status=403)
 
     # Get all registrations tied to the faculty's exams
-    registrations = ExamRegistration.objects.filter(exam__created_by=request.user)
+    registrations = ExamRegistration.objects.all()
 
     # Apply filters
     subject = request.GET.get("subject")
