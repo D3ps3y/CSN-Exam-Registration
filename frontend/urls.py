@@ -21,7 +21,8 @@ from .views import (
     fetch_faculty_exam_grid,
     get_exam_data,
     add_exam,
-    get_single_edit_exam_form
+    get_single_edit_exam_form,
+    faculty_report_data
 )
 
 urlpatterns = [
@@ -48,5 +49,5 @@ urlpatterns = [
     path("update_exam/<int:exam_id>/", update_exam, name="update_exam"),
     path("ajax_add_exam/", add_exam, name="ajax_add_exam"),
     path("get_single_edit_exam_form/<int:exam_id>/", get_single_edit_exam_form, name="get_single_edit_exam_form"),
-
+    path("faculty/report/data/", faculty_report_data, name="faculty_report_data"),
 ]

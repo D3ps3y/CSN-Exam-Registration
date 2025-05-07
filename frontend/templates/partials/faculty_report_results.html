@@ -1,0 +1,32 @@
+{% if registrations %}
+<table class="report-table">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Student ID</th>
+            <th>Exam Subject</th>
+            <th>Exam Number</th>
+            <th>Location</th>
+            <th>Building</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reg in registrations %}
+        <tr>
+            <td>{{ reg.student.get_full_name }}</td>
+            <td>{{ reg.student.university_id }}</td>
+            <td>{{ reg.exam.exam_subject }}</td>
+            <td>{{ reg.exam.exam_number }}</td>
+            <td>{{ reg.exam.location }}</td>
+            <td>{{ reg.exam.building }}</td>
+            <td>{{ reg.exam.exam_date }}</td>
+            <td>{{ reg.status|capfirst }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No registrations found for the selected filters.</p>
+{% endif %}

@@ -48,6 +48,11 @@
                         <span class="label">Edit an Exam</span>
                     </a></li>
 
+                    <li><a href="#" id="generateReport" class="nav-link" onclick="showReportCard()">
+                        <span class="icon"><i class="fas fa-chart-bar"></i></span>
+                        <span class="label">Generate Reports</span>
+                    </a></li>
+
                 </ul>
             </nav>
 
@@ -268,6 +273,203 @@
 
                     </div>
 
+                    <div id="report-card">
+                        <h1>Welcome, {{ first_name }} {{ last_name }}</h1>
+
+                        <!-- Filters -->
+                        <div class="filters-row">
+                            <div class="filters">
+                                <div class="filter-group">
+                                    <label for="startDate-report">From:</label>
+                                    <input type="date" id="startDate-report" onchange="filterExams('report')">
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="endDate-report">To:</label>
+                                    <input type="date" id="endDate-report" onchange="filterExams('report')">
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="campusFilter-report">Campus:</label>
+                                    <select id="campusFilter-report" onchange="filterExams('report')">
+                                        <option value="all">All Campuses</option>
+                                        <option value="Henderson">Henderson</option>
+                                        <option value="North Las Vegas">North Las Vegas</option>
+                                        <option value="West Charleston">West Charleston</option>
+                                    </select>
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="subjectFilter-report">Subject:</label>
+                                    <select id="subjectFilter-report" onchange="filterExams('report')">
+                                        <option value="all">All Subjects</option>
+                                        <option value="ABDY">Auto Body</option>
+                                        <option value="AC">Air Conditioning Technology</option>
+                                        <option value="ACC">Accounting</option>
+                                        <option value="ADT">Architectural Design Technology</option>
+                                        <option value="AES">Aerospace Studies</option>
+                                        <option value="AIT">Apprenticeship Industrial Technology</option>
+                                        <option value="ALS">Applied Laboratory Sciences</option>
+                                        <option value="AM">American Sign Language</option>
+                                        <option value="ANIM">Animation</option>
+                                        <option value="ANTH">Anthropology</option>
+                                        <option value="ARA">Arabic</option>
+                                        <option value="ARM">Armenian</option>
+                                        <option value="ART">Art</option>
+                                        <option value="ASB">Asian Studies</option>
+                                        <option value="AST">Astronomy</option>
+                                        <option value="AUTO">Automotive Technology</option>
+                                        <option value="AV">Aviation</option>
+                                        <option value="BIOL">Biology</option>
+                                        <option value="BRL">Barbering</option>
+                                        <option value="BUS">Business</option>
+                                        <option value="CADD">Computer Aided Drafting and Design</option>
+                                        <option value="CAPS">Computer Applications</option>
+                                        <option value="CEE">Civil and Environmental Engineering</option>
+                                        <option value="CEM">Construction Engineering Management</option>
+                                        <option value="CHEM">Chemistry</option>
+                                        <option value="CHI">Chinese</option>
+                                        <option value="CHS">Chicano Studies</option>
+                                        <option value="CIT">Computing and Information Technology</option>
+                                        <option value="CLS">Clinical Laboratory Sciences</option>
+                                        <option value="CMA">Clinical Medical Assisting</option>
+                                        <option value="COM">Communication</option>
+                                        <option value="CONS">Construction Management</option>
+                                        <option value="COT">Computing Technologies</option>
+                                        <option value="CPD">Career Personal Development</option>
+                                        <option value="CPE">Computer Engineering</option>
+                                        <option value="CPT">Carpentry</option>
+                                        <option value="CRJ">Criminal Justice</option>
+                                        <option value="CRS">Crisis Response Studies</option>
+                                        <option value="CS">Computer Science</option>
+                                        <option value="CSCO">Cisco Networking</option>
+                                        <option value="CSEC">Cybersecurity</option>
+                                        <option value="CUL">Culinary Arts</option>
+                                        <option value="DA">Dental Assisting</option>
+                                        <option value="DAN">Dance</option>
+                                        <option value="DH">Dental Hygiene</option>
+                                        <option value="DT">Diesel Technology</option>
+                                        <option value="DWA">Digital Web Applications</option>
+                                        <option value="DWF">Digital Web Foundations</option>
+                                        <option value="ECE">Early Childhood Education</option>
+                                        <option value="ECON">Economics</option>
+                                        <option value="EDU">Education</option>
+                                        <option value="EE">Electrical Engineering</option>
+                                        <option value="EGG">Engineering</option>
+                                        <option value="ELEC">Electrical Technology</option>
+                                        <option value="EMHS">Emergency Management and Homeland Security</option>
+                                        <option value="EMS">Emergency Medical Services</option>
+                                        <option value="ENG">English</option>
+                                        <option value="ENV">Environmental Science</option>
+                                        <option value="EPD">Emergency Preparedness</option>
+                                        <option value="EPY">Educational Psychology</option>
+                                        <option value="ESL">English as a Second Language</option>
+                                        <option value="ET">Engineering Technology</option>
+                                        <option value="FAB">Food and Beverage Management</option>
+                                        <option value="FIL">Filipino</option>
+                                        <option value="FIN">Finance</option>
+                                        <option value="FLCV">Floriculture</option>
+                                        <option value="FLOR">Floral Design</option>
+                                        <option value="FMM">Fashion Merchandising Management</option>
+                                        <option value="FREN">French</option>
+                                        <option value="FT">Fire Technology</option>
+                                        <option value="FUNS">Funeral Services</option>
+                                        <option value="GAM">Gaming Management</option>
+                                        <option value="GEOG">Geography</option>
+                                        <option value="GEOL">Geology</option>
+                                        <option value="GER">German</option>
+                                        <option value="GIS">Geographic Information Systems</option>
+                                        <option value="GLO">Global Studies</option>
+                                        <option value="GLZR">Glazier</option>
+                                        <option value="GRC">Graphic Communications</option>
+                                        <option value="GRE">Greek</option>
+                                        <option value="HAW">Hawaiian</option>
+                                        <option value="HHP">Health and Human Performance</option>
+                                        <option value="HIST">History</option>
+                                        <option value="HIT">Health Information Technology</option>
+                                        <option value="HMD">Hotel Management</option>
+                                        <option value="HUM">Humanities</option>
+                                        <option value="IRW">Integrated Reading and Writing</option>
+                                        <option value="IS">Information Systems</option>
+                                        <option value="ITAL">Italian</option>
+                                        <option value="JOUR">Journalism</option>
+                                        <option value="JPN">Japanese</option>
+                                        <option value="KOR">Korean</option>
+                                        <option value="LAS">Latin American Studies</option>
+                                        <option value="LAT">Latin</option>
+                                        <option value="LAW">Law</option>
+                                        <option value="LIB">Library Science</option>
+                                        <option value="MA">Medical Assisting</option>
+                                        <option value="MATH">Mathematics</option>
+                                        <option value="ME">Mechanical Engineering</option>
+                                        <option value="MGT">Management</option>
+                                        <option value="MHDD">Mental Health Directing and Development</option>
+                                        <option value="MIL">Military Science</option>
+                                        <option value="MKT">Marketing</option>
+                                        <option value="MOT">Medical Office Technology</option>
+                                        <option value="MT">Manufacturing Technology</option>
+                                        <option value="MTT">Machine Tool Technology</option>
+                                        <option value="MUS">Music</option>
+                                        <option value="MUSA">Applied Music</option>
+                                        <option value="MUSE">Music Ensembles</option>
+                                        <option value="MWA">Metal Working Arts</option>
+                                        <option value="NRES">Natural Resources</option>
+                                        <option value="NURS">Nursing</option>
+                                        <option value="NUTR">Nutrition</option>
+                                        <option value="OPE">Operating Engineers</option>
+                                        <option value="OPHT">Ophthalmic Technology</option>
+                                        <option value="OPME">Operating Engineers Maintenance</option>
+                                        <option value="PDA">Public Administration</option>
+                                        <option value="PEX">Physical Education</option>
+                                        <option value="PHAR">Pharmacy Technology</option>
+                                        <option value="PHIL">Philosophy</option>
+                                        <option value="PHO">Photography</option>
+                                        <option value="PHYS">Physics</option>
+                                        <option value="PLA">Paralegal Studies</option>
+                                        <option value="PLCM">Plumbing</option>
+                                        <option value="PN">Practical Nursing</option>
+                                        <option value="PORT">Portuguese</option>
+                                        <option value="PPF">Protective Services</option>
+                                        <option value="PSC">Political Science</option>
+                                        <option value="PSY">Psychology</option>
+                                        <option value="PT">Physical Therapy</option>
+                                        <option value="PTD">Physical Therapy Directing</option>
+                                        <option value="RDTP">Radiation Therapy</option>
+                                        <option value="RE">Real Estate</option>
+                                        <option value="READ">Reading</option>
+                                        <option value="RFR">Refrigeration</option>
+                                        <option value="RST">Religious Studies</option>
+                                        <option value="RUS">Russian</option>
+                                        <option value="SCT">Surgical Technology</option>
+                                        <option value="SEA">Southeast Asian Studies</option>
+                                        <option value="SMTL">Sheet Metal Technology</option>
+                                        <option value="SOC">Sociology</option>
+                                        <option value="SON">Sonography</option>
+                                        <option value="SPAN">Spanish</option>
+                                        <option value="SRGT">Surgical Technology</option>
+                                        <option value="STAT">Statistics</option>
+                                        <option value="SUR">Surveying</option>
+                                        <option value="TCA">Tourism and Convention Administration</option>
+                                        <option value="THAI">Thai</option>
+                                        <option value="THTR">Theatre</option>
+                                        <option value="TLS">Transitional Learning Skills</option>
+                                        <option value="TMST">Transportation Management</option>
+                                        <option value="URST">Urban Studies</option>
+                                        <option value="VETN">Veterinary Nursing</option>
+                                        <option value="VID">Videography</option>
+                                        <option value="WELD">Welding</option>
+                                        <option value="WMST">Women's Studies</option>
+                                        <option value="WWT">Water/Wastewater Technology</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Exam List -->
+                        <div id="report-panel"></div>
+
+                    </div>
+
                 </div>
             </main>
         </div>
@@ -316,6 +518,18 @@
 
         }
 
+        function showReportCard() {
+            clearActiveLinks();
+            document.getElementById("generateReport").classList.add("active");
+            document.getElementById("dashboard-card").classList.add("hidden");
+            document.getElementById("createExam-card").classList.add("hidden");
+            document.getElementById("editExam-card").classList.add("hidden");
+            document.getElementById("report-card").classList.remove("hidden");
+
+            refreshReportPanel();
+        }
+
+
         document.addEventListener("DOMContentLoaded", function () {
             // Make sure dashboard is shown first
             showDashboard();
@@ -342,6 +556,11 @@
                 const eParts = endDateInput.value.split("-");
                 endDate = new Date(eParts[0], eParts[1] - 1, eParts[2]);
                 endDate.setHours(23, 59, 59, 999); // include full end-of-day
+            }
+
+            if (panel === "report") {
+                refreshReportPanel();  // This handles fetching and rendering the filtered results
+                return;
             }
 
             const examCards = document.querySelectorAll(`#${panel}-card .exam-card`);
@@ -610,6 +829,43 @@
                     });
             }, 0);
         }
+
+        function refreshReportPanel() {
+            console.log("REFRESHING REPORT PANEL");
+
+            const reportPanel = document.querySelector("#report-panel");
+            if (!reportPanel) return;
+
+            // Optional: Show loading spinner
+            reportPanel.innerHTML = `<div class="spinner-wrapper"><div class="spinner-container"><div class="spinner"></div></div></div>`;
+
+            const subject = document.getElementById("subjectFilter-report").value;
+            const campus = document.getElementById("campusFilter-report").value;
+            const startDate = document.getElementById("startDate-report").value;
+            const endDate = document.getElementById("endDate-report").value;
+
+            const query = new URLSearchParams({
+                subject: subject || '',
+                campus: campus || '',
+                start_date: startDate || '',
+                end_date: endDate || ''
+            });
+
+            fetch(`/faculty/report/data/?${query.toString()}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.html) {
+                        reportPanel.innerHTML = data.html;
+                    } else {
+                        reportPanel.innerHTML = `<p>No results found.</p>`;
+                    }
+                })
+                .catch(err => {
+                    console.error("Error loading report data:", err);
+                    reportPanel.innerHTML = `<p>Failed to load report.</p>`;
+                });
+        }
+
 
         function handleAddExamFormSubmission() {
             const form = document.querySelector("#add-exam-form");

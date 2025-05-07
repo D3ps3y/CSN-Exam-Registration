@@ -440,3 +440,39 @@ def get_single_edit_exam_form(request, exam_id):
     }, request=request)
 
     return JsonResponse({"html": html})
+
+#########################################################################
+# AJAX Grabs Student Report Data
+#########################################################################
+@login_required
+def faculty_report_data(request):
+    # Only allow faculty to access this report
+    if not request.user.is_faculty:
+        return JsonResponse({"html": "<p>Unauthorized access.</p>"}, status=403)
+
+    # Get all registrations tied to the faculty's exams
+    registrations = ExamRegistration.objects.filter(exam__created_by=request.user)
+
+    # Apply filters
+    subject = request.GET.get("subject")
+    campus = request.GET.get("campus")
+    start_date = request.GET.get("start_date")
+    end_date = request.GET.get("end_date")
+
+    if subject and subject != "all":
+        registrations = registrations.filter(exam__exam_subject=subject)
+
+    if campus and campus != "all":
+        registrations = registrations.filter(exam__location__icontains=campus)
+
+    if start_date:
+        registrations = registrations.filter(exam__exam_date__gte=start_date)
+
+    if end_date:
+        registrations = registrations.filter(exam__exam_date__lte=end_date)
+
+    html = render_to_string("partials/faculty_report_results.html", {
+        "registrations": registrations
+    })
+
+    return JsonResponse({"html": html})
