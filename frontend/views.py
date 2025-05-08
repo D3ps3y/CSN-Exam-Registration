@@ -449,7 +449,7 @@ def faculty_report_data(request):
     if not request.user.is_faculty:
         return JsonResponse({"html": "<p>Unauthorized.</p>"}, status=403)
 
-    exams = Exam.objects.filter(created_by=request.user)
+    exams = Exam.objects.all()
 
     subject = request.GET.get("subject")
     campus = request.GET.get("campus")
