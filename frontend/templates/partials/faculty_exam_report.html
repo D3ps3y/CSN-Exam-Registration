@@ -5,11 +5,14 @@
       <div class="exam-title-dashboard">{{ exam.exam_subject }} {{ exam.exam_number }}</div>
       <div>{{ exam.exam_date }}</div>
     </div>
-    <p><strong>Location:</strong> {{ exam.location }}</p>
-    <p><strong>Building:</strong> {{ exam.building }}</p>
-    <p><strong>Room:</strong> {{ exam.room_number }}</p>
-    <p><strong>Max Seats:</strong> {{ exam.max_seats }}</p>
-    <p><strong>Registered:</strong> {{ exam.registered_count }}</p>
+
+    <div class="exam-meta">
+      <div>Location: {{ exam.location }}</div>
+      <div>Building: {{ exam.building }}</div>
+      <div>Room: {{ exam.room_number }}</div>
+      <div>Max Seats: {{ exam.max_seats }}</div>
+      <div>Registered: {{ exam.registered_count }}</div>
+    </div>
 
     <button class="select-btn" onclick="loadExamStudents({{ exam.id }})">
       View Students
