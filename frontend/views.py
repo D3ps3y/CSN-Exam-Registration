@@ -476,7 +476,7 @@ def faculty_report_data(request):
 #########################################################################
 @login_required
 def fetch_exam_students(request, exam_id):
-    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
+    exam = get_object_or_404(Exam, id=exam_id)
     registrations = exam.enrollments.select_related("student")
 
     html = render_to_string("partials/exam_student_list.html", {
