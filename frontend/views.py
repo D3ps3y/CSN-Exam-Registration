@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from frontend.forms import UnifiedRegisterForm, LoginForm, ExamForm
 from .models import Exam, ExamRegistration
+from django.db.models import Count, Q
 from django.template.loader import render_to_string
 import json
 
@@ -464,6 +465,11 @@ def faculty_report_data(request):
         exams = exams.filter(exam_date__gte=start_date)
     if end_date:
         exams = exams.filter(exam_date__lte=end_date)
+
+    # Only counts students with status = "confirmed"
+    exams = exams.annotate(
+        registered_count=Count("enrollments", filter=Q(enrollments__status="confirmed"))
+    )
 
     html = render_to_string("partials/faculty_exam_report.html", {
         "exams": exams
