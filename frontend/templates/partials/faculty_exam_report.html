@@ -2,16 +2,20 @@
   {% for exam in exams %}
   <div class="exam-card">
     <div class="exam-header">
-      <div class="exam-title-dashboard">{{ exam.exam_subject }} {{ exam.exam_number }}</div>
-      <div>{{ exam.exam_date }}</div>
+      <span class="exam-title">{{ exam.exam_subject }} {{ exam.exam_number }}</span>
+      <span class="capacity">
+        {% if exam.registered_count >= exam.max_seats %}
+          <span class="full-label">Full</span>
+        {% else %}
+          {{ exam.registered_count }} / {{ exam.max_seats }}
+        {% endif %}
+      </span>
     </div>
 
     <div class="exam-meta">
-      <div>Location: {{ exam.location }}</div>
-      <div>Building: {{ exam.building }}</div>
-      <div>Room: {{ exam.room_number }}</div>
-      <div>Max Seats: {{ exam.max_seats }}</div>
-      <div>Registered: {{ exam.registered_count }}</div>
+      <div>Date: {{ exam.exam_date }}</div>
+      <div>Time: {{ exam.exam_time }}</div>
+      <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
     </div>
 
     <button class="select-btn" onclick="loadExamStudents({{ exam.id }})">
