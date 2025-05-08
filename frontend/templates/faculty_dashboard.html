@@ -475,6 +475,13 @@
         </div>
     </div>
 
+    <div id="popup-panel" class="popup hidden">
+        <div class="popup-content">
+            <button class="close-btn" onclick="closePopup()">×</button>
+            <div id="popup-body"></div>
+        </div>
+    </div>
+    
     <script>
 
         function clearActiveLinks() {
@@ -527,6 +534,28 @@
             document.getElementById("report-card").classList.remove("hidden");
 
             refreshReportPanel();
+        }
+
+        function loadExamStudents(examId) {
+            fetch(`/faculty/exam/${examId}/students/`)
+                .then(res => res.json())
+                .then(data => {
+                    openPopup(data.html);
+                })
+                .catch(err => {
+                    console.error("Failed to load student list:", err);
+                    showSnackbar("Could not load student list.");
+                });
+        }
+
+        function openPopup(contentHTML) {
+            document.getElementById("popup-body").innerHTML = contentHTML;
+            document.getElementById("popup-panel").classList.remove("hidden");
+        }
+
+        function closePopup() {
+            document.getElementById("popup-panel").classList.add("hidden");
+            document.getElementById("popup-body").innerHTML = "";
         }
 
 

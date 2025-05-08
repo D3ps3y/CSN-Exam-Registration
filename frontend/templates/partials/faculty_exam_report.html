@@ -1,0 +1,22 @@
+<div class="exam-list grid-view">
+  {% for exam in exams %}
+  <div class="exam-card">
+    <div class="exam-header">
+      <div class="exam-title-dashboard">{{ exam.exam_subject }} {{ exam.exam_number }}</div>
+      <div>{{ exam.exam_date }}</div>
+    </div>
+    <p><strong>Location:</strong> {{ exam.location }}</p>
+    <p><strong>Building:</strong> {{ exam.building }}</p>
+    <p><strong>Room:</strong> {{ exam.room_number }}</p>
+    <p><strong>Max Seats:</strong> {{ exam.max_seats }}</p>
+    <p><strong>Registered:</strong> {{ exam.registered_count }}</p>
+
+    <button class="select-btn" onclick="loadExamStudents({{ exam.id }})">
+      View Students
+    </button>
+  </div>
+  {% empty %}
+  <p>No exams found for the selected filters.</p>
+  {% endfor %}
+</div>
+

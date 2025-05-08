@@ -446,32 +446,41 @@ def get_single_edit_exam_form(request, exam_id):
 #########################################################################
 @login_required
 def faculty_report_data(request):
-    # Only allow faculty to access this report
     if not request.user.is_faculty:
-        return JsonResponse({"html": "<p>Unauthorized access.</p>"}, status=403)
+        return JsonResponse({"html": "<p>Unauthorized.</p>"}, status=403)
 
-    # Get all registrations tied to the faculty's exams
-    registrations = ExamRegistration.objects.all()
+    exams = Exam.objects.filter(created_by=request.user)
 
-    # Apply filters
     subject = request.GET.get("subject")
     campus = request.GET.get("campus")
     start_date = request.GET.get("start_date")
     end_date = request.GET.get("end_date")
 
     if subject and subject != "all":
-        registrations = registrations.filter(exam__exam_subject=subject)
-
+        exams = exams.filter(exam_subject=subject)
     if campus and campus != "all":
-        registrations = registrations.filter(exam__location__icontains=campus)
-
+        exams = exams.filter(location__icontains=campus)
     if start_date:
-        registrations = registrations.filter(exam__exam_date__gte=start_date)
-
+        exams = exams.filter(exam_date__gte=start_date)
     if end_date:
-        registrations = registrations.filter(exam__exam_date__lte=end_date)
+        exams = exams.filter(exam_date__lte=end_date)
 
-    html = render_to_string("partials/faculty_report_results.html", {
+    html = render_to_string("partials/faculty_exam_report.html", {
+        "exams": exams
+    })
+
+    return JsonResponse({"html": html})
+
+#########################################################################
+# AJAX Load Students Per Exam
+#########################################################################
+@login_required
+def fetch_exam_students(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id, created_by=request.user)
+    registrations = exam.enrollments.select_related("student")
+
+    html = render_to_string("partials/exam_student_list.html", {
+        "exam": exam,
         "registrations": registrations
     })
 

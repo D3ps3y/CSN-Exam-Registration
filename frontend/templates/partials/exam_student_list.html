@@ -1,0 +1,21 @@
+<h2>{{ exam.exam_subject }} {{ exam.exam_number }} — Students</h2>
+<table class="report-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>ID</th>
+      <th>Status</th>
+      <th>Registered On</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reg in registrations %}
+    <tr>
+      <td>{{ reg.student.get_full_name }}</td>
+      <td>{{ reg.student.university_id }}</td>
+      <td>{{ reg.status|capfirst }}</td>
+      <td>{{ reg.registration_date|date:"M d, Y" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
