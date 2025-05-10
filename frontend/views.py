@@ -416,6 +416,11 @@ def update_exam(request, exam_id):
 def fetch_faculty_exam_grid(request):
     exams = Exam.objects.filter(created_by=request.user)
 
+    # Add end_time to each exam
+    for exam in exams:
+        start = datetime.combine(datetime.today(), exam.exam_time)
+        exam.end_time = (start + timedelta(minutes=90)).time()
+
     html = render_to_string("partials/faculty_exam_grid.html", {
         "exams": exams
     })
