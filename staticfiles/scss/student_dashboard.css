@@ -413,6 +413,3 @@ select {
   display: flex;
   flex-direction: column;
   justify-content: center; }
-
-.announcement-card {
-  margin-top: auto; }
