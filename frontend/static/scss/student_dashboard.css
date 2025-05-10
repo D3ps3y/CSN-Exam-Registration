@@ -11,11 +11,6 @@ body {
   overflow: hidden;
   flex-direction: column; }
 
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; }
-
 /* Top Bar */
 .top-bar {
   background: transparent;
@@ -347,6 +342,16 @@ select {
   to {
     transform: rotate(360deg); } }
 
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; }
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; }
+
 .dashboard-metrics {
   display: flex;
   justify-content: space-between;
@@ -400,3 +405,9 @@ select {
   .announcement-card p {
     font-size: 1rem;
     line-height: 1.5; }
+
+.rules-card {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
