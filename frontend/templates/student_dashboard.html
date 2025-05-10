@@ -104,8 +104,16 @@
                             <!-- Announcements Section -->
                             <div class="announcement-card">
                                 <h3>Announcements</h3>
-                                <p>Check back here for important updates and alerts about your exams.</p>
+                                <div class="announcement-rotator">
+                                    <div id="announcement-text">Loading announcements...</div>
+
+                                    <div class="announcement-controls">
+                                        <button onclick="prevAnnouncement()">◀</button>
+                                        <button onclick="nextAnnouncement()">▶</button>
+                                    </div>
+                                </div>
                             </div>
+
 
                         </div>
                     </div>
@@ -705,6 +713,48 @@
                 snackbar.classList.remove("show");
             }, 3000);
         }
+
+        const announcements = [
+            "Confirm your May exams by April 28.",
+            "Charleston Testing Center closed May 12–14.",
+            "Photo ID required on exam day.",
+            "Fall semester exam slots now open.",
+            "Exam capacity increased to 25 seats.",
+            "North Las Vegas Campus now available for BIO 189.",
+            "Cancel exams at least 48 hours in advance.",
+            "No exams scheduled May 6–10 for Advising Week."
+        ];
+
+        let current = 0;
+        let autoRotate;
+
+        function showAnnouncement(index) {
+            const textDiv = document.getElementById("announcement-text");
+            textDiv.textContent = announcements[index];
+        }
+
+        function nextAnnouncement() {
+            current = (current + 1) % announcements.length;
+            showAnnouncement(current);
+            resetTimer();
+        }
+
+        function prevAnnouncement() {
+            current = (current - 1 + announcements.length) % announcements.length;
+            showAnnouncement(current);
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(autoRotate);
+            autoRotate = setInterval(nextAnnouncement, 6000);
+        }
+
+        window.onload = () => {
+            showAnnouncement(current);
+            autoRotate = setInterval(nextAnnouncement, 6000);
+        };
+
     </script>
 
     <div id="snackbar"></div>

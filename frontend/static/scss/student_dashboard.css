@@ -413,3 +413,30 @@ select {
   display: flex;
   flex-direction: column;
   justify-content: center; }
+
+.announcement-card {
+  min-height: 120px; }
+  .announcement-card .announcement-rotator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem; }
+  .announcement-card #announcement-text {
+    font-size: 1rem;
+    text-align: center;
+    min-height: 2.5rem;
+    line-height: 1.4; }
+  .announcement-card .announcement-controls {
+    display: flex;
+    gap: 0.5rem; }
+    .announcement-card .announcement-controls button {
+      background-color: #002b5c;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease; }
+    .announcement-card .announcement-controls button:hover {
+      background-color: #00458a; }
