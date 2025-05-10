@@ -477,6 +477,10 @@ def faculty_report_data(request):
         registered_count=Count("enrollments", filter=Q(enrollments__status="confirmed"))
     )
 
+    for exam in exams:
+        start = datetime.combine(datetime.today(), exam.exam_time)
+        exam.end_time = (start + timedelta(minutes=90)).time()
+
     html = render_to_string("partials/faculty_exam_report.html", {
         "exams": exams
     })
