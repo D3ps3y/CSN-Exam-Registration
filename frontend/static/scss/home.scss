@@ -1,269 +1,161 @@
+// Define a Sass map of colors with corresponding names and hex values
 $colors: (
-        purple: #241379,
-        medium-blue: #2185bf,
-        light-blue: #1fbce1,
-
-        red: #b62f56,
-        orange: #d5764c,
-        yellow: #ffd53e,
-
-        cyan: #78ffba,
-        light-green: #98fd85,
-        lime: #befb46,
-
-        magenta: #6c046c,
-        lightish-red: #f04c81,
-        pink: #ff4293
+    purple: #241379, // Deep purple color
+    medium-blue: #2185bf, // Medium blue shade
+    light-blue: #1fbce1, // Light blue color
+    
+    red: #b62f56, // Red shade
+    orange: #d5764c, // Orange color
+    yellow: #ffd53e, // Bright yellow
+    
+    cyan: #78ffba, // Cyan shade
+    light-green: #98fd85, // Light green color
+    lime: #befb46, // Lime green
+    
+    magenta: #6c046c, // Dark magenta
+    lightish-red: #f04c81, // Light red/pink
+    pink: #ff4293 // Bright pink color
 );
 
+// Apply styles to the <body> element
 body {
-    background: radial-gradient(circle, #24246e, #06051f);
-    //isolation: isolate;
-    overflow: hidden;
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+    background: radial-gradient(circle, #24246e, #06051f); // Radial gradient background
+    //isolation: isolate; // Uncommenting this will isolate blending effects
+    overflow: hidden; // Prevents scrollbars from appearing
+    position: relative; // Positions the body element relative to child elements
+    width: 100vw; // Full viewport width
+    height: 100vh; // Full viewport height
 }
 
+// Define styles for floating shapes and their pseudo-elements (::before, ::after)
 .floating-shape,
 .floating-shape::before,
 .floating-shape::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    opacity: 0.9;
-    transform-origin: top;
-    transition: all 5s linear 0s;
-    mix-blend-mode: color-dodge;
+    content: ""; // Empty content for pseudo-elements
+    position: fixed; // Fixes the position on the screen
+    top: 0; // Starts at the top
+    left: 0; // Starts at the left
+    opacity: 0.9; // 90% visible
+    transform-origin: top; // Rotates from the top point
+    transition: all 5s linear 0s; // Smooth transition effect
+    mix-blend-mode: color-dodge; // Blend mode for bright effects
 }
 
+// When the body is active (clicked), increase shape padding
 body:active .floating-shape,
 body:active .floating-shape::before,
 body:active .floating-shape::after {
-    padding: 120px;
+    padding: 120px; // Adds extra space to shapes
 }
 
+// Floating shape main styles
 .floating-shape {
-    position: absolute;
-    border-radius: 50%;
-    transition: all 5s linear 0s;
-    opacity: 0.9;
+    position: absolute; // Positioned absolutely
+    border-radius: 50%; // Makes it a circle
+    transition: all 5s linear 0s; // Smooth transition
+    opacity: 0.9; // 90% visible
 }
 
+// Function to generate a random number between two given values
 @function random-num($min, $max) {
-    @return floor(random() * ($max - $min) + $min);
+    @return floor(random() * ($max - $min) + $min); // Returns a number between min and max
 }
 
+// Function to calculate a random movement position
 @function random-calc($number) {
-    $max: 100 - $number;
-    $min: $number * -1;
-    @return random-num($min, $max);
+    $max: 100 - $number; // Maximum allowed value
+    $min: $number * -1; // Minimum allowed value (negative)
+    @return random-num($min, $max); // Returns a number between min and max
 }
 
+// Loop through each color in the map and create styles dynamically
 @each $color-name, $color-hex in $colors {
-    // Initial top and left positions
-    $random1: random(100);
-    $random2: random(100);
+    // Generate random initial positions
+    $random1: random(100); // Random start position (left)
+    $random2: random(100); // Random start position (top)
 
-    // Animated top and left positions
-    $random3: random(100);
-    $random4: random(100);
+    // Generate random mid-animation positions
+    $random3: random(100); // Random position 50% through animation
+    $random4: random(100); // Random position 50% through animation
 
-    // Animated top and left end positions
-    $random5: random(100);
-    $random6: random(100);
+    // Generate random final positions
+    $random5: random(100); // Random position at the end of animation
+    $random6: random(100); // Random position at the end of animation
 
+    // Define styles for the floating shape of each color
     .#{$color-name} {
-        $size: random-num(5,50) + px;
-        animation: #{$color-name} linear 30s alternate infinite;
-        border: 2px solid #{$color-hex};
-        border-radius: 100%;
-        width: $size;
-        height: $size;
-        transform: translate3d($random1 + vw, $random2 + vh, 0);
-        z-index: random(12);
+        $size: random-num(5, 50) + px; // Random size between 5px and 50px
+        animation: #{$color-name} linear 30s alternate infinite; // Infinite animation
+        border: 2px solid #{$color-hex}; // Border color matches shape color
+        border-radius: 100%; // Makes it a circle
+        width: $size; // Shape width
+        height: $size; // Shape height
+        transform: translate3d($random1 + vw, $random2 + vh, 0); // Initial position
+        z-index: random(12); // Random stacking order
 
-        // Adds floating-shape class
-        @extend .floating-shape;
+        @extend .floating-shape; // Inherits floating-shape properties
     }
 
+    // Define styles for the ::before pseudo-element of each shape
     .#{$color-name}::before {
-        animation: #{$color-name}-pseudo linear 15s alternate infinite;
-        background: #{$color-hex};
-        border: 2px solid #{$color-hex};
-        width: random-num(5,50) + px;
-        height: random-num(5,50) + px;
-        transform: translate3d(random-calc($random1) + vw, random-calc($random2) + vh, 0) rotate((random(360)) + deg);
+        animation: #{$color-name}-pseudo linear 15s alternate infinite; // 15s animation
+        background: #{$color-hex}; // Background color matches shape color
+        border: 2px solid #{$color-hex}; // Border color matches shape color
+        width: random-num(5, 50) + px; // Random size
+        height: random-num(5, 50) + px; // Random size
+        transform: translate3d(random-calc($random1) + vw, random-calc($random2) + vh, 0) 
+                    rotate((random(360)) + deg); // Random movement and rotation
     }
 
-    .#{$color-name}::after{
-        animation: #{$color-name}-pseudo linear 20s alternate infinite;
-        border: 2px solid #{$color-hex};
-        width: random-num(5,50) + px;
-        height: random-num(5,50) + px;
-        transform: translate3d(random-calc($random1) + vw, random-calc($random2) + vh, 0) rotate((random(360)) + deg);
+    // Define styles for the ::after pseudo-element of each shape
+    .#{$color-name}::after {
+        animation: #{$color-name}-pseudo linear 20s alternate infinite; // 20s animation
+        border: 2px solid #{$color-hex}; // Border color matches shape color
+        width: random-num(5, 50) + px; // Random size
+        height: random-num(5, 50) + px; // Random size
+        transform: translate3d(random-calc($random1) + vw, random-calc($random2) + vh, 0) 
+                    rotate((random(360)) + deg); // Random movement and rotation
     }
 
+    // Keyframes for floating shape animation
     @keyframes #{$color-name} {
-        50% {transform: translate3d($random3 + vw, $random4 + vh, 0);}
-        100% {transform: translate3d($random5 + vw, $random6 + vh, 0);}
+        50% { transform: translate3d($random3 + vw, $random4 + vh, 0); } // Midway position
+        100% { transform: translate3d($random5 + vw, $random6 + vh, 0); } // Final position
     }
 
+    // Keyframes for pseudo-elements animation
     @keyframes #{$color-name}-pseudo {
-        33% {transform: translate3d(random-calc($random3) + vw, random-calc($random4) + vh, 0)
-                        rotate((random(360)) + deg);
-        }
-        100% {transform: translate3d(random-calc($random5) + vw, random-calc($random6) + vh, 0)
-                        rotate((random(360)) + deg);
-        }
+        33% { transform: translate3d(random-calc($random3) + vw, random-calc($random4) + vh, 0) 
+                        rotate((random(360)) + deg); } // Movement and rotation at 33%
+        100% { transform: translate3d(random-calc($random5) + vw, random-calc($random6) + vh, 0) 
+                        rotate((random(360)) + deg); } // Final movement and rotation
     }
 }
 
-// From here on out I wrote the file. What's above (background) is much too advanced for me,
-// it is 90% copied from the author who made it.
-
+// Main container styling
 .main-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 450px;
-    min-height: 250px;
-    padding: 30px;
-    background: white;
-    opacity: 0.95;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 100;
+    position: absolute; // Absolute positioning
+    top: 50%; // Centered vertically
+    left: 50%; // Centered horizontally
+    transform: translate(-50%, -50%); // Moves container to exact center
+    width: 450px; // Fixed width
+    min-height: 250px; // Minimum height
+    padding: 30px; // Padding inside the container
+    background: white; // White background
+    opacity: 0.95; // Slight transparency
+    border-radius: 10px; // Rounded corners
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); // Soft shadow effect
+    text-align: center; // Centered text
+    overflow: hidden; // Prevents overflow content
+    display: flex; // Uses flexbox layout
+    flex-direction: column; // Arranges items in a column
+    justify-content: center; // Centers content
+    z-index: 100; // Higher stacking order
 }
 
-.logo-container {
-    margin-bottom: 15px;
-}
-
-.logo-container img {
-    width: 150px;
-    height: auto;
-}
-
-.hidden {
-    display: none;
-}
-
-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-}
-
-input {
-    width: 100%;
-    max-width: 450px;
-    padding: 10px;
-    margin-bottom: 5px;
-    border: 1px solid black;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-label {
-    width: 100%;
-    display: block;
-    text-align: left;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-button {
-    width: 100%;
-    max-width: 350px;
-    padding: 12px;
-    margin-top: 10px;
-    background: #005ecb;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-button:hover {
-    background: #003f9f;
-}
-
-a {
-    display: block;
-    margin-top: 10px;
-    text-decoration: none;
-    color: #005ecb;
-    font-size: 14px;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-// Font Changes
-
-body {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-}
-
-h1, h2 {
-    font-weight: 700;
-}
-
-p, label, a {
-    font-weight: 400;
-}
-
-.image-link {
-    display: inline-block;
-}
-
-.image-link img {
-    width: 150px;
-    height: auto;
-    display: block;
-}
-
-// Errors
-
-.snackbar {
-    visibility: visible;
-    min-width: 250px;
-    background-color: #ff4d4d;
-    color: white;
-    text-align: center;
-    border-radius: 8px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1000;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    font-size: 17px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    animation: fadeOut 3s ease forwards;
-    backdrop-filter: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-}
-
+// Fade-out animation for error messages
 @keyframes fadeOut {
-    0%   {opacity: 1;}
-    80%  {opacity: 1;}
-    100% {opacity: 0; display: none;}
+    0% { opacity: 1; } // Fully visible at start
+    80% { opacity: 1; } // Stays visible
+    100% { opacity: 0; display: none; } // Fades out and hides
 }
