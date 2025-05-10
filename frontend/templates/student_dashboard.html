@@ -61,51 +61,49 @@
                     <!-- Dynamic exam cards or booking UI goes here -->
                     <div id="dashboard-card">
                         <h1>Welcome, {{ first_name }} {{ last_name }}</h1>
-                    </div>
 
-                    <!-- Top Metric Row -->
-                    <div class="dashboard-metrics">
-                        <div class="metric-card">
-                            <h3>Registered Exams</h3>
-                            <p>{{ registered_count }} Registered</p>
+                        <!-- Top Metric Row -->
+                        <div class="dashboard-metrics">
+                            <div class="metric-card">
+                                <h3>Registered Exams</h3>
+                                <p>{{ registered_count }} Registered</p>
+                            </div>
+
+                            <div class="metric-card">
+                                <h3>Upcoming Exam</h3>
+                                {% if upcoming_exam %}
+                                    <p>{{ upcoming_exam.exam_subject }} {{ upcoming_exam.exam_number }}</p>
+                                    <p>{{ upcoming_exam.exam_date }}<br>
+                                       {{ upcoming_exam.exam_time|time:"g:i a" }}</p>
+                                    <p>{{ upcoming_exam.location }} ({{ upcoming_exam.building }})</p>
+                                {% else %}
+                                    <p>No upcoming exam</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="metric-card">
+                                <h3>Pending Confirmations</h3>
+                                <p>{{ pending_count }} Pending</p>
+                            </div>
                         </div>
 
-                        <div class="metric-card">
-                            <h3>Upcoming Exam</h3>
-                            {% if upcoming_exam %}
-                                <p>{{ upcoming_exam.exam_subject }} {{ upcoming_exam.exam_number }}</p>
-                                <p>{{ upcoming_exam.exam_date }}<br>
-                                   {{ upcoming_exam.exam_time|time:"g:i a" }}</p>
-                                <p>{{ upcoming_exam.location }} ({{ upcoming_exam.building }})</p>
-                            {% else %}
-                                <p>No upcoming exam</p>
-                            {% endif %}
+                        <!-- Rules Section -->
+                        <div class="rules-card">
+                            <h3>Student Rules</h3>
+                            <ul>
+                                <li>Arrive 10 minutes early</li>
+                                <li>Bring your student ID</li>
+                                <li>No phones or smartwatches allowed</li>
+                                <li>Only 3 exam reservations allowed</li>
+                            </ul>
                         </div>
 
-                        <div class="metric-card">
-                            <h3>Pending Confirmations</h3>
-                            <p>{{ pending_count }} Pending</p>
+                        <!-- Announcements Section -->
+                        <div class="announcement-card">
+                            <h3>Announcements</h3>
+                            <p>Check back here for important updates and alerts about your exams.</p>
                         </div>
                     </div>
-
-                    <!-- Rules Section -->
-                    <div class="rules-card">
-                        <h3>Student Rules</h3>
-                        <ul>
-                            <li>Arrive 10 minutes early</li>
-                            <li>Bring your student ID</li>
-                            <li>No phones or smartwatches allowed</li>
-                            <li>Only 3 exam reservations allowed</li>
-                        </ul>
-                    </div>
-
-                    <!-- Announcements Section -->
-                    <div class="announcement-card">
-                        <h3>Announcements</h3>
-                        <p>Check back here for important updates and alerts about your exams.</p>
-                    </div>
-
-
 
                     <div id="registration-card" class="hidden">
                         <h1>Exam Registration</h1>
