@@ -20,7 +20,7 @@
 
                 <div class="exam-meta">
                     <div>Date: {{ exam.exam_date }}</div>
-                    <div>Time: {{ exam.exam_time }}</div>
+                    <div>Time: {{ exam.exam_time|time:"g:i a" }} to {{ end_time|time:"g:i a" }}</div>
                     <div>Location: {{ exam.location }} ({{ exam.building }})</div>
                     <div>Room: {{ exam.room_number }}</div>
                     {% if exam.created_by %}

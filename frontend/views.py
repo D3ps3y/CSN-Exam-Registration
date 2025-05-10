@@ -7,6 +7,7 @@ from .models import Exam, ExamRegistration
 from django.db.models import Count, Q
 from django.template.loader import render_to_string
 import json
+from datetime import datetime, timedelta, time
 
 User = get_user_model()
 
@@ -238,9 +239,14 @@ def fetch_registration_html(request):
     exam_data = []
     for exam in available_exams:
         confirmed_count = exam.enrollments.filter(status='confirmed').count()
+        # Safely calculate end time
+        start = datetime.combine(datetime.today(), exam.exam_time)
+        end = (start + timedelta(minutes=90)).time()
+
         exam_data.append({
             'exam': exam,
-            'confirmed_count': confirmed_count
+            'confirmed_count': confirmed_count,
+            'end_time': end
         })
 
     print("Available exams with confirmed counts:", exam_data)
