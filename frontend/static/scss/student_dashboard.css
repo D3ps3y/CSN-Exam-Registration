@@ -272,11 +272,11 @@ select {
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 0.4rem 0.8rem;
+  padding: 0.4rem;
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
-  margin-top: 0.5rem; }
+  margin-top: auto; }
 
 .cancel-btn:hover {
   background-color: #c82333; }
