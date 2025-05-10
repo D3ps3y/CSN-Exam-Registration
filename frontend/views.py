@@ -208,9 +208,15 @@ def fetch_bookings_html(request):
     for reg in confirmed_regs:
         exam = reg.exam
         confirmed_count = exam.enrollments.filter(status="confirmed").count()
+
+        # Calculate end_time
+        start = datetime.combine(datetime.today(), exam.exam_time)
+        end = (start + timedelta(minutes=90)).time()
+
         exam_data.append({
             "exam": exam,
-            "confirmed_count": confirmed_count
+            "confirmed_count": confirmed_count,
+            "end_time": end
         })
 
     html = render_to_string("partials/bookings_list.html", {
@@ -282,9 +288,14 @@ def fetch_confirmation_html(request):
     for reg in queued_regs:
         exam = reg.exam
         confirmed_count = exam.enrollments.filter(status="confirmed").count()
+
+        start = datetime.combine(datetime.today(), exam.exam_time)
+        end = (start + timedelta(minutes=90)).time()
+
         exam_data.append({
             "exam": exam,
-            "confirmed_count": confirmed_count
+            "confirmed_count": confirmed_count,
+            "end_time": end
         })
 
     html = render_to_string("partials/exam_confirmation_list.html", {
