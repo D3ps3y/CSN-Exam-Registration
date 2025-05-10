@@ -7,7 +7,7 @@ from .models import Exam, ExamRegistration
 from django.db.models import Count, Q
 from django.template.loader import render_to_string
 import json
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta, time, date
 
 User = get_user_model()
 
