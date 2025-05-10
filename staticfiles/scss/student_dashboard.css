@@ -377,3 +377,26 @@ select {
     .metric-card.rules ul li {
       font-size: 0.95rem;
       margin-bottom: 0.4rem; }
+
+.rules-card,
+.announcement-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 2rem; }
+  .rules-card h3,
+  .announcement-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem; }
+  .rules-card ul,
+  .announcement-card ul {
+    padding-left: 1.5rem; }
+    .rules-card ul li,
+    .announcement-card ul li {
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem; }
+  .rules-card p,
+  .announcement-card p {
+    font-size: 1rem;
+    line-height: 1.5; }

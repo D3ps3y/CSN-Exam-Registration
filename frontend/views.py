@@ -72,6 +72,16 @@ def student_dashboard(request):
         status="queued"
     ).count()
 
+    # Upcoming exam (confirmed only, in the future)
+    upcoming_exam = ExamRegistration.objects.filter(
+        student=request.user,
+        status="confirmed",
+        exam__exam_date__gte=date.today()
+    ).select_related("exam").order_by("exam__exam_date", "exam__exam_time").first()
+
+    # Extract actual Exam object if available
+    upcoming_exam = upcoming_exam.exam if upcoming_exam else None
+
     context = {
         "exams": exams,
         "enrolled_exam_ids": enrolled_exam_ids,
@@ -79,6 +89,7 @@ def student_dashboard(request):
         "last_name": request.user.last_name,
         "registered_count": registered_count,
         "pending_count": pending_count,
+        "upcoming_exam": upcoming_exam,
     }
 
     return render(request, 'student_dashboard.html', context)
