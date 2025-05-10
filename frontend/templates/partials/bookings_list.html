@@ -20,6 +20,11 @@
                     <div>Date: {{ exam.exam_date }}</div>
                     <div>Time: {{ exam.exam_time }}</div>
                     <div>Location: {{ exam.location }} ({{ exam.building }}, Room: {{ exam.room_number }})</div>
+                    {% if exam.created_by %}
+                        <div>Professor: {{ exam.created_by.get_full_name|default:exam.created_by.username }}</div>
+                    {% else %}
+                        <div>Professor: N/A</div>
+                    {% endif %}
                 </div>
 
                 <div class="booking-actions">

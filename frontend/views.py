@@ -232,7 +232,7 @@ def fetch_registration_html(request):
 
     print("Enrolled exam IDs:", list(enrolled_exam_ids))
 
-    available_exams = Exam.objects.exclude(id__in=enrolled_exam_ids)
+    available_exams = Exam.objects.exclude(id__in=enrolled_exam_ids).select_related("created_by")
 
     # Build a list of dicts with each exam and its confirmed count
     exam_data = []
