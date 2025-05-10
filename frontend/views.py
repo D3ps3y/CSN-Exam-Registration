@@ -61,13 +61,26 @@ def student_dashboard(request):
     
     # You might list the IDs of exams that the student is already enrolled in
     enrolled_exam_ids = request.user.enrollments.values_list("exam_id", flat=True)
-    
+
+    registered_count = ExamRegistration.objects.filter(
+        student=request.user,
+        status="confirmed"
+    ).count()
+
+    pending_count = ExamRegistration.objects.filter(
+        student=request.user,
+        status="queued"
+    ).count()
+
     context = {
         "exams": exams,
         "enrolled_exam_ids": enrolled_exam_ids,
         "first_name": request.user.first_name,
         "last_name": request.user.last_name,
+        "registered_count": registered_count,
+        "pending_count": pending_count,
     }
+
     return render(request, 'student_dashboard.html', context)
 #########################################################################
 # Faculty Dashboard
