@@ -510,7 +510,6 @@ select {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
     }
 
     #announcement-text {
@@ -522,6 +521,7 @@ select {
 
     .announcement-controls {
         display: flex;
+        gap: 0.5rem;
 
         button {
             background-color: #002b5c;
