@@ -529,6 +529,36 @@ select {
     }
 }
 
+.rules-section {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+
+    .rules-card {
+        flex: 1;
+        min-width: 300px;
+        background-color: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        ol {
+            padding-left: 1.5rem;
+            li {
+                margin-bottom: 0.5rem;
+                font-size: 0.95rem;
+            }
+        }
+    }
+}
+
+
 
 
 

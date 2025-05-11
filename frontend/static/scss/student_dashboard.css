@@ -440,3 +440,24 @@ select {
       transition: background-color 0.2s ease; }
     .announcement-card .announcement-controls button:hover {
       background-color: #00458a; }
+
+.rules-section {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap; }
+  .rules-section .rules-card {
+    flex: 1;
+    min-width: 300px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+    .rules-section .rules-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem; }
+    .rules-section .rules-card ol {
+      padding-left: 1.5rem; }
+      .rules-section .rules-card ol li {
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem; }
