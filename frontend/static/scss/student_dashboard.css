@@ -386,8 +386,7 @@ select {
 .metric-card.upcoming p {
   font-weight: 500;
   font-size: 1rem;
-  margin: 1rem 0;
-  text-align: left; }
+  margin: 1rem 0; }
 
 .metric-card.upcoming i {
   margin-right: 4px;
@@ -396,7 +395,7 @@ select {
 
 .metric-card.upcoming .no-upcoming {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
   font-size: 1rem;
   font-weight: 400;
   color: #333; }

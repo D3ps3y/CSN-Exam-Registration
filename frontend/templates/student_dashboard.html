@@ -874,6 +874,7 @@
 
         window.onload = () => {
             showAnnouncement(current);
+            refreshDashboardMetrics();
             autoRotate = setInterval(nextAnnouncement, 6000);
         };
 
