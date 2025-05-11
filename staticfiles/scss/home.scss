@@ -231,6 +231,19 @@ p, label, a {
 
 // Errors
 
+#register-snackbar {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 1000;
+    pointer-events: none;
+}
+
 .snackbar {
     display: flex;               // Lay out .error-boxes side by side
     flex-wrap: wrap;             // Allow them to wrap to a new line if needed
