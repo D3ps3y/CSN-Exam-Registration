@@ -232,28 +232,53 @@ p, label, a {
 // Errors
 
 .snackbar {
-    visibility: visible;
-    min-width: 250px;
-    background-color: #ff4d4d;
-    color: white;
-    text-align: center;
-    border-radius: 8px;
-    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    padding: 0;
+    border: none;
     position: fixed;
-    z-index: 1000;
-    left: 50%;
     bottom: 30px;
+    left: 50%;
     transform: translateX(-50%);
-    font-size: 17px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    animation: fadeOut 3s ease forwards;
-    backdrop-filter: none !important;
-    filter: none !important;
-    opacity: 1 !important;
+    z-index: 1000;
+    max-width: 90vw;
+    flex-direction: row;
 }
 
-@keyframes fadeOut {
-    0%   {opacity: 1;}
-    80%  {opacity: 1;}
-    100% {opacity: 0; display: none;}
+.error-box {
+    background-color: #ffe6e6;
+    color: #b20000;
+    border: 1px solid #ff4d4d;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    animation: fadeInOut 4s ease forwards;
 }
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    85% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+
+
