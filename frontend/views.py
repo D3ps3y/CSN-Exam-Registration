@@ -158,7 +158,7 @@ def custom_logout(request):
 #########################################################################
 def ajax_register(request):
     if request.method == "POST":
-        form = UnifiedRegisterForm(request.POST)
+        form = UnifiedRegisterForm(request.POST, prefix='register')
         if form.is_valid():
             email = form.cleaned_data["email"]
             user = form.save(commit=False)
@@ -182,7 +182,7 @@ def ajax_register(request):
 #########################################################################
 def ajax_login(request):
     if request.method == "POST":
-        form = LoginForm(request.POST)
+        form = LoginForm(request.POST, prefix='login')
         if form.is_valid():
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
