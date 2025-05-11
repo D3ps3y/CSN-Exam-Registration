@@ -173,7 +173,8 @@ def ajax_register(request):
         else:
             errors = []
             for error_list in form.errors.values():
-                errors.extend(error_list)
+                for error in error_list:
+                    errors.append(str(error))  # Force clean split, even if error is marked HTML-safe
             return JsonResponse({"success": False, "errors": errors})
     return JsonResponse({"success": False, "errors": ["Invalid request method."]})
 
