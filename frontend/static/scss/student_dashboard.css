@@ -437,7 +437,8 @@ select {
 
 .rules-section {
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  gap: 1rem; }
   .rules-section .rules-card {
     flex: 1;
     min-width: 300px;

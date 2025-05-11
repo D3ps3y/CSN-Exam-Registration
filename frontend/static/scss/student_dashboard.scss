@@ -533,6 +533,7 @@ select {
 .rules-section {
     display: flex;
     flex-wrap: wrap;
+    gap: 1rem;
 
     .rules-card {
         @extend .card;
