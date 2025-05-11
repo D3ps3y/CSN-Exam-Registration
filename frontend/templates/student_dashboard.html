@@ -74,14 +74,14 @@
 
                                 <div class="metric-card">
                                     <h3>Upcoming Exam</h3>
-                                    {% if upcoming_exam %}
-                                        <p>{{ upcoming_exam.exam_subject }} {{ upcoming_exam.exam_number }}</p>
-                                        <p>{{ upcoming_exam.exam_date }}<br>
-                                           {{ upcoming_exam.exam_time|time:"g:i a" }}</p>
-                                        <p>{{ upcoming_exam.location }} ({{ upcoming_exam.building }})</p>
+                                    {% if upcoming_exam and upcoming_exam.exam %}
+                                        <p>{{ upcoming_exam.exam.exam_subject }} {{ upcoming_exam.exam.exam_number }}</p>
+                                        <p>{{ upcoming_exam.exam.exam_date }}<br>{{ upcoming_exam.exam.exam_time|time:"g:i a" }}</p>
+                                        <p>{{ upcoming_exam.exam.location }} ({{ upcoming_exam.exam.building }})</p>
                                     {% else %}
                                         <p>No upcoming exam</p>
                                     {% endif %}
+
                                 </div>
 
                                 <div class="metric-card">
