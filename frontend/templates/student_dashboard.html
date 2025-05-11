@@ -77,9 +77,9 @@
                                 <div class="metric-card upcoming">
                                     <h3>Upcoming Exam</h3>
                                     {% if upcoming_exam %}
-                                        <p><i class="fas fa-book"></i> {{ upcoming_exam.exam_subject }} {{ upcoming_exam.exam_number }}</p>
-                                        <p><i class="fas fa-calendar-alt"></i> {{ upcoming_exam.exam_date }} at {{ upcoming_exam.exam_time|time:"g:i a" }}</p>
-                                        <p><i class="fas fa-map-marker-alt"></i> {{ upcoming_exam.location }} ({{ upcoming_exam.building }})</p>
+                                        <p><i class="fas fa-book"></i> {{ upcoming_exam.exam.exam_subject }} {{ upcoming_exam.exam.exam_number }}</p>
+                                        <p><i class="fas fa-calendar-alt"></i> {{ upcoming_exam.exam.exam_date }} at {{ upcoming_exam.exam.exam_time|time:"g:i a" }}</p>
+                                        <p><i class="fas fa-map-marker-alt"></i> {{ upcoming_exam.exam.location }} ({{ upcoming_exam.exam.building }})</p>
                                     {% else %}
                                         <p>No upcoming exam</p>
                                     {% endif %}
