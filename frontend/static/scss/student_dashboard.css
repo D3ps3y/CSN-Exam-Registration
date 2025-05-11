@@ -488,3 +488,24 @@ select {
 @media (max-width: 768px) {
   .rules-section {
     flex-direction: column; } }
+
+.card-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  font-size: 0.95rem;
+  color: #444;
+  text-align: center; }
+  .card-footer p {
+    margin-bottom: 0.5rem; }
+  .card-footer .contact-link {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    background-color: #002b5c;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s ease; }
+    .card-footer .contact-link:hover {
+      background-color: #00458a; }
