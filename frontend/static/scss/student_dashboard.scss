@@ -517,6 +517,7 @@ select {
         text-align: center;
         min-height: 2.5rem; // prevents layout shift when messages change
         line-height: 1.4;
+        transition: opacity 0.5s ease-in-out;
     }
 
     .announcement-controls {

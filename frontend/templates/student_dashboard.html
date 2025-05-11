@@ -806,8 +806,17 @@
 
         function showAnnouncement(index) {
             const textDiv = document.getElementById("announcement-text");
-            textDiv.textContent = announcements[index];
+
+            // Fade out
+            textDiv.style.opacity = 0;
+
+            // Wait ~300ms, then change text and fade back in
+            setTimeout(() => {
+                textDiv.textContent = announcements[index];
+                textDiv.style.opacity = 1;
+            }, 300);
         }
+
 
         function nextAnnouncement() {
             current = (current + 1) % announcements.length;
