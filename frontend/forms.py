@@ -48,17 +48,30 @@ class UnifiedRegisterForm(UserCreationForm):
         # Update the fields list to include university_id instead of student_id.
         fields = ["first_name", "last_name", "email", "university_id", "password1", "password2"]
 
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        if email:
-            # Accept only emails ending with @student.csn.edu or @csn.edu.
-            if not (email.endswith("@student.csn.edu") or email.endswith("@csn.edu")):
-                raise forms.ValidationError(
-                    "Email must end with @student.csn.edu (for students) or @csn.edu (for faculty)."
-                )
-            if User.objects.filter(email=email).exists():
-                raise forms.ValidationError("A user with this email already exists.")
-        return email
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get("email")
+        password = cleaned_data.get("password1")
+
+        # Email duplication check
+        if email and User.objects.filter(email=email).exists():
+            self.add_error("email", "A user with this email already exists.")
+
+        # Domain restriction
+        if email and not (email.endswith("@student.csn.edu") or email.endswith("@csn.edu")):
+            self.add_error("email", "Email must end with @student.csn.edu (for students) or @csn.edu (for faculty).")
+
+        # Student-specific checks
+        if email and email.endswith("@student.csn.edu"):
+            nshe_part = email.split("@")[0]
+
+            if not nshe_part.isdigit() or len(nshe_part) != 10:
+                self.add_error("email", "Student email must be in the format NSHE#@student.csn.edu")
+
+            if password != nshe_part:
+                self.add_error("password1", "Password must exactly match the NSHE number for student accounts.")
+
+        return cleaned_data
 
     def clean_university_id(self):
         # Return the university_id value (empty values are allowed)
