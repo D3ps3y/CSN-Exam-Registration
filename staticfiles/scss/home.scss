@@ -232,20 +232,19 @@ p, label, a {
 // Errors
 
 .snackbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    background-color: transparent;
-    padding: 0;
-    border: none;
+    display: flex;               // Lay out .error-boxes side by side
+    flex-wrap: wrap;             // Allow them to wrap to a new line if needed
+    justify-content: center;     // Center them horizontally
+    gap: 0.5rem;                 // ✅ Add space between each .error-box
+    padding: 1rem;
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+    background-color: transparent;
+    border: none;
     max-width: 90vw;
-    flex-direction: row;
 }
 
 .error-box {
@@ -257,9 +256,9 @@ p, label, a {
     font-weight: 500;
     font-size: 0.9rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    white-space: nowrap;
-    animation: fadeInOut 4s ease forwards;
+    white-space: nowrap; // prevents wrapping inside one error box
 }
+
 
 @keyframes fadeInOut {
     0% {
