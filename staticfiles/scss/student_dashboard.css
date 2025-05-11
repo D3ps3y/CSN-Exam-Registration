@@ -383,6 +383,16 @@ select {
     margin-right: 6px;
     color: #002b5c; }
 
+.metric-card.upcoming p {
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0.25rem 0; }
+
+.metric-card.upcoming i {
+  margin-right: 4px;
+  font-size: 0.95rem;
+  vertical-align: middle; }
+
 .metric-card.rules {
   text-align: left; }
   .metric-card.rules ul {
