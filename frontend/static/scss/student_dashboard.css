@@ -374,6 +374,9 @@ select {
   .metric-card p {
     font-size: 1.5rem;
     font-weight: bold; }
+  .metric-card i {
+    margin-right: 6px;
+    color: #002b5c; }
 
 .metric-card.rules {
   text-align: left; }
