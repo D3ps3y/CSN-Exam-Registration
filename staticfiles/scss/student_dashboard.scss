@@ -494,6 +494,14 @@ select {
     transition: box-shadow 0.3s ease;
     text-align: center;
 
+    h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #002b5c; // CSN blue
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.3px;
+    }
+
     &:hover {
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     }
