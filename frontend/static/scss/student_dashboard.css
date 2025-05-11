@@ -443,21 +443,49 @@ select {
 
 .rules-section {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   margin-top: 2rem;
   flex-wrap: wrap; }
   .rules-section .rules-card {
     flex: 1;
     min-width: 300px;
     background-color: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease; }
+    .rules-section .rules-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
     .rules-section .rules-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem; }
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+      color: #111; }
     .rules-section .rules-card ol {
-      padding-left: 1.5rem; }
+      padding-left: 1.5rem;
+      counter-reset: list-counter; }
       .rules-section .rules-card ol li {
-        margin-bottom: 0.5rem;
-        font-size: 0.95rem; }
+        counter-increment: list-counter;
+        margin-bottom: 1.5rem;
+        font-size: 0.97rem;
+        position: relative; }
+        .rules-section .rules-card ol li::marker {
+          font-weight: bold; }
+        .rules-section .rules-card ol li strong {
+          display: inline-block;
+          font-weight: 600;
+          margin-bottom: 0.3rem;
+          color: #002b5c; }
+        .rules-section .rules-card ol li ul {
+          list-style-type: circle;
+          padding-left: 1.2rem;
+          margin-top: 0.5rem; }
+          .rules-section .rules-card ol li ul li {
+            font-size: 0.94rem;
+            color: #333;
+            margin-bottom: 0.3rem;
+            line-height: 1.5; }
+
+@media (max-width: 768px) {
+  .rules-section {
+    flex-direction: column; } }
