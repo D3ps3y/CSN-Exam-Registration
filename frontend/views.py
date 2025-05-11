@@ -538,3 +538,42 @@ def fetch_exam_students(request, exam_id):
     })
 
     return JsonResponse({"html": html})
+
+#########################################################################
+# AJAX Load Dashboard Metrics
+#########################################################################
+@login_required
+def get_dashboard_metrics(request):
+    registered_count = ExamRegistration.objects.filter(
+        student=request.user,
+        status="confirmed"
+    ).count()
+
+    pending_count = ExamRegistration.objects.filter(
+        student=request.user,
+        status="queued"
+    ).count()
+
+    upcoming_exam = ExamRegistration.objects.filter(
+        student=request.user,
+        status="confirmed",
+        exam__exam_date__gte=date.today()
+    ).select_related("exam").order_by("exam__exam_date", "exam__exam_time").first()
+
+    exam_data = None
+    if upcoming_exam:
+        exam = upcoming_exam.exam
+        exam_data = {
+            "subject": exam.exam_subject,
+            "number": exam.exam_number,
+            "date": exam.exam_date.strftime("%B %d, %Y"),
+            "time": exam.exam_time.strftime("%I:%M %p").lstrip("0"),
+            "location": exam.location,
+            "building": exam.building
+        }
+
+    return JsonResponse({
+        "registered": registered_count,
+        "pending": pending_count,
+        "upcoming_exam": exam_data
+    })

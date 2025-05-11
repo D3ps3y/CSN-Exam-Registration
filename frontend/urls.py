@@ -23,7 +23,8 @@ from .views import (
     add_exam,
     get_single_edit_exam_form,
     faculty_report_data,
-    fetch_exam_students
+    fetch_exam_students,
+    get_dashboard_metrics
 )
 
 urlpatterns = [
@@ -52,5 +53,7 @@ urlpatterns = [
     path("get_single_edit_exam_form/<int:exam_id>/", get_single_edit_exam_form, name="get_single_edit_exam_form"),
     path("faculty/report/data/", faculty_report_data, name="faculty_report_data"),
     path('faculty/exam/<int:exam_id>/students/', fetch_exam_students, name='fetch_exam_students'),
+path("get_dashboard_metrics/", get_dashboard_metrics, name="get_dashboard_metrics"),
+
 
 ]

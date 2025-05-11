@@ -442,6 +442,7 @@
             .then(data => {
                 if (data.success) {
                     refreshRegistrationList();
+                    refreshDashboardMetrics();
                     showSnackbar("Exam was sent to Exam Confirmations.");
                     updateExamCount();
                 }
@@ -471,6 +472,7 @@
                     .then(data => {
                         if (data.success) {
                             refreshConfirmationList();
+                            refreshDashboardMetrics();
                             showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
                             updateExamCount();
                         } else {
@@ -628,6 +630,7 @@
                         refreshBookingsList();
                     }
                     updateExamCount();
+                    refreshDashboardMetrics();
                 } else {
                     alert(data.error || "Failed to cancel exam.");
                 }
@@ -792,6 +795,37 @@
                 snackbar.classList.remove("show");
             }, 3000);
         }
+
+        function refreshDashboardMetrics() {
+            fetch("/get_dashboard_metrics/")
+                .then(res => res.json())
+                .then(data => {
+                    // Registered
+                    document.querySelector(".metric-card:nth-child(1) p").textContent =
+                        `${data.registered} Registered`;
+
+                    // Pending
+                    document.querySelector(".metric-card:nth-child(3) p").textContent =
+                        `${data.pending} Pending`;
+
+                    // Upcoming
+                    const upcomingCard = document.querySelector(".metric-card:nth-child(2)");
+                    if (data.upcoming_exam) {
+                        upcomingCard.innerHTML = `
+                            <h3>Upcoming Exam</h3>
+                            <p><i class="fas fa-book"></i> ${data.upcoming_exam.subject} ${data.upcoming_exam.number}</p>
+                            <p><i class="fas fa-calendar-alt"></i> ${data.upcoming_exam.date} at ${data.upcoming_exam.time}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${data.upcoming_exam.location} (${data.upcoming_exam.building})</p>
+                        `;
+                    } else {
+                        upcomingCard.innerHTML = `
+                            <h3>Upcoming Exam</h3>
+                            <p>No upcoming exam</p>
+                        `;
+                    }
+                });
+        }
+
 
         const announcements = [
             "Please arrive 10 minutes early to avoid delays with check-in procedures.",
