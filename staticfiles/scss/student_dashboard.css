@@ -386,12 +386,20 @@ select {
 .metric-card.upcoming p {
   font-weight: 500;
   font-size: 1rem;
-  margin: 1rem 0; }
+  margin: 1rem 0;
+  text-align: left; }
 
 .metric-card.upcoming i {
   margin-right: 4px;
   font-size: 0.95rem;
   vertical-align: middle; }
+
+.metric-card.upcoming .no-upcoming {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333; }
 
 .metric-card.rules {
   text-align: left; }
