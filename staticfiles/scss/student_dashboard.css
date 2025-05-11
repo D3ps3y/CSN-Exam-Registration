@@ -386,7 +386,7 @@ select {
 .metric-card.upcoming p {
   font-weight: 500;
   font-size: 1rem;
-  margin: 0.5rem 0; }
+  margin: 1.5rem 0; }
 
 .metric-card.upcoming i {
   margin-right: 4px;
