@@ -21,11 +21,15 @@ def home(request):
             return redirect('faculty_dashboard')
         else:
             return redirect('student_dashboard')
-    login_form = LoginForm()
-    register_form = UnifiedRegisterForm()
+
+    login_form = LoginForm(prefix='login')
+    register_form = UnifiedRegisterForm(prefix='register')
+
     return render(request, 'home.html', {
-        'login_form': login_form, 'register_form': register_form,
+        'login_form': login_form,
+        'register_form': register_form,
     })
+
 
 #########################################################################
 # Unified Registration View
