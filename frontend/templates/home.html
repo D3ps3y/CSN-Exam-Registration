@@ -147,8 +147,10 @@
                     window.location.href = result.redirect_url;
                 } else {
                     const snackbar = document.getElementById(snackbarId);
+
+                    // Clear previous content and remove display class if needed
                     snackbar.innerHTML = "";
-                    snackbar.style.display = "block";
+                    snackbar.style.display = "flex";
 
                     result.errors.forEach(msg => {
                         const line = document.createElement("div");
@@ -157,10 +159,12 @@
                         snackbar.appendChild(line);
                     });
 
-
+                    // After delay, hide and clear snackbar again
                     setTimeout(() => {
                         snackbar.style.display = "none";
+                        snackbar.innerHTML = "";
                     }, 3000);
+
                 }
             });
         });
