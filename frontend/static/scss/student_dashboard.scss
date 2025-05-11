@@ -411,13 +411,13 @@ select {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    gap: 1rem;
 }
 
 .dashboard-metrics {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    margin-top: 2rem;
     flex-wrap: wrap;
 }
 
@@ -427,6 +427,10 @@ select {
     flex: 1;
     min-width: 250px;
     text-align: center;
+
+    &:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
 
     h3 {
         margin-bottom: 0.75rem;
@@ -487,6 +491,10 @@ select {
 .announcement-card {
     min-height: 120px;
 
+    &:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
     .announcement-rotator {
         display: flex;
         flex-direction: column;
@@ -524,8 +532,6 @@ select {
 
 .rules-section {
     display: flex;
-    gap: 2rem;
-    margin-top: 2rem;
     flex-wrap: wrap;
 
     .rules-card {
@@ -623,6 +629,5 @@ select {
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    margin: 1rem 0; // consistent top/bottom spacing
 }
 
