@@ -415,7 +415,7 @@ select {
     font-size: 1.3rem;
     font-weight: 600;
     color: #002b5c;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     letter-spacing: 0.3px; }
   .announcement-card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
@@ -430,8 +430,7 @@ select {
     min-height: 2.5rem;
     line-height: 1.4; }
   .announcement-card .announcement-controls {
-    display: flex;
-    gap: 0.5rem; }
+    display: flex; }
     .announcement-card .announcement-controls button {
       background-color: #002b5c;
       color: white;
