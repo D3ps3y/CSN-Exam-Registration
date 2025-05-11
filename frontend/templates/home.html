@@ -146,24 +146,23 @@
                 if (result.success) {
                     window.location.href = result.redirect_url;
                 } else {
-                    const snackbar = document.getElementById(snackbarId);
-
-                    // Clear previous content and remove display class if needed
-                    snackbar.innerHTML = "";
-                    snackbar.style.display = "flex";
-
                     result.errors.forEach(msg => {
-                        const line = document.createElement("div");
-                        line.classList.add("error-box");
-                        line.textContent = msg;
-                        snackbar.appendChild(line);
+                        const snackbar = document.createElement("div");
+                        snackbar.classList.add("snackbar");
+
+                        const box = document.createElement("div");
+                        box.classList.add("error-box");
+                        box.textContent = msg;
+
+                        snackbar.appendChild(box);
+                        document.body.appendChild(snackbar);
+
+                        // Auto-remove after fade out
+                        setTimeout(() => {
+                            snackbar.remove();
+                        }, 3000);
                     });
 
-                    // After delay, hide and clear snackbar again
-                    setTimeout(() => {
-                        snackbar.style.display = "none";
-                        snackbar.innerHTML = "";
-                    }, 3000);
 
                 }
             });
