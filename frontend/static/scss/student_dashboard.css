@@ -364,7 +364,8 @@ select {
 .metric-card {
   flex: 1;
   min-width: 250px;
-  text-align: center; }
+  text-align: center;
+  transition: box-shadow 0.3s ease; }
   .metric-card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
   .metric-card h3 {
@@ -407,7 +408,8 @@ select {
   flex-direction: column; }
 
 .announcement-card {
-  min-height: 120px; }
+  min-height: 120px;
+  transition: box-shadow 0.3s ease; }
   .announcement-card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
   .announcement-card .announcement-rotator {
