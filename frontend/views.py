@@ -79,9 +79,6 @@ def student_dashboard(request):
         exam__exam_date__gte=date.today()
     ).select_related("exam").order_by("exam__exam_date", "exam__exam_time").first()
 
-    # Extract actual Exam object if available
-    upcoming_exam = upcoming_exam.exam if upcoming_exam else None
-
     context = {
         "exams": exams,
         "enrolled_exam_ids": enrolled_exam_ids,
