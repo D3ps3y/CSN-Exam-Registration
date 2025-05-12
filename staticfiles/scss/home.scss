@@ -112,10 +112,10 @@ body:active .floating-shape::after {
 
     @keyframes #{$color-name}-pseudo {
         33% {transform: translate3d(random-calc($random3) + vw, random-calc($random4) + vh, 0)
-                        rotate((random(360)) + deg);
+        rotate((random(360)) + deg);
         }
         100% {transform: translate3d(random-calc($random5) + vw, random-calc($random6) + vh, 0)
-                        rotate((random(360)) + deg);
+        rotate((random(360)) + deg);
         }
     }
 }

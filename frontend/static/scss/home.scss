@@ -112,10 +112,10 @@ body:active .floating-shape::after {
 
     @keyframes #{$color-name}-pseudo {
         33% {transform: translate3d(random-calc($random3) + vw, random-calc($random4) + vh, 0)
-                        rotate((random(360)) + deg);
+        rotate((random(360)) + deg);
         }
         100% {transform: translate3d(random-calc($random5) + vw, random-calc($random6) + vh, 0)
-                        rotate((random(360)) + deg);
+        rotate((random(360)) + deg);
         }
     }
 }
@@ -229,41 +229,63 @@ p, label, a {
     font-weight: 400;
 }
 
-.image-link {
-    display: inline-block;
-}
-
-.image-link img {
-    width: 150px;
-    height: auto;
-    display: block;
-}
-
 // Errors
 
-.snackbar {
-    visibility: visible;
-    min-width: 250px;
-    background-color: #ff4d4d;
-    color: white;
-    text-align: center;
-    border-radius: 8px;
-    padding: 16px;
+// Container that holds the snackbar boxes
+#register-snackbar {
     position: fixed;
-    z-index: 1000;
-    left: 50%;
     bottom: 30px;
+    left: 50%;
     transform: translateX(-50%);
-    font-size: 17px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    animation: fadeOut 3s ease forwards;
-    backdrop-filter: none !important;
-    filter: none !important;
-    opacity: 1 !important;
+    display: grid;
+    grid-auto-flow: column;     // Lay out in a single horizontal row
+    grid-gap: 1rem;             // Horizontal spacing
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    pointer-events: none;
 }
 
-@keyframes fadeOut {
-    0%   {opacity: 1;}
-    80%  {opacity: 1;}
-    100% {opacity: 0; display: none;}
+// Individual snackbar wrapper (optional for animation/structure)
+.snackbar {
+    display: flex;
+    justify-content: center;
+    animation: fadeInOut 4s ease forwards;
 }
+
+// Actual message styling
+.error-box {
+    background-color: #ffe6e6;
+    color: #b20000;
+    border: 1px solid #ff4d4d;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    85% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+
+
