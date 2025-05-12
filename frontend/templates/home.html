@@ -165,24 +165,24 @@
                             box.textContent = msg;
                             snackbar.appendChild(box);
 
-                            // Optional: keep this for clean CSS-based animation
-                            // snackbar.style.setProperty('--delay', `0s`); // Delay handled by JS now
-
-                            snackbarContainer.appendChild(snackbar);
-
-                            void snackbar.offsetWidth;
+                            // Add base class (no animation yet)
                             snackbar.classList.add("snackbar");
 
+                            // Append to container
+                            snackbarContainer.appendChild(snackbar);
+
+                            // Wait briefly before triggering entrance animation
                             setTimeout(() => {
                                 snackbar.classList.add("animated-in");
-                            }, 50);
+                            }, 50); // 50–100ms feels best
 
-
+                            // Auto-remove after fadeInOut animation (4s)
                             setTimeout(() => {
                                 snackbar.remove();
-                            }, 4000);
-                        }, index * 100); // delay each message by 100ms per index
+                            }, 4000 + index * 100); // offset removal slightly to match stagger
+                        }, index * 250); // delay creation of each message by 250ms for smooth stagger
                     });
+
 
                 }
 
