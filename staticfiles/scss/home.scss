@@ -269,6 +269,7 @@ p, label, a {
     display: flex;
     justify-content: center;
     animation: fadeInOut 4s ease forwards;
+    animation-delay: var(--delay, 0s); // fallback to 0s if --delay isn't set
 }
 
 // Actual message styling
