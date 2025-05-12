@@ -568,6 +568,13 @@ select {
   margin-top: 1rem;
   padding-right: 0.5rem; }
 
+.popup-title {
+  text-align: center;
+  margin: 0 auto 1rem auto;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000; }
+
 /* Optional: smooth scrollbar styling (Chrome/Edge/Safari) */
 #popup-body::-webkit-scrollbar {
   width: 8px; }
