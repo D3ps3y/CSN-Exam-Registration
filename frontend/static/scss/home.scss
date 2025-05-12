@@ -285,15 +285,16 @@ p, label, a {
 
 // 📦 Error Message Box Styling
 .error-box {
-    background-color: #ffe6e6;
-    color: #b20000;
-    border: 1px solid #ff4d4d;
-    padding: 0.75rem 1.25rem;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 1rem;
+    background-color: #c62828;        // Strong, professional red
+    color: #ffffff;                   // Crisp white text
+    border: none;                     // Remove outline for solid look
+    padding: 0.75rem 1.25rem;         // Comfortable spacing
+    border-radius: 8px;               // Softer, modern corners
+    font-weight: 600;                 // Semi-bold for emphasis
+    font-size: 1rem;                  // Larger, cleaner text
     white-space: nowrap;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); // Subtle shadow for depth
+    letter-spacing: 0.3px;            // Slightly more readable
 }
 
 // 🔄 Combined Entry + Exit Animation
