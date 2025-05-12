@@ -173,6 +173,10 @@
                             void snackbar.offsetWidth;
                             snackbar.classList.add("snackbar");
 
+                            requestAnimationFrame(() => {
+                                snackbar.classList.add("animated-in");
+                            });
+
                             setTimeout(() => {
                                 snackbar.remove();
                             }, 4000);

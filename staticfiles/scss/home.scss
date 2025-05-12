@@ -268,9 +268,23 @@ p, label, a {
 .snackbar {
     display: flex;
     justify-content: center;
+    opacity: 0;
+    transform: scale(0.95);
     animation: fadeInOut 4s ease forwards;
-    animation-delay: var(--delay, 0s); // fallback to 0s if --delay isn't set
+    animation-delay: var(--delay, 0s);
+    transition: opacity 0.3s ease, transform 0.3s ease; // 👈 added transition
 }
+
+.snackbar.animated-in {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#register-snackbar,
+#login-snackbar {
+    transition: all 0.3s ease;
+}
+
 
 // Actual message styling
 .error-box {
