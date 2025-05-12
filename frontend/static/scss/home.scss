@@ -254,7 +254,7 @@ p, label, a {
 #register-snackbar,
 #login-snackbar {
     position: fixed;
-    bottom: 30px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -288,10 +288,10 @@ p, label, a {
     background-color: #ffe6e6;
     color: #b20000;
     border: 1px solid #ff4d4d;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.25rem;
     border-radius: 6px;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 1rem;
     white-space: nowrap;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
