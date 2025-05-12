@@ -512,7 +512,7 @@ select {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); }
 
 .report-table thead {
-  background-color: #2563eb;
+  background-color: #007bff;
   color: white; }
 
 .report-table th,
