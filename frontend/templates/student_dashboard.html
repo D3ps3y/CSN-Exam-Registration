@@ -82,7 +82,7 @@
                                         <p><i class="fas fa-map-marker-alt"></i> {{ upcoming_exam.exam.location }} ({{ upcoming_exam.exam.building }})</p>
                                     {% else %}
                                         <p class="no-upcoming">No upcoming exam</p>
-                                        <p class="metric-footer">You haven’t booked an exam yet. Don’t miss out!</p>
+                                        <p class="metric-footer">No exams are currently scheduled.</p>
                                     {% endif %}
                                 </div>
 
@@ -859,7 +859,7 @@
                         upcomingCard.innerHTML = `
                             <h3>Upcoming Exam</h3>
                             <p class="no-upcoming">No upcoming exam</p>
-                            <p class="metric-footer">You haven’t booked an exam yet. Don’t miss out!</p>
+                            <p class="metric-footer">No exams are currently scheduled.</p>
                         `;
                     }
                 });
