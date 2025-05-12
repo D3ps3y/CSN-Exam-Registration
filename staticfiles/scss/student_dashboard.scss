@@ -521,7 +521,7 @@ select {
     }
 
     .metric-footer {
-        margin-top: 1rem;
+        margin-top: auto;
         font-size: 0.85rem;
         color: #666;
         padding-top: 0.5rem;
@@ -532,6 +532,7 @@ select {
     .no-upcoming {
         text-align: center;
         margin-top: 1.5rem;
+        margin-bottom: 1rem;
         font-size: 1.5rem;
         font-weight: bold;
         color: #333;
