@@ -445,7 +445,7 @@
                 if (data.success) {
                     refreshRegistrationList();
                     refreshDashboardMetrics();
-                    showSnackbar("Exam was sent to Exam Confirmations.");
+                    showInfoSnackbar("Exam was sent to Exam Confirmations.");
                     updateExamCount();
                 }
             });
@@ -459,7 +459,7 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.count >= 3) {
-                        showSnackbar("You’ve already confirmed the maximum of 3 exams.");
+                        showErrorSnackbar("You’ve already confirmed the maximum of 3 exams.");
                         return;
                     }
 
@@ -475,7 +475,7 @@
                         if (data.success) {
                             refreshConfirmationList();
                             refreshDashboardMetrics();
-                            showSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
+                            showInfoSnackbar("Exam confirmed! Check your booked exams in My Bookings.");
                             updateExamCount();
                         } else {
                             showSnackbar(data.error || "Failed to confirm exam.");
@@ -785,7 +785,7 @@
                 });
         }
 
-        function showSnackbar(message) {
+        function showErrorSnackbar(message) {
             const container = document.getElementById("snackbar-container");
 
             const snackbar = document.createElement("div");
@@ -809,6 +809,29 @@
             }, 4200);
         }
 
+        function showInfoSnackbar(message) {
+            const container = document.getElementById("snackbar-container");
+
+            const snackbar = document.createElement("div");
+            const box = document.createElement("div");
+
+            box.classList.add("info-box");
+            box.textContent = message;
+            snackbar.appendChild(box);
+            snackbar.classList.add("snackbar");
+
+            container.appendChild(snackbar);
+
+            // Animate in
+            setTimeout(() => {
+                snackbar.classList.add("animated-in");
+            }, 50);
+
+            // Remove after animation
+            setTimeout(() => {
+                snackbar.remove();
+            }, 4200);
+        }
 
         function refreshDashboardMetrics() {
             fetch("/get_dashboard_metrics/")
