@@ -173,9 +173,10 @@
                             void snackbar.offsetWidth;
                             snackbar.classList.add("snackbar");
 
-                            requestAnimationFrame(() => {
+                            setTimeout(() => {
                                 snackbar.classList.add("animated-in");
-                            });
+                            }, 50); // Small delay lets transition feel natural
+
 
                             setTimeout(() => {
                                 snackbar.remove();
