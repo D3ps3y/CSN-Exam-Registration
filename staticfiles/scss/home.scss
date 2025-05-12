@@ -231,7 +231,7 @@ p, label, a {
 
 // Errors
 
-// ✅ Container that holds the snackbar boxes
+// Container that holds the snackbar boxes
 #register-snackbar {
     position: fixed;
     bottom: 30px;
@@ -246,14 +246,14 @@ p, label, a {
     pointer-events: none;
 }
 
-// ✅ Individual snackbar wrapper (optional for animation/structure)
+// Individual snackbar wrapper (optional for animation/structure)
 .snackbar {
     display: flex;
     justify-content: center;
     animation: fadeInOut 4s ease forwards;
 }
 
-// ✅ Actual message styling
+// Actual message styling
 .error-box {
     background-color: #ffe6e6;
     color: #b20000;
