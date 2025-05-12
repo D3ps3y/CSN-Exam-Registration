@@ -426,6 +426,8 @@
         </div>
     </div>
 
+    <div id="snackbar-container"></div>
+
     <script>
         function queueExamForConfirmation(button) {
             const examId = button.getAttribute("data-exam-id");
@@ -784,17 +786,29 @@
         }
 
         function showSnackbar(message) {
-            const snackbar = document.getElementById("snackbar");
-            snackbar.textContent = message;
+            const container = document.getElementById("snackbar-container");
 
-            snackbar.classList.remove("show"); // Reset in case it's already showing
-            void snackbar.offsetWidth;         // Force reflow
-            snackbar.classList.add("show");
+            const snackbar = document.createElement("div");
+            const box = document.createElement("div");
 
+            box.classList.add("error-box");
+            box.textContent = message;
+            snackbar.appendChild(box);
+            snackbar.classList.add("snackbar");
+
+            container.appendChild(snackbar);
+
+            // Animate in
             setTimeout(() => {
-                snackbar.classList.remove("show");
-            }, 3000);
+                snackbar.classList.add("animated-in");
+            }, 50);
+
+            // Remove after animation
+            setTimeout(() => {
+                snackbar.remove();
+            }, 4200);
         }
+
 
         function refreshDashboardMetrics() {
             fetch("/get_dashboard_metrics/")
@@ -879,8 +893,6 @@
         };
 
     </script>
-
-    <div id="snackbar"></div>
 
 </body>
 </html>
