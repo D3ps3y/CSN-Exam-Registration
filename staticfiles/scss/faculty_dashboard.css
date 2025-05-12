@@ -562,6 +562,20 @@ select {
   position: relative;
   animation: fadeIn 0.3s ease-in-out; }
 
+#popup-body {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-right: 0.5rem; }
+
+/* Optional: smooth scrollbar styling (Chrome/Edge/Safari) */
+#popup-body::-webkit-scrollbar {
+  width: 8px; }
+
+#popup-body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px; }
+
 .close-btn {
   position: absolute;
   top: 12px;
