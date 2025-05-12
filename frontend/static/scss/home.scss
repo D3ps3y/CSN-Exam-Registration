@@ -271,7 +271,6 @@ p, label, a {
     opacity: 0;
     transform: scale(0.95);
     animation: fadeInOut 4s ease forwards;
-    animation-delay: var(--delay, 0s);
     transition: opacity 0.3s ease, transform 0.3s ease; // 👈 added transition
 }
 
