@@ -563,7 +563,7 @@ select {
   animation: fadeIn 0.3s ease-in-out; }
 
 #popup-body {
-  max-height: 400px;
+  max-height: 800px;
   overflow-y: auto;
   margin-top: 1rem;
   padding-right: 0.5rem; }
