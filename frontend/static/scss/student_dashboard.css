@@ -437,7 +437,7 @@ select {
 
 .metric-card.upcoming .no-upcoming {
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 2rem;
   font-size: 1rem;
   font-weight: 400;
   color: #333; }
