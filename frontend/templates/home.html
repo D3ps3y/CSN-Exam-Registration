@@ -151,34 +151,34 @@
 
                     const snackbarContainer = document.getElementById(snackbarId);
 
+                    // Soft clear existing snackbars
                     while (snackbarContainer.firstChild) {
                         snackbarContainer.removeChild(snackbarContainer.firstChild);
                     }
 
                     result.errors.forEach((msg, index) => {
-                        const snackbar = document.createElement("div");
-                        const box = document.createElement("div");
-
-                        // Add content before animation
-                        box.classList.add("error-box");
-                        box.textContent = msg;
-                        snackbar.appendChild(box);
-                        snackbarContainer.appendChild(snackbar);
-
-                        // Set delay as a CSS variable
-                        snackbar.style.setProperty('--delay', `${index * 0.1}s`);
-
-                        // Force reflow so animation starts cleanly with delay
-                        void snackbar.offsetWidth;
-
-                        // Apply animation class after reflow
-                        snackbar.classList.add("snackbar");
-
-                        // Remove after full duration (4s + delay)
                         setTimeout(() => {
-                            snackbar.remove();
-                        }, 4000 + index * 100);
+                            const snackbar = document.createElement("div");
+                            const box = document.createElement("div");
+
+                            box.classList.add("error-box");
+                            box.textContent = msg;
+                            snackbar.appendChild(box);
+
+                            // Optional: keep this for clean CSS-based animation
+                            snackbar.style.setProperty('--delay', `0s`); // Delay handled by JS now
+
+                            snackbarContainer.appendChild(snackbar);
+
+                            void snackbar.offsetWidth;
+                            snackbar.classList.add("snackbar");
+
+                            setTimeout(() => {
+                                snackbar.remove();
+                            }, 4000);
+                        }, index * 100); // delay each message by 100ms per index
                     });
+
                 }
 
             });
