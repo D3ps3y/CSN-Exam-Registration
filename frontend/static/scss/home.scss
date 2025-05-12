@@ -152,6 +152,24 @@ body:active .floating-shape::after {
     height: auto;
 }
 
+.image-link {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 12px;
+    overflow: hidden;
+
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+
 .hidden {
     display: none;
 }
