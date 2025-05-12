@@ -525,6 +525,7 @@ select {
         font-size: 0.85rem;
         color: #666;
         padding-top: 0.5rem;
+        font-weight: bold;
     }
 
     // Special case: when there's no upcoming exam
@@ -741,4 +742,3 @@ select {
     padding: 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-

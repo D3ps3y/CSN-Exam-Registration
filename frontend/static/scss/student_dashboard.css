@@ -439,7 +439,8 @@ select {
   margin-top: auto;
   font-size: 0.85rem;
   color: #666;
-  padding-top: 0.5rem; }
+  padding-top: 0.5rem;
+  font-weight: bold; }
 
 .metric-card.upcoming .no-upcoming {
   text-align: center;
