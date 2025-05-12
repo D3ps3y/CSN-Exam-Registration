@@ -151,22 +151,30 @@
 
                     result.errors.forEach((msg, index) => {
                         const snackbar = document.createElement("div");
-                        snackbar.classList.add("snackbar");
-                        snackbar.style.setProperty('--delay', `${index * 0.1}s`);
-                        // snackbar.style.animationDelay = `${index * 0.1}s`;
-
                         const box = document.createElement("div");
+
+                        // Add content before animation
                         box.classList.add("error-box");
                         box.textContent = msg;
-
                         snackbar.appendChild(box);
                         snackbarContainer.appendChild(snackbar);
 
+                        // Set delay as a CSS variable
+                        snackbar.style.setProperty('--delay', `${index * 0.1}s`);
+
+                        // Force reflow so animation starts cleanly with delay
+                        void snackbar.offsetWidth;
+
+                        // Apply animation class after reflow
+                        snackbar.classList.add("snackbar");
+
+                        // Remove after full duration (4s + delay)
                         setTimeout(() => {
                             snackbar.remove();
-                        }, 4000);
+                        }, 4000 + index * 100);
                     });
                 }
+
             });
         });
     </script>
