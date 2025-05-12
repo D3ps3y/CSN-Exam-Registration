@@ -520,6 +520,13 @@ select {
         vertical-align: middle;
     }
 
+    .metric-footer {
+        margin-top: auto;
+        font-size: 0.85rem;
+        color: #666;
+        padding-top: 0.5rem;
+    }
+
     // Special case: when there's no upcoming exam
     .no-upcoming {
         text-align: center;
