@@ -544,7 +544,7 @@
                 })
                 .catch(err => {
                     console.error("Failed to load student list:", err);
-                    showSnackbar("Could not load student list.");
+                    showErrorSnackbar("Could not load student list.");
                 });
         }
 
@@ -656,7 +656,7 @@
 
                     // Avoid duplicates
                     if (grid.querySelector(`[data-exam-id="${examId}"]`)) {
-                        showSnackbar("This exam is already being edited.");
+                        showErrorSnackbar("This exam is already being edited.");
                         return;
                     }
 
@@ -667,7 +667,7 @@
                 })
                 .catch(err => {
                     console.error("Error loading edit form:", err);
-                    showSnackbar("Failed to load edit form.");
+                    showErrorSnackbar("Failed to load edit form.");
                 });
         }
 
@@ -704,14 +704,14 @@
                     refreshFacultyDashboard();
 
                     // Show success message
-                    showSnackbar("Exam updated!");
+                    showInfoSnackbar("Exam updated!");
                 } else {
-                    showSnackbar(data.error || "Failed to save changes.");
+                    showErrorSnackbar(data.error || "Failed to save changes.");
                 }
             })
             .catch(err => {
                 console.error("Error saving changes:", err);
-                showSnackbar("Error saving changes.");
+                showErrorSnackbar("Error saving changes.");
             });
         }
 
@@ -729,17 +729,17 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showSnackbar("Exam deleted.");
+                    showInfoSnackbar("Exam deleted.");
                     const card = document.querySelector(`.exam-card[data-exam-id="${examId}"]`);
                     if (card) card.remove();
                     refreshFacultyDashboard(); // Optional if you want to update the main view too
                 } else {
-                    showSnackbar(data.error || "Failed to delete exam.");
+                    showErrorSnackbar(data.error || "Failed to delete exam.");
                 }
             })
             .catch(err => {
                 console.error("Error deleting exam:", err);
-                showSnackbar("Error deleting exam.");
+                showErrorSnackbar("Error deleting exam.");
             });
         }
 
@@ -917,11 +917,11 @@
                     .then(res => res.json())
                     .then(data => {
                         if (data.success) {
-                            showSnackbar("Exam created successfully.");
+                            showInfoSnackbar("Exam created successfully.");
                             refreshFacultyDashboard(); // Optional: update dashboard
                             form.reset();
                         } else {
-                            showSnackbar("Failed to create exam.");
+                            showErrorSnackbar("Failed to create exam.");
                             console.error(data.errors);
                         }
                     })
@@ -943,17 +943,52 @@
                 });
         }
 
-        function showSnackbar(message) {
-            const snackbar = document.getElementById("snackbar");
-            snackbar.textContent = message;
+        function showErrorSnackbar(message) {
+            const container = document.getElementById("snackbar-container");
 
-            snackbar.classList.remove("show"); // Reset in case it's already showing
-            void snackbar.offsetWidth;         // Force reflow
-            snackbar.classList.add("show");
+            const snackbar = document.createElement("div");
+            const box = document.createElement("div");
 
+            box.classList.add("error-box");
+            box.textContent = message;
+            snackbar.appendChild(box);
+            snackbar.classList.add("snackbar");
+
+            container.appendChild(snackbar);
+
+            // Animate in
             setTimeout(() => {
-                snackbar.classList.remove("show");
-            }, 3000);
+                snackbar.classList.add("animated-in");
+            }, 50);
+
+            // Remove after animation
+            setTimeout(() => {
+                snackbar.remove();
+            }, 4200);
+        }
+
+        function showInfoSnackbar(message) {
+            const container = document.getElementById("snackbar-container");
+
+            const snackbar = document.createElement("div");
+            const box = document.createElement("div");
+
+            box.classList.add("info-box");
+            box.textContent = message;
+            snackbar.appendChild(box);
+            snackbar.classList.add("snackbar");
+
+            container.appendChild(snackbar);
+
+            // Animate in
+            setTimeout(() => {
+                snackbar.classList.add("animated-in");
+            }, 50);
+
+            // Remove after animation
+            setTimeout(() => {
+                snackbar.remove();
+            }, 4200);
         }
 
         // CSRF helper for Django
